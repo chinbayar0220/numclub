@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,113 +22,157 @@
             <nav>
                 <a href="./clubs.html">Клуб</a>
                 <a href="page2">Эвент</a>
-                <a href="page4">Нэвтрэх</a>
-                <a href="page3">Бүртгүүлэх</a>
+                <button class="login">Нэвтрэх</button>
+                <button class="signup">Бүртгүүлэх</button>
             </nav>
         </header>
         <div class="sidebar">
-            <article>
-                <p>Түлхүүр үгүүд</p>
-                <p border="1">Шинэ</p>
-                <p border="1">Хямдралтай</p>
-            </article>
-        <div class="main">
+            <h3>Клубийн чиглэл</h3>
+            <form>
+                <h4>Чөлөөт</h4>
+                <input type="checkbox" id="option1" name="option1" value="yes">
+                <label for="option1">Сайн дурын</label>
+                <br>
+                <input type="checkbox" id="option2" name="option1" value="yes">
+                <label for="option2">Спорт</label>
+                <br>
+                <input type="checkbox" id="option3" name="option1" value="yes">
+                <label for="option3">Урлаг</label>
+                <br>
+                <input type="checkbox" id="option4" name="option1" value="yes">
+                <label for="option4">Чөлөөт</label>
+                <br>
+                <input type="checkbox" id="option5" name="option1" value="yes">
+                <label for="option5">Фото зураг</label>
+                <br>
+                <input type="checkbox" id="option6" name="option1" value="yes">
+                <label for="option6">Шинжлэх ухаан</label>
+                <br>
+                <input type="checkbox" id="option7" name="option1" value="yes">
+                <label for="option7">Мэдээллийн технологи</label>
+                <br>
+                <input type="checkbox" id="option8" name="option8" value="yes">
+                <label for="option8">Хэл судлал</label>
+            </form>
+            <form>
+                <h4>Мэргэжлийн клубүүд</h4>
+                <input type="checkbox" id="business" name="option2" value="business">
+                <label for="business">БС</label>
+                <br>
+                <input type="checkbox" id="its" name="option2" value="its">
+                <label for="its">ИТС</label>
+                <br>
+                <input type="checkbox" id="mtes" name="option2" value="mtes">
+                <label for="mtes">МТЭС</label>
+                <br>
+                <input type="checkbox" id="olonuls" name="option2" value="olonuls">
+                <label for="olonuls">УТСОУХНУС</label>
+                <br>
+                <input type="checkbox" id="huuli" name="option2" value="huuli">
+                <label for="huuli">ХЗС</label>
+                <br>
+                <input type="checkbox" id="shus" name="option2" value="shus">
+                <label for="shus">ШУС</label>
+            </form>
+            <label for="myRange"><h4>Гишүүний тоо</h4></label>
+            <span>10</span>
+            <input type="range" name="myRange" min="0" max="100" step="10" class="slider" id="myRange">
+            <span>100</span>
+        <div class="content">
             <div class="search">
-                <input type="search" placeholder="Хайх">
-                <input type="checkbox" id="option1" name="option1" value="yes">
-                <label for="option1">Option 1</label>
-                <input type="checkbox" id="option1" name="option1" value="yes">
-                <label for="option1">Option 1</label>
-                <input type="checkbox" id="option1" name="option1" value="yes">
-                <label for="option1">Option 1</label>
-                <input type="checkbox" id="option1" name="option1" value="yes">
-                <label for="option1">Option 1</label>
-            </div>          
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
+                 <div class="search">
+                    <form action="#" method="get">
+                        <input type="search" placeholder="Хайх" name="search">
+                        <form>
+                            <select name="sort" id="sort">
+                                <option value="default">Эрэмбэлэх</option>
+                                <option value="new">А-Я</option>
+                                <option value="old">Я-А</option>
+                            </select>
+                        </form> 
+                    </form>
                 </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
-            <article>
-                <div>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
-                    <h2>Club Name</h2>
-                </div>
-                <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
-                <button>Дэлгэрэнгүй</button>
-            </article>
+            </div>
+              
+            <div class="clubs">        
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+                <article>
+                    <div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
+                        <h2>Club Name</h2>
+                    </div>
+                    <p>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p>
+                    <button>Дэлгэрэнгүй</button>
+                </article>
+            </div>
         </div>
         <footer>
-            <h1>Club</h1>
-            <h3>Холбогдох д</h3>
-        </footer>
+        <h1>NUM.Clubs</h1>
+        <p>Холбогдох дугаар: +976 9999 9999</p>
+    </footer>
     </div>
 </body>
 </html>
