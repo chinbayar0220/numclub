@@ -3,38 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club introduction</title>
-        <p><b>Club</b></p>
-    <nav>
-        <a href="club">Клуб</a>
-        <a href="event">Эвент</a>
-    </nav>
-    <button onclick="window.location.href='login.html'">Нэвтрэх</button>
-    <button onclick="window.location.href='register.html'">Бүртгүүлэх</button>
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-    <h1>NUM CLUBS</h1>
-    <form action="/search" method="get">
-        <input type="search" name="query" id="search" placeholder="Хайх">
-        <button type="submit">Хайх</button>
-    </form>
-    <button onclick="sortAscending()">Price ascending</button>
-    <button onclick="sortDescending()">Price descending</button>
-    <button onclick="ratingClub()">Rating</button>
-    </nav>
-    <div id="homeEvent1">
-        <h2>Эвентийн нэр</h2>
-        <p>2025.00.00 19:00</p>
-        <h2>Эвентийн нэр</h2>
-        <p>2025.00.00 19:00</p>
-        <h2>Эвентийн нэр</h2>
-        <p>2025.00.00 19:00</p>
-    </div>
-    <p><b>Клуб</b></p>
-    <p>идэвхтэй үйл ажиллагаа явуулж буй</p>
-    
-
+    <header>
+        <nav>
+            <img src="logo.svg" alt="logo end baina">
+            <div>
+                <a href="club.html">Клуб</a>
+                <a href="event.html">Эвент</a>
+                <a href="profile.html"><img src="profileIcon.svg" alt="profile"></a>
+            </div>
+        </nav>
+    </header>
+    <main>
+            <section>
+                <div class="profile-main">
+                    <img src="hackum logo 1.svg" class="club-logo" alt="clubiin undsen logo">
+                    <div>
+                        <h1><b>Hackum students club</b></h1>
+                        <div class="club-branch">
+                            <span><img src="Book.svg" alt="">МТЭС-МКУТ</span>
+                            <span><img src="Book.svg" alt="">Мэргэжлийн</span>
+                            <span><img src="Book.svg" alt="">Мэдээллийн технологи</span>
+                            <span><img src="Book.svg" alt="">hackumclub@gmail.com</span>
+                            <span><img src="Book.svg" alt="">99119119</span>
+                        </div>
+                        <Details>
+                            <summary>Зорилго</summary>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id mauris nec orci consequat tempus quis a quam. Pellentesque id velit ac ligula faucibus dapibus. Suspendisse a odio vitae eros consequat consequat id vel ipsum. Viva</p>
+                        </Details>
+                        <Details>
+                            <summary>Алсын хараа</summary>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id mauris nec orci consequat tempus quis a quam. Pellentesque id velit ac ligula faucibus dapibus. Suspendisse a odio vitae eros consequat consequat id vel ipsum. Viva</p>
+                        </Details>
+                    </div>
+                </div>
+                <aside></aside>
+            </section>
+        </main>
+    <footer></footer>
 
 </body>
 </html>
