@@ -4,9 +4,9 @@ class NcClubcard extends HTMLElement {
     }
 
     connectedCallback() {
-        const clubname = this.getAttribute('cname') || '-';
+        const clubname = this.getAttribute('cname') || 'Club name';
         this.innerHTML=`
-        <article class="a_club">
+        <article class="club_card">
                     <div class="club_header">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 100px; height: 100px; margin: 0px;" data-ilt="1759989884696">
                         <h2>${clubname}</h2>
