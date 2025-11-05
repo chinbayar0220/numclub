@@ -7,7 +7,7 @@ class ncEventcard extends HTMLElement {
         const eventname = this.getAttribute('ename') || '-';
         this.innerHTML=`
         <div class="event_card">
-            <img src="images/event.png" width="300" height="160" alt="Event Image"/>
+            <img src="images/event.png" width=flex alt="Event Image"/>
             <div class="club2">
                 <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
                 <h4>Hackum students club</h4>
@@ -18,7 +18,7 @@ class ncEventcard extends HTMLElement {
                 <p>7th building</p>
             </div>
             <aside class="line">
-                <p>Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно</p>
+                <p class="description">Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно</p>
             </aside>
             <h4>₮10,000</h4>
             <div class="buttons">
