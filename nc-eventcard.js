@@ -13,12 +13,12 @@ class ncEventcard extends HTMLElement {
                 <h4>Hackum students club</h4>
             </div>
             <h2>Эвентийн нэр</h2>
-            <div class="description">
+            <div>
                 <p>2025.10.01 19:00</p>
                 <p>7th building</p>
             </div>
             <aside class="line">
-                <p class="description">Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно</p>
+                <p class="des">Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно</p>
             </aside>
             <h4>₮10,000</h4>
             <div class="buttons">
