@@ -18,6 +18,7 @@ header {
 main {
     grid-area: main;
     border: 1px solid green;
+    background-color: #F5F5F5;
 }
 
 footer {
@@ -32,7 +33,7 @@ header{
 }
 header nav{
     display: flex;
-    gap: 16px;#1e1e1e;
+    gap: 16px;
     align-items: center;
 }
 header nav a{
@@ -46,12 +47,16 @@ header nav a:hover{
     background-color: #F5F5F5;
     border-radius: 8px;
 }
+main h2{
+    margin: 0;
+}
 main>article{
     display: flex;
     flex-wrap: wrap;
-    margin: 64px 100px;
+    padding: 64px 100px;
     gap: 64px;
     justify-content: space-between;
+    background-color: white;
     h1{
         font-size: 48px;
         font-weight: 700;
@@ -115,7 +120,6 @@ main>article{
     details[open]{
         background-color: white;
     }
-    
 }
 
 .club-logo img{
@@ -128,16 +132,112 @@ main>article{
     width: 100%;
 }
 #Uil-ajillagaa{
-    margin: 100px 64px;
-    h2{
-        font-family: Arial;
-    }
+    padding: 64px 100px;
+    font-family: inter;
+    font-weight: 600;
 }
 #Uil-ajillagaa>div{
     display: flex;
-    gap: 20px;
-
-    p{
-        border: 1px solid black;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+    h2{
+        margin: 0px;
+        font-size: 24px;
     }
+    p{
+        display: flex;
+        border: 1px solid #D9D9D9;
+        background-color: white;
+        width: 340.33px;
+        height: 32px;
+        border-radius: 8px;
+        align-items: center;
+        padding: 24px;
+        margin: 0px;
+        font-size: 16px;
+        box-shadow:  0 4px 4px rgba(0, 0, 0, 0.2);
+    }
+}
+.gishuun-elseh{
+    padding: 64px 100px ;
+    font-family: inter;
+    details{
+        color: #757575;
+    }
+    button{
+        /* width: 1240px; */
+        height: 40px;
+        border-radius: 8px;
+        color: white;
+        background-color: #1e1e1e;
+        margin-top: 48px;
+    }
+}
+.events{
+    padding: 64px 100px;
+}
+.events>div{
+    display: flex;
+    padding-top: 24px;
+    gap: 24px;
+}
+.events header{
+    margin:0px;
+    h4{
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
+.events>div>article{
+    padding:16px;
+    border: 1px solid #D9D9D9;
+    background-color: white;
+    border-radius: 8px;
+label{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    h4{
+        font-weight: 600px;
+        font-size: 20px;
+        margin: 0;
+    }
+}
+}
+.events>p{
+    margin: 10px 0px 0px 0px  ;
+}
+.comment{
+    padding: 64px 100px;
+    font-family: inter;
+    h2{
+        font-weight: 600;
+        margin: 0;
+    }
+    h3{
+        margin: 24px;
+    }
+}
+.comment>p{
+    margin: 10px 0px 0px 0px;
+    color:#757575;
+}
+.comment article{
+    border: 1px solid #D9D9D9;
+    background-color: white;
+    width: 381px;
+    height: 147px;
+    border-radius: 8px;
+}
+.comment>div{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+#comment-tt{
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
