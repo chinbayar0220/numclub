@@ -6,46 +6,188 @@
     <title>NUM.Clubs</title>
     <script type="module" src="./nc-clubcard.js"></script>
     <style>
+        html{
+            margin:0;
+            padding:0;
+            font-family: sans-serif;
+            font-size: medium;
+            background-color: var(--color-white);
+            --color-default: #2c2c2c;
+            --color-secondary: #757575;
+            --color-gray: #f5f5f5;
+            --color-white: #ffffff;
+        }
         article h2{text-align: left;}
-        fieldset{border-radius:8px;border:1px solid grey;}
-        .highlighted{color:red;}
-        header{display:flex;justify-content:space-between;align-items:center;}
-        .main{
+        fieldset{border-radius:8px;
+                 border:1px solid grey;
+        }
+        header{
             display:flex;
-            flex-direction:row;
-            gap:12px;
-            margin-left:100px;
-            margin-right:100px;}
+            justify-content:space-between;
+            align-items:center;
+            background-color: var(--color-white);
+            width: flex;
+            padding: 24px 90px;
+            box-shadow: inset 0 -1px 0 #d3d3d3;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        button {
+            border: 1px solid var(--color-secondary);
+            border-radius: 8px;
+            background-color: var(--color-default);
+            font-size: medium;
+            color: white;
+            padding: 8px 14px;
+            cursor: pointer;
+            width: flex;
+        }
+        header nav a {
+            text-decoration: none;
+            color: var(--color-default);
+            font-weight: 500;
+        }
+        button{
+            width: flex;
+            padding: 8px 17px;
+        }
+        button.login{
+            background-color: var(--color-white);
+            color: var(--color-secondary);
+        }
+        button.signup{
+            background-color: var(--color-default);
+            color: var(--color-white);
+        }
+        header nav a:hover{
+            color: var(--color-secondary);
+        }
+        button.login:hover{
+            background-color: var(--color-gray);
+        }
+        button.signup:hover{
+            background-color: #000000;
+        }
+        footer{
+            display:block;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            gap:8px;
+            background-color: var(--color-white);
+            width: flex;
+            height: 120px;
+            padding: 28px 90px;
+            box-shadow: inset 0 1px 0 #d3d3d3;
+            gap: 16px;
+        }   
+        .main{
+            display: flex;
+            flex-direction: row;
+            gap:64px;
+            padding: 28px 90px;
+            
+        }
         .sidebar{
             display:flex;
             flex-direction:column;
-            gap:16px;
-            width: 400px;
-            float:left;
+            padding: 8px 28px 28px 28px;
+            gap: 0px;
+            height: fit-content;
             border: 1px solid #d3d3d3;
+            border-radius: 8px;
+            width: 300px;
         }
-        .clubs{
-            display:flex;
-            flex-direction:row;
-            flex-wrap:wrap;
-            gap:24px;
-            border: 1px solid #d3d3d3;
-            margin: auto;
+        .sidebar input[type="checkbox"]{
+            margin: 8px 8px 8px 0px;
         }
-        .a_club{
+        .content{
             display:flex;
             flex-direction:column;
-            border: 1px solid #000000;
-            padding:16px;
+            gap:28px;
+            width: 1200px;
+        }
+        form input[type="search"]{
+            padding: 10px 16px;
+            border: 1px solid #d3d3d3;
+            border-radius: 20px;
+            width: 320px;
+            height: 40px;
+            font-size: medium;
+        }
+        .clubs{
+            display: grid;
+            grid-template-rows: auto auto auto;
+            grid-template-columns: auto auto auto;
+            gap: 28px;
+            margin: auto;
+        }
+        .club_card{
+            display:flex;
+            flex-direction:column;
+            justify-content: flex-start;
+            border: 1px solid #d3d3d3;
+            padding: 24px;
             border-radius:8px;
-            width: 300px;
+            width: 230px;
+            height: 270px;
+        }
+        .club p{
+                margin-top: 8px;
+                font-size: medium;
+                color: var(--color-secondary);
+        }
+        .club_buttons{
+            display:flex;
+            justify-content: space-between;
+            gap:0px;
+            margin-top: auto;
+        }
+        .clubs :hover{
+            background-color: var(--color-gray);
         }
         .club_header{
             display:flex;
-            align-items: top;
-            gap:16px;
+            align-items: center;
+            gap: 16px;
+            margin-top: 0px;
+        }
+        .search{
+            display:flex;
+            flex-direction:row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        form input[type="radio"]{
+            height: auto;
+            padding: 8px 16px;
+            border: 1px solid #d3d3d3;
+            border-radius: 8px;
+        }
+        .pagination{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:8px;
+            padding:16px;
+        }
+        .pagination button{
+            border: 1px solid var(--color-secondary);
+            border-radius: 8px;
+            background-color: var(--color-white);
+            font-size: medium;
+            color: var(--color-secondary);
+            padding: 2px 8px;
+            cursor: pointer;
         }
     </style>
+    
 </head>
 <body>
     <header>
@@ -61,7 +203,7 @@
         <div class="sidebar">
             <h4>Клубийн чиглэл</h4>
             <form>
-                <h5>Чөлөөт</h5>
+                <h4>Чөлөөт</h4>
                 <input type="checkbox" id="option1" name="option1" value="yes">
                 <label for="option1">Сайн дурын</label>
                 <br>
@@ -87,7 +229,7 @@
                 <label for="option8">Хэл судлал</label>
             </form>
             <form>
-                <h5>Мэргэжлийн клубүүд</h5>
+                <h4>Мэргэжлийн клубүүд</h4>
                 <input type="checkbox" id="business" name="option2" value="business">
                 <label for="business">БС</label>
                 <br>
@@ -113,30 +255,34 @@
         </div>
         <div class="content">
             <div class="search">
-                 <div class="search">
-                    <form action="#" method="get">
-                        <input type="search" placeholder="Хайх" name="search">
-                        <form>
-                            <select name="sort" id="sort">
-                                <option value="default">Эрэмбэлэх</option>
-                                <option value="new">А-Я</option>
-                                <option value="old">Я-А</option>
-                            </select>
-                        </form> 
-                    </form>
-                </div>
+                <form action="#" method="get">
+                    <input type="search" placeholder="Хайх" name="search">
+                    <form>
+                        <input type="radio" placeholder="A-Ya" name="A-Ya">
+                        <label for="A-Ya">A-Я</label>
+                        <input type="radio" placeholder="Ya-A" name="Ya-A">
+                        <label for="Ya-A">Я-А</label>
+                    </form> 
+                </form>
             </div>
               
             <div class="clubs">        
-                <nc-clubcard cname="Hckum"></nc-clubcard>
+                <nc-clubcard cname="Hackum students club"></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
-                <nc-clubcard cname="CLUBX"></nc-clubcard>
+                <nc-clubcard cname="Google developers club"></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
+            </div>
+            <div class="pagination">
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
             </div>
         </div>
     </div>

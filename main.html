@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club - NUM CLUBS</title>
+    <script type="module" src="./clb-event-card.js"></script>
     <style>
         * {
             margin: 0;
@@ -345,31 +346,13 @@
     
     <section class="events-section">
         <div class="events-grid">
-            <div class="event-card">
-                <div class="event-image">🎵</div>
-                <div class="event-content">
-                    <h3>Жаз хөгжмийн орой</h3>
-                    <p>2025-11-15</p>
-                </div>
-            </div>
-            
-            <div class="event-card">
-                <div class="event-image">🎨</div>
-                <div class="event-content">
-                    <h3>Урлагийн үзэсгэлэн</h3>
-                    <p>2025-11-22</p>
-                </div>
-            </div>
-            
-            <div class="event-card">
-                <div class="event-image">🏃</div>
-                <div class="event-content">
-                    <h3>Спортын өдөрлөг</h3>
-                    <p>2025-12-01</p>
-                </div>
-            </div>
+            <clb-event-card en="hogjimm"></clb-event-card>
+            <clb-event-card en="jaaz"></clb-event-card>
+            <clb-event-card></clb-event-card>
+            <clb-event-card en="jaaz"></clb-event-card>
+            <clb-event-card en="jaaz"></clb-event-card>
+            <clb-event-card en="jaaz"></clb-event-card>
         </div>
-        
         <h2 class="section-title">Хэрэв</h2>
         <p style="color: #666; margin-bottom: 2rem;">Сонирхолтой клубууд, өөрийнхөө талаарх зүйл бол</p>
         

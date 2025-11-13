@@ -4,76 +4,261 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NUM.Clubs | User Profile</title>
+    <script type="module" src="./nc-eventcard.js"></script>
+    <script type="module" src="./nc-clubrequestcard.js"></script>
     <style>
+        html{
+            margin:0;
+            padding:0;
+            font-family: sans-serif;
+            font-size: medium;
+            background-color: var(--color-white);
+            --color-default: #2c2c2c;
+            --color-secondary: #757575;
+            --color-gray: #f5f5f5;
+            --color-white: #ffffff;
+        }
+        article h2{text-align: left;}
+        fieldset{border-radius:8px;
+                 border:1px solid grey;
+        }
+        header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            background-color: var(--color-white);
+            width: flex;
+            padding: 28px 90px;
+            box-shadow: inset 0 -1px 0 #d3d3d3;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        button {
+            border: 1px solid var(--color-secondary);
+            border-radius: 8px;
+            background-color: var(--color-default);
+            font-size: medium;
+            color: white;
+            padding: 8px 14px;
+            cursor: pointer;
+            width: flex;
+        }
+        header nav a {
+            text-decoration: none;
+            color: var(--color-default);
+            font-weight: 500;
+        }
+        button{
+            width: flex;
+            padding: 8px 17px;
+        }
+        button.login{
+            background-color: var(--color-white);
+            color: var(--color-secondary);
+        }
+        button.signup{
+            background-color: var(--color-default);
+            color: var(--color-white);
+        }
+        header nav a:hover{
+            color: var(--color-secondary);
+        }
+        button .login:hover{
+            background-color: var(--color-gray);
+        }
+        button .signup:hover{
+            background-color: #000000;
+        }
+        footer{
+            display:block;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            gap:8px;
+            background-color: var(--color-white);
+            width: flex;
+            height: 120px;
+            padding: 28px 90px;
+            box-shadow: inset 0 1px 0 #d3d3d3;
+            gap: 16px;
+        }
         article h2{text-align: right;}
-        header{display:flex;justify-content:space-between;align-items:center;}
-        form{display:flex;flex-direction:column;gap:16px;}
+        form{
+            display:flex;
+            flex-direction:
+            column;
+            gap:16px;
+        }
+        summary{
+            cursor:pointer;
+            padding: 8px;
+            border: 1px solid var(--color-secondary);
+            border-radius: 8px;
+        }
         .main{
             display:flex;
             flex-direction:column;
-            gap:32px;
-            margin-left:100px;
-            margin-right:100px;
+            padding-top: 0px;
+            gap: 64px;
+            margin-bottom: 64px;
+            background-color: var(--color-gray);
         }
-        .highlight{color: #757575}
+        .highlight{color: var(--color-secondary)}
+        .registered{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
         .user{
             display:flex;
+            flex-direction:row;
             gap:16px;
             align-items:flex-start;
-            margin-top:16px;
-            margin-left:16px;
+            background-color: var(--color-white);
+            padding: 28px 90px;
         }
-        .identity{
+        .user h1{
+            font-size: 48px;
+        }
+        .info{
             display:flex;
-            gap:16px;}
-        .identity h5 {
+            flex-direction:column;
+            gap:0px;
+            width: 70%;
+        }
+        .user_identity{
+            display:flex;
+            gap:8px;}
+        .border{
+            display:flex;
+            align-items:center;
             color: white;
-            background-color: #2C2C2C;
-            border: 2px solid #2C2C2C; 
-            padding: 4px;         
-            border-radius: 4px;  
+            padding:8px;
+            background-color: var(--color-default);
+            border-radius: 8px; 
+            height: 18px;
+            font-size: small;
         }
         .clubs{
+            display: flex;
+            flex-direction: row;
             gap:16px;
-            margin-top:4px;}
-        .club1{
+        }
+        .club_header{
             display:flex;
             gap:16px;
-            align-items:center;}
+            align-items:center;
+            height: 20px;
+        }
         .club2{
             display:flex;
             gap:8px;
-            align-items:center;}
+            align-items:center;
+        }
         .side{
             display:flex;
             gap:8px;}
-        html{
-            --color-text-default: #2c2c2c;
-            --color-text-secondary: #757575;
-            --color-text-white: #f5f5f5;
+        .events_section{
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+            margin-left: 90px;
+            margin-right: 90px;
+        }
+        .events{
+            display:flex;
+            flex-direction:row;
+            gap: 16px;
+            border-radius:8px;
+            padding: 0;
+            grid-row: auto auto auto;
+        }
+        .event_card{
+            display:flex;
+            flex-direction:column;
+            border: 1px solid #d3d3d3;
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding:16px;
+            width: flex;
+        }
+        .clubs :hover{
+            background-color: var(--color-gray);
+        }
+        .club_header{
+            display:flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .club_requests{
+            display: flex;
+            flex-direction: row;
+            margin-left: 90px;
+            margin-right: 90px;
+        }
+        .requests{
+            display: flex;
+            flex-direction: row;
+            gap:16px;
+        }
+        .club_requests{
+            display: flex;
+            flex-direction: column;
+            border: #757575 1px solid;
+            border-radius: 6px;
+            padding:16px;
+            margin-top:16px;
+            margin-left:16px;
+        }
+        .description{
+            margin-top:16px;
+            font-size: medium;
+            color: var(--color-secondary);
+        }
+        h2{
+            font-weight: 600;
         }
         
     </style>
 </head>
 <body>
+    <header>
+        <a href="./index.html"><img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/></a>
+        <nav>
+            <a href="./clubs.html">Клуб</a>
+            <a href="page2">Эвент</a>  
+            <!--<a href="page3"><img src="images/Icon Button.svg" width="24" height="24" alt="Icon Button"/></a>-->
+            
+            </nav>
+    </header>
     <div class="main">
-        <header>
-            <a href="./index.html"><img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/></a>
-            <nav>
-                <a href="./clubs.html">Клуб</a>
-                <a href="page2">Эвент</a>  
-                <a href="page3"><img src="images/Icon Button.svg" width="24" height="24" alt="Icon Button"/></a>
-                </nav>
-        </header>
         <div class="user">
-            <img src="images/user_profile.svg" width="300" height="300" alt="User Profile Image"/>
+            <img src="images/user_profile.svg" width="260" height="260" alt="User Profile Image" style="border-radius: 50%; border: 1px solid var(--color-gray); background-color: var(--color-gray)";/>
             <div class="info">
                 <h1><span class="highlight">Гантулга</span> Энхжин</h1>
-                <div class="identity">
-                    <h5>МТЭС-МКУТ</h5>
-                    <h5>Компьютерын Ухаан</h5>
-                    <h5>3-р түвшин</h5>
-                    <h5>66199611</h5>
+                <div class="user_identity">
+                    <div class="border">
+                        <img src="Book.svg" width="16" height="16" alt="Book Icon"/>
+                        <p class="border">МТЭС-МКУТ</p>
+                    </div>
+                    <div class="border">
+                        <img src="images/Briefcase.svg" width="16" height="16" alt="Briefcase Icon"/>
+                        <p class="border">Компьютерын Ухаан</p>
+                    </div>
+                    <div class="border">
+                        <img src="images/Briefcase.svg" width="16" height="16" alt="Briefcase Icon"/>
+                        <p class="border">3-р түвшин</p>
+                    </div>
+                    <div class="border">
+                        <img src="images/Phone.svg" width="16" height="16" alt="Phone Icon"/>
+                        <p class="border">МТЭС-МКУТ</p>
+                    </div>
                 </div>
                 <div class="clubs">
                     <div class="club2">
@@ -85,7 +270,7 @@
                         <h4>Hackum students club</h4>   
                     </div>
                 </div> 
-                <h5>Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</h5> 
+                <p class="description">Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p> 
                 <details>
                     <summary>
                         Дэлгэрэнгүй
@@ -96,131 +281,33 @@
                 </details>
             </div>
             <div class="side">
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/FB Icon Button.svg" width="24" height="24" alt="facebook Icon"/></a>
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/IG Icon Button.svg" width="24" height="24" alt="instagram Icon"/></a>
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/Linkedin Icon Button.svg" width="24" height="24" alt="linkedin Icon"/></a>
+                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/FB Icon Button.svg" width="36" height="36" alt="facebook Icon"/></a>
+                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/IG Icon Button.svg" width="36" height="36" alt="instagram Icon"/></a>
+                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/Linkedin Icon Button.svg" width="36" height="36" alt="linkedin Icon"/></a>
             </div> 
         </div> 
-        <div class="registered">
-            <article class="req">
-                <div class="club1">
-                    <img src="images/club_logo.svg" width="58" height="58" alt="Club Icon"/>
-                    <h2>Hackum students club</h2>
-                </div>
-                <h5>Таны элсэх хүсэлтийг хүлээж авсан байна.</h5>
-                <!-- <a href="#"><h4>Дэлгэрэнгүй</h4></a> -->
-            </article>
-            <article class="req">
-                <div class="club1">
-                    <img src="images/club_logo.svg" width="58" height="58" alt="Club Icon"/>
-                    <h2>Hackum students club</h2>
-                </div>
-                <h5>Таны элсэх хүсэлтийг хүлээж авсан байна.</h5>
-                <!-- <a href="#"><h4>Дэлгэрэнгүй</h4></a> -->
-            </article>
-            <article class="req">
-                <div class="club1">
-                    <img src="images/club_logo.svg" width="58" height="58" alt="Club Icon"/>
-                    <h2>Hackum students club</h2>
-                </div>
-                <h5>Таны элсэх хүсэлтийг хүлээж авсан байна.</h5>
-                <!-- <a href="#"><h4>Дэлгэрэнгүй</h4></a> -->
-            </article>
+        <div class="club_requests">
+            <h2>Таны элсэх хүсэлт явуулсан клубүүд</h2>
+            <div class="requests">
+                <nc-clubrequestcard></nc-clubrequestcard>
+                <nc-clubrequestcard></nc-clubrequestcard>
+                <nc-clubrequestcard></nc-clubrequestcard>
+            </div>
         </div> 
-        <div class="events">
-            <img src="images/event.png" width="365" height="247" alt="Event Image"/>
-            <div class="club2">
-                <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                <h4>Hackum students club</h4>
-            </div>
-            <h2>Эвентийн нэр</h2>
-            <div class="description">
-                <p>2025.10.01 19:00</p>
-                <p>7th building</p>
-            </div>
-            <p>Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно</p>
-            <h4>₮10,000</h4>
-            <div class="buttons">
-                <button type="button">Цуцлах</button>
-                <button type="button">Дэлгэрэнгүй</button>
-            </div>
+        <section class="events_section">
+            <h2>Таны бүртгүүлсэн эвентүүд</h2>
+            <section class="events">
+                <nc-eventcard></nc-eventcard>
+                <nc-eventcard></nc-eventcard>
+                <nc-eventcard></nc-eventcard>
+            </section>
+        </section>
+
         </div>
-        <div class="events">
-            <img src="images/event.png" width="365" height="247" alt="Event Image"/>
-            <div class="club2">
-                <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                <h4>Hackum students club</h4>
-            </div>
-            <h2>Эвентийн нэр</h2>
-            <div class="description">
-                <p>2025.10.01 19:00</p>
-                <p>7th building</p>
-            </div>
-            <p>Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно</p>
-            <h4>₮10,000</h4>
-            <div class="buttons">
-                <button type="button">Цуцлах</button>
-                <button type="button">Дэлгэрэнгүй</button>
-            </div>
-        </div>
-        <div class="events">
-            <img src="images/event.png" width="365" height="247" alt="Event Image"/>
-            <div class="club2">
-                <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                <h4>Hackum students club</h4>
-            </div>
-            <h2>Эвентийн нэр</h2>
-            <div class="description">
-                <p>2025.10.01 19:00</p>
-                <p>7th building</p>
-            </div>
-            <p>Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно</p>
-            <h4>₮10,000</h4>
-            <div class="buttons">
-                <button type="button">Цуцлах</button>
-                <button type="button">Дэлгэрэнгүй</button>
-            </div>
-        </div>
-        <div class="saved">
-            <div class="clubs">
-                <div class="club1">
-                    <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                    <h4>Hackum students club</h4>
-                    <label for="heart1">
-                        <img src="images/heart icon.svg" width="24" height="24" alt="Heart Icon"/>
-                    </label>
-                    <input type="checkbox" id="heart1">
-                    <!-- style="display:none; -->
-                </div>
-                <h5>
-                    Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг
-                </h5>
-                <button type="button">Дэлгэрэнгүй</button>
-            </div>
-            <div class="clubs">
-                <div class="club1">
-                    <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                    <h4>Hackum students club</h4>
-                    <img src="images/heart icon.svg" width="24" height="24" alt="Heart Icon"/>
-                </div>
-                <h5>
-                    Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг
-                </h5>
-                <button type="button">Дэлгэрэнгүй</button>
-            </div> 
-            <div class="clubs">
-                <div class="club1">
-                    <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                    <h4>Hackum students club</h4>
-                    <img src="images/heart icon.svg" width="24" height="24" alt="Heart Icon"/>
-                </div>
-                <h5>
-                    Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг
-                </h5>
-                <button type="button">Дэлгэрэнгүй</button>
-            </div>             
-        </div>
-        
     </div>
+    <footer>
+        <img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/>
+        <p>Холбогдох дугаар: +976 9999 9999</p>
+    </footer>
 </body>
 </html>
