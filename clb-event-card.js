@@ -11,9 +11,10 @@ class ClbEventCard extends HTMLElement {
                 <div class="event-image">🎵</div>
                 <div class="event-content">
                     <h3>${eventname}</h3>
-                    <p>2025-11-15</p>
+                    <p>2025.8.15 16:00-20:00</p>
                 </div>
         </arcticle>`;
+        
     }
 
     disconnectedCallback() {
@@ -28,3 +29,4 @@ class ClbEventCard extends HTMLElement {
 }
 
 window.customElements.define('clb-event-card', ClbEventCard);
+
