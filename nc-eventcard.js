@@ -4,7 +4,12 @@ class ncEventcard extends HTMLElement {
     }
 
     connectedCallback() {
-        const eventname = this.getAttribute('ename') || '-';
+        const eventname = this.getAttribute('ename') || 'Event name';
+        const datetime = this.getAttribute('date') || '2025.10.01 19:00';
+        const description = this.getAttribute('desc') || 'Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно';
+        const price = this.getAttribute('price') || '₮10,000';
+        const button1 = this.getAttribute('btn1') || 'Цуцлах';
+        const button2 = this.getAttribute('btn2') || 'Дэлгэрэнгүй';
         this.innerHTML=`
         <div class="event_card">
             <img src="images/event.png" width=flex alt="Event Image"/>
@@ -12,18 +17,15 @@ class ncEventcard extends HTMLElement {
                 <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
                 <h4>Hackum students club</h4>
             </div>
-            <h2>Эвентийн нэр</h2>
-            <div>
-                <p>2025.10.01 19:00</p>
-                <p>7th building</p>
-            </div>
+            <h2>${eventname}</h2>
+            <p>${datetime}</p>
             <aside class="line">
-                <p class="des">Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно</p>
+                <p class="des">${description}</p>
             </aside>
-            <h4>₮10,000</h4>
+            <h4>${price}</h4>
             <div class="buttons">
-                <button type="button">Цуцлах</button>
-                <button type="button">Дэлгэрэнгүй</button>
+                <button class="login">${button1}</button>
+                <button class="signup">${button2}</button>
             </div>
         </div>`;
     }
@@ -35,6 +37,14 @@ class ncEventcard extends HTMLElement {
     }
 
     adoptedCallback() {
+    }
+
+    set button1(val) {
+      if (val) this.setAttribute('button1', '');
+      else this.removeAttribute('button1');
+    }
+    get button1() {
+      return this.hasAttribute('button1');
     }
 
 }

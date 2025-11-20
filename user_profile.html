@@ -34,7 +34,7 @@
             top: 0;
             z-index: 1000;
         }
-        header nav {
+        header nav{
             display: flex;
             align-items: center;
             gap: 24px;
@@ -43,7 +43,7 @@
             border: 1px solid var(--color-secondary);
             border-radius: 8px;
             background-color: var(--color-default);
-            font-size: medium;
+            font-size: 16px;
             color: white;
             padding: 8px 14px;
             cursor: pointer;
@@ -63,34 +63,33 @@
             font-size: 16px;
             padding: 4px 8px;
             cursor: pointer;
-            width: flex;
+            width: auto;
         }
-        button {
-            border: 1px solid var(--color-secondary);
-            border-radius: 8px;
-            background-color: var(--color-default);
-            font-size: 16px;
-            color: white;
-            padding: 8px 14px;
-            cursor: pointer;
-            width: flex;
+        .buttons{
+            display: grid;
+            grid-template-columns: 48% 48%;
+            justify-content: space-between;
+            gap: 2%;
+            margin-top: auto;
         }
         button.login{
             background-color: var(--color-white);
             color: var(--color-secondary);
+            width: flex;
         }
         button.signup{
             background-color: var(--color-default);
             color: var(--color-white);
+            width: flex;
         }
         header nav a:hover{
             color: var(--color-secondary);
         }
-        button .login:hover{
+        button.login:hover{
             background-color: var(--color-gray);
         }
-        button .signup:hover{
-            background-color: #000000;
+        button.signup:hover{
+            background-color: var(--color-secondary);
         }
         footer{
             display:block;
@@ -108,11 +107,10 @@
         article h2{text-align: right;}
         form{
             display:flex;
-            flex-direction:
-            column;
+            flex-direction: column;
             gap:16px;
         }
-        summary{
+        .details{
             cursor:pointer;
             padding: 8px;
             border: 1px solid var(--color-secondary);
@@ -123,7 +121,7 @@
             flex-direction:column;
             padding-top: 0px;
             gap: 64px;
-            margin-bottom: 64px;
+            padding-bottom: 64px;
             background-color: var(--color-gray);
         }
         .highlight{color: var(--color-secondary)}
@@ -151,7 +149,8 @@
         }
         .user_identity{
             display:flex;
-            gap:8px;}
+            gap:8px;
+        }
         .border{
             display:flex;
             align-items:center;
@@ -181,6 +180,7 @@
         .side{
             display:flex;
             gap:8px;}
+        
         .events_section{
             display:flex;
             flex-direction:column;
@@ -190,12 +190,12 @@
             margin-right: 90px;
         }
         .events{
-            display:flex;
-            flex-direction:row;
+            display: flex;
+            flex-direction: row;
             gap: 16px;
-            border-radius:8px;
+            border-radius: 8px;
             padding: 0;
-            grid-row: auto auto auto;
+            align-items: stretch;
         }
         .event_card{
             display:flex;
@@ -204,64 +204,68 @@
             background-color: var(--color-white);
             border-radius: 8px;
             padding:16px;
-            width: flex;
+            width: auto;
         }
-        .clubs :hover{
-            background-color: var(--color-gray);
+        .clubs:hover{
+            color: #000000;
         }
         .club_header{
             display:flex;
             align-items: center;
+            height: auto;
             gap: 16px;
         }
         .club_requests{
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             margin-left: 90px;
             margin-right: 90px;
         }
         .requests{
-            display: flex;
-            flex-direction: row;
-            gap:16px;
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 16px;
+            padding: 0;
+            width: flex;
+            flex-direction: column;
         }
-        .club_requests{
+        .request_card{
             display: flex;
             flex-direction: column;
-            border: #757575 1px solid;
-            border-radius: 6px;
+            border: 1px solid #d3d3d3;
+            background-color: var(--color-white);
+            border-radius: 8px;
             padding:16px;
-            margin-top:16px;
-            margin-left:16px;
+            width: auto
         }
-        .desc{
+        .description{
             font-size: medium;
             color: var(--color-secondary);
         }
         h2{
-            font-weight: 600;
+            font-weight: 550;
+            font-size: larger;
         }
-        
     </style>
 </head>
 <body>
     <header>
-        <a href="./index.html"><img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/></a>
+        <a href="main.html"><img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/></a>
         <nav>
-            <a class="page" href="./clubs.html">Клуб</a>
-            <a class="page" href="page2">Эвент</a>  
-            <!--<a href="page3"><img src="images/Icon Button.svg" width="24" height="24" alt="Icon Button"/></a>-->
-            
-            </nav>
+            <a class="page" href="clubs.html">Клуб</a>
+            <a class="page" href="events.hmtl">Эвент</a>
+            <button class="login">Нэвтрэх</button>
+            <button class="signup">Бүртгүүлэх</button>
+        </nav>
     </header>
     <div class="main">
         <div class="user">
-            <img src="images/user_profile.svg" width="260" height="260" alt="User Profile Image" style="border-radius: 50%; border: 1px solid var(--color-gray); background-color: var(--color-gray)";/>
+            <img src="images/user_profile.svg" width="260" height="260" alt="User Profile Image" style="border-radius: 50%; border: 1px solid var(--color-gray); background-color: var(--color-gray)"/>
             <div class="info">
                 <h1><span class="highlight">Гантулга</span> Энхжин</h1>
                 <div class="user_identity">
                     <div class="border">
-                        <img src="Book.svg" width="16" height="16" alt="Book Icon"/>
+                        <img src="images/Book.svg" width="16" height="16" alt="Book Icon"/>
                         <p class="border">МТЭС-МКУТ</p>
                     </div>
                     <div class="border">
@@ -303,7 +307,7 @@
                 <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/Linkedin Icon Button.svg" width="36" height="36" alt="linkedin Icon"/></a>
             </div> 
         </div> 
-        <div class="club_requests">
+        <div class="club_requests" id="clubs">
             <h2>Таны элсэх хүсэлт явуулсан клубүүд</h2>
             <div class="requests">
                 <nc-clubrequestcard></nc-clubrequestcard>
@@ -311,6 +315,25 @@
                 <nc-clubrequestcard></nc-clubrequestcard>
             </div>
         </div> 
+
+        <section class="events_section" id="events">
+            <h2>Эвентүүд</h2>
+            <section class="events">
+                <nc-eventcard button1=""></nc-eventcard>
+                <nc-eventcard></nc-eventcard>
+                <nc-eventcard></nc-eventcard>
+            </section>
+        </section>
+
+        <div class="club_requests">
+            <h2>Хадгалсан</h2>
+            <div class="requests">
+                <nc-clubrequestcard desc="Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг"></nc-clubrequestcard>
+                <nc-clubrequestcard desc="Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг"></nc-clubrequestcard>
+                <nc-clubrequestcard desc="Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг"></nc-clubrequestcard>
+            </div>
+        </div> 
+
         <section class="events_section">
             <h2>Таны бүртгүүлсэн эвентүүд</h2>
             <section class="events">
@@ -319,8 +342,6 @@
                 <nc-eventcard></nc-eventcard>
             </section>
         </section>
-
-        </div>
     </div>
     <footer>
         <img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/>
