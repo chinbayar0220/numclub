@@ -8,7 +8,7 @@ class ncEventcard extends HTMLElement {
         const datetime = this.getAttribute('date') || '2025.10.01 19:00';
         const description = this.getAttribute('desc') || 'Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тайлбарлаж өгч болно';
         const price = this.getAttribute('price') || '₮10,000';
-        const button1 = this.getAttribute('btn1') || 'Цуцлах';
+        const button1 = this.getAttribute('btn1');
         const button2 = this.getAttribute('btn2') || 'Дэлгэрэнгүй';
         this.innerHTML=`
         <div class="event_card">
@@ -24,8 +24,9 @@ class ncEventcard extends HTMLElement {
             </aside>
             <h4>${price}</h4>
             <div class="buttons">
-                <button class="login">${button1}</button>
-                <button class="signup">${button2}</button>
+    ${ button1!=null?`<button class="login">${button1}</button>`:``
+            }    
+            <button class="signup">${button2}</button>
             </div>
         </div>`;
     }
