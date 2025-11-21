@@ -23,7 +23,9 @@
             font-size: medium;
             color: var(--color-secondary);
         }
-        article h2{text-align: left;}
+        article h2{
+            text-align: left;
+        }
         fieldset{border-radius:8px;
                  border:1px solid grey;
         }
@@ -148,7 +150,7 @@
             border: 1px solid #d3d3d3;
             padding: 24px;
             border-radius:8px;
-            width: 230px;
+            width: flex;
             height: 300px;
         }
         .club p{
@@ -156,10 +158,11 @@
                 font-size: medium;
                 color: var(--color-secondary);
         }
-        .club_buttons{
-            display:flex;
+        .buttons{
+            display: grid;
+            grid-template-columns: 36% 56%;
             justify-content: space-between;
-            gap:0px;
+            gap: 8%;
             margin-top: auto;
         }
         .clubs :hover{
@@ -207,8 +210,8 @@
     <header>
         <a href="main.html"><img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/></a>
         <nav>
-            <a class="page" href="./clubs.html">Клуб</a>
-            <a class="page" href="page2">Эвент</a>
+            <a class="page" href="clubs.html">Клуб</a>
+            <a class="page" href="events.hmtl">Эвент</a>
             <button class="login">Нэвтрэх</button>
             <button class="signup">Бүртгүүлэх</button>
         </nav>
@@ -280,9 +283,9 @@
                 </form>
             </div>
               
-            <div class="clubs">        
+            <div class="clubs" id="clubs">        
                 <nc-clubcard cname="Hackum students club"></nc-clubcard>
-                <nc-clubcard></nc-clubcard>
+                <nc-clubcard cname="BSONK" desc="BSONK"></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
                 <nc-clubcard cname="Google developers club"></nc-clubcard>
                 <nc-clubcard></nc-clubcard>
