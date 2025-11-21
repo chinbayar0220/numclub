@@ -3,6 +3,8 @@ class NcEventCard extends HTMLElement {
     const name = this.getAttribute('ename') || 'Эвентийн нэр';
     const date = this.getAttribute('edate') || 'Огноо цаг';
     const price = this.getAttribute('price') || '₮0';
+    const img = this.getAttribute('event-image') || 'images/event.png'
+    const clubName = this.getAttribute('club-name') || 'Hackum student club'
 
     this.innerHTML = `
       <article class="event-card">
