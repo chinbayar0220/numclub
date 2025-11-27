@@ -67,7 +67,7 @@
             cursor: pointer;
             width: flex;
         }
-        .page{
+        .btn{
             font-weight: 500;
             color: var(--color-default);
             background-color: var(--color-gray);
