@@ -1,0 +1,32 @@
+body {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 10px;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+}
+header, footer{
+    border: 2px solid #444;
+    padding: 10px;
+    text-align: center;
+}
+
+main.grid-layout {
+    display: grid;
+    grid-template-areas: 
+        "hero hero sidebar"
+        "content content sidebar"
+        "extra extra sidebar";
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+}
+main.grid {
+    display: grid;
+    grid-template-areas: 
+        "hero hero sidebar"
+        "content content sidebar"
+        "extra extra sidebar";
+    grid-template-rows: 1fr;
+    gap: 10px;
+}

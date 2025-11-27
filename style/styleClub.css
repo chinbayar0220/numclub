@@ -1,5 +1,4 @@
 body {
-    height: 2779px;
     display: grid;
     grid-template-areas:
         "hd"
@@ -7,7 +6,6 @@ body {
         "ft";
     grid-template-rows: 100px 1fr 272px;
     border: 1px solid black;
-    width: 99%;
 }
 
 header {
@@ -24,6 +22,8 @@ main {
 footer {
     grid-area: ft;
     border: 1px solid red;
+    padding: 32px;
+    >img{padding-bottom: 24px;}
 }
 header{
     display: flex;
@@ -135,16 +135,16 @@ main>article{
     padding: 64px 100px;
     font-family: inter;
     font-weight: 600;
+    h2{
+        margin: 0px;
+        font-size: 24px;
+    }
 }
 #Uil-ajillagaa>div{
     display: flex;
     gap: 25px;
     flex-wrap: wrap;
     margin-top: 24px;
-    h2{
-        margin: 0px;
-        font-size: 24px;
-    }
     p{
         display: flex;
         border: 1px solid #D9D9D9;
@@ -166,7 +166,7 @@ main>article{
         color: #757575;
     }
     button{
-        /* width: 1240px; */
+        width: 98%;
         height: 40px;
         border-radius: 8px;
         color: white;
@@ -178,7 +178,8 @@ main>article{
     padding: 64px 100px;
 }
 .events>div{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     padding-top: 24px;
     gap: 24px;
 }
@@ -189,11 +190,14 @@ main>article{
         font-weight: 600;
     }
 }
-.events>div>article{
+.event-card{
     padding:16px;
     border: 1px solid #D9D9D9;
     background-color: white;
     border-radius: 8px;
+    >img{
+        width: 100%;
+    }
 label{
     display: flex;
     align-items: center;
@@ -206,38 +210,101 @@ label{
     }
 }
 }
-.events>p{
-    margin: 10px 0px 0px 0px  ;
-}
-.comment{
+.comment {
     padding: 64px 100px;
     font-family: inter;
-    h2{
-        font-weight: 600;
-        margin: 0;
-    }
-    h3{
-        margin: 24px;
-    }
 }
-.comment>p{
-    margin: 10px 0px 0px 0px;
-    color:#757575;
+
+.comment h2 {
+    font-weight: 600;
+    margin: 0;
 }
-.comment article{
-    border: 1px solid #D9D9D9;
+
+.comment h3 {
+    margin: 24px 0 0;
+}
+
+.comment > p {
+    margin: 10px 0 0 0;
+    color: #757575;
+}
+
+.comment-cards {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.comment-cards article {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     background-color: white;
-    width: 381px;
-    height: 147px;
+    border: 1px solid #D9D9D9;
     border-radius: 8px;
 }
-.comment>div{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
+
+.comment-cards article > img {
+    width: 116px;
+    height: 20px;
 }
-#comment-tt{
+
+.comment-cards article #review h3 {
+    margin: 0 0 4px 0;
+    font-size: 24px;
+}
+
+.comment-cards article #review p {
+    margin: 0;
+}
+
+.comment-cards article #comment-tt {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.comment-cards article #comment-tt h5 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #757575;
+}
+
+.comment-cards article #comment-tt p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #B3B3B3;
+}
+
+.comment-cards article #comment-tt img {
+    border: 1px solid #D9D9D9;
+    border-radius: 50%;
+}
+
+
+@media (max-width: 1024px) {
+    .comment {
+        padding: 48px 32px;
+    }
+    .comment-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .events {
+        padding: 48px 32px;
+    }
+    .events>div{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .comment {
+        padding: 32px 16px;
+    }
+    .comment-cards {
+        grid-template-columns: 1fr;
+    }
 }
