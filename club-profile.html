@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <script type="module" src="js/nc-Cevent-card.js"></script>
+    <script type="module" src="js/nc-Cfeed-Back.js"></script>
 </head>
 <body>
     <header>
@@ -84,78 +86,32 @@
             <h2>Эвентүүд</h2>
             <p>Таньд санал болгох</p>
             <div>
-                <wc-card></wc-card>
-                <wc-card></wc-card>
-                <article>
-                    <img src="images/event.png" alt="">
-                    <header>
-                        <label><img src="images/club_logo.svg" alt=""><h4>Hackumx student club</h4></label>
-                    </header>
-                    <p>Эвентийн нэр</p>
-                    <p>2025.10.23 18.40</p>
-                    <p>Эвентийн тухай мэдээллийг дэлгэрэнгүйгээр тавьж өгч болно.</p>
-                    <p>$1000</p>
-                    <button>Дэлгэрэнгүй</button>
-                </article>
+                <nc-Cevent-card></nc-Cevent-card>
+                <nc-Cevent-card></nc-Cevent-card>
+                <nc-Cevent-card></nc-Cevent-card>
             </div>
         </section>
         <section class="comment">
-            <h2>Сэтгэгдэлүүд</h2>
+            <h2>Сэтгэгдэл</h2>
             <p>Төгсөгчид үлдээсэн сэтгэгдэл</p>
-            <div>
-                <article>
-                    <h3>Quote</h3>
-                    <div id="comment-tt">
-                        <div><img src="images/Shape.svg" alt=""></div>
-                        <div>
-                            <h5>Hackum student club</h5>
-                            <p>Э.Чинбаяр</p>
-                        </div>
-                    </div>
-                </article>
-                <article>
-                    <h3>Quote</h3>
-                    <div><img src="images/Shape.svg" alt=""></div>
-                    <div>
-                        <h5>Hackum student club</h5>
-                        <p>Г.Энхжин</p>
-                    </div>
-                </article>
-                <article>
-                    <h3>Quote</h3>
-                    <div><img src="images/Shape.svg" alt=""></div>
-                    <div>
-                        <h5>Hackum student club</h5>
-                        <p>Э.Чинбаяр</p>
-                    </div>
-                </article>
-                <article>
-                    <h3>Quote</h3>
-                    <div><img src="images/Shape.svg" alt=""></div>
-                    <div>
-                        <h5>Hackum student club</h5>
-                        <p>Э.Чинбаяр</p>
-                    </div>
-                </article>
-                <article>
-                    <h3>Quote</h3>
-                    <div><img src="images/Shape.svg" alt=""></div>
-                    <div>
-                        <h5>Hackum student club</h5>
-                        <p>Э.Чинбаяр</p>
-                    </div>
-                </article>
-                <article>
-                    <h3>Quote</h3>
-                    <div><img src="images/Shape.svg" alt=""></div>
-                    <div>
-                        <h5>Hackum student club</h5>
-                        <p>Э.Чинбаяр</p>
-                    </div>
-                </article>
+            <div class="comment-cards">
+                <nc-Cfeed-Back></nc-Cfeed-Back>
+                <nc-Cfeed-Back></nc-Cfeed-Back>
+                <nc-Cfeed-Back></nc-Cfeed-Back>
+                <nc-Cfeed-Back></nc-Cfeed-Back>
+                <nc-Cfeed-Back></nc-Cfeed-Back>
+                <nc-Cfeed-Back></nc-Cfeed-Back>
             </div>
         </section>
     </main>
-    
+    <footer>
+        <img src="images/Club.svg" alt="">
+        <div>
+            <img src="images/x_icon.svg" alt="">
+            <img src="images/igWhite.svg" alt="">
+            <img src="images/youtubeWhite.svg" alt="">
+            <img src="images/linkedWhite.svg" alt="">
+        </div>
+    </footer>
 </body>
 </html>
