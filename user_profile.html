@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style/enkhjin.css">
     <script type="module" src="./js/nc-eventcard.js"></script>
     <script type="module" src="./js/nc-clubrequestcard.js"></script>
+    <script type="module" src="./js/nc-usercard.js"></script>
     <style>
         main{
             background-color: var(--color-gray);
@@ -15,6 +16,24 @@
             flex-direction:column;
             padding-top: 0px;
             padding-bottom: 64px;
+        }
+        .user_card{
+            display:flex;
+            flex-direction:row;
+            gap:16px;
+            align-items:flex-start;
+            background-color: var(--color-white);
+            padding: 28px 90px;
+        }
+        .info{
+            display:flex;
+            flex-direction:column;
+            gap:0px;
+            width: 70%;
+        }
+        .user_identity{
+            display:flex;
+            gap:8px;
         }
     </style>
 </head>
@@ -29,54 +48,8 @@
         </nav>
     </header>
     <div class="main">
-        <div class="user">
-            <img src="images/user_profile.svg" width="260" height="260" alt="User Profile Image" style="border-radius: 50%; border: 1px solid var(--color-gray); background-color: var(--color-gray)"/>
-            <div class="info">
-                <h1><span class="highlight">Гантулга</span> Энхжин</h1>
-                <div class="user_identity">
-                    <div class="border">
-                        <img src="images/Book.svg" width="16" height="16" alt="Book Icon"/>
-                        <p class="border">МТЭС-МКУТ</p>
-                    </div>
-                    <div class="border">
-                        <img src="images/Briefcase.svg" width="16" height="16" alt="Briefcase Icon"/>
-                        <p class="border">Компьютерын Ухаан</p>
-                    </div>
-                    <div class="border">
-                        <img src="images/Briefcase.svg" width="16" height="16" alt="Briefcase Icon"/>
-                        <p class="border">3-р түвшин</p>
-                    </div>
-                    <div class="border">
-                        <img src="images/Phone.svg" width="16" height="16" alt="Phone Icon"/>
-                        <p class="border">МТЭС-МКУТ</p>
-                    </div>
-                </div>
-                <div class="clubs">
-                    <div class="club2">
-                        <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                        <h4>Hackum students club</h4>
-                    </div>
-                    <div class="club2">
-                        <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                        <h4>Hackum students club</h4>   
-                    </div>
-                </div> 
-                <p class="description">Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p> 
-                <details>
-                    <summary>
-                        Дэлгэрэнгүй
-                    </summary>
-                    <p>
-                        Бүүр дэлгэрэнгүй био
-                    </p>
-                </details>
-            </div>
-            <div class="side">
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/FB Icon Button.svg" width="36" height="36" alt="facebook Icon"/></a>
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/IG Icon Button.svg" width="36" height="36" alt="instagram Icon"/></a>
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/Linkedin Icon Button.svg" width="36" height="36" alt="linkedin Icon"/></a>
-            </div> 
-        </div> 
+        <nc-usercard></nc-usercard> 
+
         <div class="club_requests" id="clubs">
             <h2>Таны элсэх хүсэлт явуулсан клубүүд</h2>
             <div class="requests">
@@ -113,6 +86,7 @@
             </section>
         </section>
     </div>
+    
     <footer>
         <img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/>
         <p>Холбогдох дугаар: +976 9999 9999</p>

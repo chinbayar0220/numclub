@@ -13,7 +13,7 @@ class NcClubcard extends HTMLElement {
 
         this.innerHTML=`
         <article class="club_card">
-                    <div class="club_header">
+                    <div class="club_name">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDsCK1U_HGMYYAFqOOPaqu71kFkUg9ywSSGQ&amp;s" class="sFlh5c FyHeAf" alt="Hackum Students Club" jsname="JuXqh" style="max-width: 1292px; width: 58px; height: 58px; margin: 0px;" data-ilt="1759989884696">
                         <h3>${clubname}</h3>
                     </div>

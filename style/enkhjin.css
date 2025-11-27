@@ -49,6 +49,11 @@
             box-shadow: inset 0 1px 0 #d3d3d3;
             gap: 16px;
         }
+        form{
+            display:flex;
+            flex-direction: column;
+            gap:8px;
+        }
 
         /*   BUTTONS   */
         button{
@@ -63,9 +68,8 @@
         }
         .btn{
             font-weight: 500;
+            text-decoration: none;
             color: var(--color-default);
-            background-color: var(--color-gray);
-            border: 1px solid var(--color-gray);
             border-radius: 8px;
             font-size: 16px;
             padding: 4px 8px;
@@ -90,6 +94,9 @@
             color: var(--color-white);
             width: flex;
         }
+        .btn:hover{
+            color: var(--color-secondary);
+        }
         button.btn1:hover{
             background-color: var(--color-gray);
         }
@@ -97,11 +104,62 @@
             background-color: #000000;
         }
 
-        article h2{text-align: right;}
-        form{
+
+        /*club name with logo large*/
+        .club_header{
             display:flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-top: 0px;
+            height: 58px;
+        }
+        /*club name with logo small*/
+        .club_name{
+            display:flex;
+            gap:8px;
+            align-items:center;
+        }
+
+
+        /*   TEXT   */
+        .highlight{
+            color: var(--color-secondary)
+        }
+        h1{
+            font-size: 48px;
+        }
+        h2{
+            font-weight: 550;
+            font-size: larger;
+            /*text-align: right;*/
+        }
+        .desc{
+            font-size: medium;
+            color: var(--color-secondary);
+        }
+
+        /*   CLUBS & EVENTS & REQUESTS   */
+
+        /*   USERCARD   */
+        .border{
+            display:flex;
+            align-items:center;
+            color: white;
+            padding:8px;
+            background-color: var(--color-secondary);
+            border-radius: 8px; 
+            height: 18px;
+            font-size: small;
+        }
+        .registered_clubs{
+            display:flex;
+            flex-direction:row;
             gap:16px;
+            margin: 8px 0px;
+        }
+        .url{
+            display:flex;
+            gap:8px;
         }
         .details{
             cursor:pointer;
@@ -109,64 +167,9 @@
             border: 1px solid var(--color-secondary);
             border-radius: 8px;
         }
+
     
-        .highlight{color: var(--color-secondary)}
-        .registered{
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-        }
-        .user{
-            display:flex;
-            flex-direction:row;
-            gap:16px;
-            align-items:flex-start;
-            background-color: var(--color-white);
-            padding: 28px 90px;
-        }
-        .user h1{
-            font-size: 48px;
-        }
-        .info{
-            display:flex;
-            flex-direction:column;
-            gap:0px;
-            width: 70%;
-        }
-        .user_identity{
-            display:flex;
-            gap:8px;
-        }
-        .border{
-            display:flex;
-            align-items:center;
-            color: white;
-            padding:8px;
-            background-color: var(--color-default);
-            border-radius: 8px; 
-            height: 18px;
-            font-size: small;
-        }
-        .clubs{
-            display: flex;
-            flex-direction: row;
-            gap:16px;
-        }
-        .club_header{
-            display:flex;
-            gap:16px;
-            align-items:center;
-            height: 20px;
-        }
-        .club2{
-            display:flex;
-            gap:8px;
-            align-items:center;
-        }
-        .side{
-            display:flex;
-            gap:8px;}
-        
+        /*   EVENTCARD   */
         .events_section{
             display:flex;
             flex-direction:column;
@@ -192,15 +195,7 @@
             padding:16px;
             width: auto;
         }
-        .clubs:hover{
-            color: #000000;
-        }
-        .club_header{
-            display:flex;
-            align-items: center;
-            height: auto;
-            gap: 16px;
-        }
+    
         .club_requests{
             display: flex;
             flex-direction: column;
@@ -224,72 +219,21 @@
             padding:16px;
             width: auto
         }
-        .description{
-            font-size: medium;
-            color: var(--color-secondary);
-        }
-        h2{
-            font-weight: 550;
-            font-size: larger;
-        }
-        .desc{
-            font-size: medium;
-            color: var(--color-secondary);
-        }
-        article h2{
-            text-align: left;
-        }
+        
         fieldset{border-radius:8px;
                  border:1px solid grey;
         }
-
-        .page{
-            font-weight: 500;
-            color: var(--color-default);
-            background-color: var(--color-gray);
-            border: 1px solid var(--color-gray);
-            border-radius: 8px;
-            font-size: 16px;
-            padding: 4px 8px;
-            cursor: pointer;
-            width: flex;
-        }
            
 
-        .sidebar{
-            display:flex;
-            flex-direction:column;
-            padding: 8px 28px 28px 28px;
-            gap: 0px;
-            height: fit-content;
-            border: 1px solid #d3d3d3;
-            border-radius: 8px;
-            width: 300px;
-        }
-        .sidebar input[type="checkbox"]{
-            margin: 8px 8px 8px 0px;
-        }
+        
         .content{
             display:flex;
             flex-direction:column;
             gap:28px;
             width: 1200px;
         }
-        form input[type="search"]{
-            padding: 10px 16px;
-            border: 1px solid #d3d3d3;
-            border-radius: 20px;
-            width: 320px;
-            height: 40px;
-            font-size: medium;
-        }
-        .clubs{
-            display: grid;
-            grid-template-rows: auto auto auto;
-            grid-template-columns: auto auto auto;
-            gap: 28px;
-            margin: auto;
-        }
+
+        /*   CLUB   */
         .club_card{
             display:flex;
             flex-direction:column;
@@ -300,53 +244,8 @@
             width: flex;
             height: 300px;
         }
-        .club p{
-                margin-top: 8px;
-                font-size: medium;
-                color: var(--color-secondary);
-        }
-        .buttons{
-            display: grid;
-            grid-template-columns: 36% 56%;
-            justify-content: space-between;
-            gap: 8%;
-            margin-top: auto;
-        }
-        .clubs :hover{
+        .club_card:hover{
             background-color: var(--color-gray);
         }
-        .club_header{
-            display:flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 0px;
-            height: 58px;
-        }
-        .search{
-            display:flex;
-            flex-direction:row;
-            justify-content: space-between;
-            align-items: center;
-        }
-        form input[type="radio"]{
-            height: auto;
-            padding: 8px 16px;
-            border: 1px solid #d3d3d3;
-            border-radius: 8px;
-        }
-        .pagination{
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:8px;
-            padding:16px;
-        }
-        .pagination button{
-            border: 1px solid var(--color-secondary);
-            border-radius: 8px;
-            background-color: var(--color-white);
-            font-size: medium;
-            color: var(--color-secondary);
-            padding: 2px 8px;
-            cursor: pointer;
-        }
+
+        

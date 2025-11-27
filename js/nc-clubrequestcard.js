@@ -5,17 +5,16 @@ class NcClubRequestCard extends HTMLElement {
 
     connectedCallback() {
         const clubname = this.getAttribute('cname') || 'Club name';
-        const description = this.getAttribute('desc') || 'Description about club goes here.';
         const button1 = this.getAttribute('btn1') || 'Элсэх';
         const button2 = this.getAttribute('btn2') || 'Дэлгэрэнгүй';
-        const desc = this.getAttribute('desc') || 'Таны элсэх хүсэлтийг хүлээж авсан байна.';
+        const description = this.getAttribute('desc') || 'Таны элсэх хүсэлтийг хүлээж авсан байна.';
         this.innerHTML=`
         <article class="request_card">
                     <div class="club_header">
                         <img src="images/club_logo.svg" width="58" height="58" alt="Club Icon"/>
                         <h3>${clubname}</h3>
                     </div>
-                    <p class="description">${description}</p>
+                    <p class="desc">${description}</p>
                     <button class="btn2">${button2}</button>
                 </article>`;
     }

@@ -13,14 +13,14 @@ class ncEventcard extends HTMLElement {
         this.innerHTML=`
         <div class="event_card">
             <img src="images/event.png" width=flex alt="Event Image"/>
-            <div class="club2">
+            <div class="club_name">
                 <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
                 <h4>Hackum students club</h4>
             </div>
             <h2>${eventname}</h2>
             <p>${datetime}</p>
             <aside class="line">
-                <p class="des">${description}</p>
+                <p class="desc">${description}</p>
             </aside>
             <h4>${price}</h4>
             <div class="btn1">${ button1!=null?`<button class="login">${button1}</button>`:``}    
