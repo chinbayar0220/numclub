@@ -1,6 +1,4 @@
         /*   GENERAL   */
-
-
         html{
             margin:0;
             padding:0;
@@ -34,6 +32,10 @@
             color: var(--color-default);
             font-weight: 500;
         }
+        .main{
+            display:flex;
+            gap: 64px;
+        }
         footer{
             display:block;
             justify-content:center;
@@ -48,15 +50,7 @@
             gap: 16px;
         }
 
-
-        /*   */
-
-
-
-        article h2{text-align: left;}
-        fieldset{border-radius:8px;
-                 border:1px solid grey;
-        }
+        /*   BUTTONS   */
         button{
             border: 1px solid var(--color-secondary);
             border-radius: 8px;
@@ -86,65 +80,23 @@
             gap: 2%;
             margin-top: auto;
         }
-        button.btn1{
+        .btn1{
             background-color: var(--color-white);
             color: var(--color-secondary);
             width: flex;
         }
-        button.btn2{
+        .btn2{
             background-color: var(--color-default);
             color: var(--color-white);
             width: flex;
         }
-        header nav a:hover{
-            color: var(--color-secondary);
-        }
-        button.login:hover{
+        button.btn1:hover{
             background-color: var(--color-gray);
         }
-        button.signup:hover{
-            background-color: var(--color-secondary);
-        }
-        button {
-            border: 1px solid var(--color-secondary);
-            border-radius: 8px;
-            background-color: #677AA8;
-            font-size: 16px;
-            color: white;
-            padding: 8px 14px;
-            cursor: pointer;
-            width: flex;
-        }
-        button.login{
-            background-color: var(--color-white);
-            color: var(--color-secondary);
-        }
-        button.signup{
-            background-color: var(--color-default);
-            color: var(--color-white);
-        }
-        header nav a:hover{
-            color: var(--color-secondary);
-        }
-        button.login:hover{
-            background-color: var(--color-gray);
-        }
-        button.signup:hover{
+        button.btn2:hover{
             background-color: #000000;
         }
-        footer{
-            display:block;
-            justify-content:center;
-            align-items:center;
-            flex-direction:column;
-            gap:8px;
-            background-color: var(--color-white);
-            width: flex;
-            height: 120px;
-            padding: 28px 90px;
-            box-shadow: inset 0 1px 0 #d3d3d3;
-            gap: 16px;
-        }
+
         article h2{text-align: right;}
         form{
             display:flex;
@@ -157,13 +109,7 @@
             border: 1px solid var(--color-secondary);
             border-radius: 8px;
         }
-        .main{
-            display:flex;
-            flex-direction:column;
-            padding-top: 0px;
-            gap: 64px;
-            padding-bottom: 64px;
-        }
+    
         .highlight{color: var(--color-secondary)}
         .registered{
             display: flex;
@@ -309,13 +255,7 @@
             width: flex;
         }
            
-        .main{
-            display: flex;
-            flex-direction: row;
-            gap:64px;
-            padding: 28px 90px;
-            
-        }
+
         .sidebar{
             display:flex;
             flex-direction:column;
