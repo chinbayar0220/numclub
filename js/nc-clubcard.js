@@ -19,8 +19,8 @@ class NcClubcard extends HTMLElement {
                     </div>
                     <p class="desc">${description}</p>
                     <div class="buttons">
-                        <button class="login">${button1}</button>
-                        <button class="signup">${button2}</button>
+                        <button class="btn1">${button1}</button>
+                        <button class="btn2">${button2}</button>
                     </div>
                 </article>`;
     }

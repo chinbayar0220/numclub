@@ -16,7 +16,7 @@ class NcClubRequestCard extends HTMLElement {
                         <h3>${clubname}</h3>
                     </div>
                     <p class="description">${description}</p>
-                    <button class="signup">${button2}</button>
+                    <button class="btn2">${button2}</button>
                 </article>`;
     }
 

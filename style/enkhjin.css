@@ -1,0 +1,412 @@
+        /*   GENERAL   */
+
+
+        html{
+            margin:0;
+            padding:0;
+            /* font-family: 'Inter', sans-serif; */
+            font-family: 'Inter', sans-serif;
+            font-size: medium;
+            background-color: var(--color-white);
+            --color-default: #2c2c2c;
+            --color-secondary: #757575;
+            --color-gray: #f5f5f5;
+            --color-white: #ffffff;
+        }
+        header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            background-color: var(--color-white);
+            width: flex;
+            padding: 20px 90px;
+            box-shadow: inset 0 -1px 0 #d3d3d3;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        header nav a {
+            color: var(--color-default);
+            font-weight: 500;
+        }
+        footer{
+            display:block;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            gap:8px;
+            background-color: var(--color-white);
+            width: flex;
+            height: 120px;
+            padding: 28px 90px;
+            box-shadow: inset 0 1px 0 #d3d3d3;
+            gap: 16px;
+        }
+
+
+        /*   */
+
+
+
+        article h2{text-align: left;}
+        fieldset{border-radius:8px;
+                 border:1px solid grey;
+        }
+        button{
+            border: 1px solid var(--color-secondary);
+            border-radius: 8px;
+            background-color: var(--color-default);
+            font-size: 16px;
+            color: white;
+            padding: 8px 14px;
+            cursor: pointer;
+            width: flex;
+        }
+        .page{
+            font-weight: 500;
+            color: var(--color-default);
+            background-color: var(--color-gray);
+            border: 1px solid var(--color-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            padding: 4px 8px;
+            cursor: pointer;
+            width: auto;
+        }
+            /*for two buttons side by side*/
+        .buttons{ 
+            display: grid;
+            grid-template-columns: 48% 48%;
+            justify-content: space-between;
+            gap: 2%;
+            margin-top: auto;
+        }
+        button.btn1{
+            background-color: var(--color-white);
+            color: var(--color-secondary);
+            width: flex;
+        }
+        button.btn2{
+            background-color: var(--color-default);
+            color: var(--color-white);
+            width: flex;
+        }
+        header nav a:hover{
+            color: var(--color-secondary);
+        }
+        button.login:hover{
+            background-color: var(--color-gray);
+        }
+        button.signup:hover{
+            background-color: var(--color-secondary);
+        }
+        button {
+            border: 1px solid var(--color-secondary);
+            border-radius: 8px;
+            background-color: #677AA8;
+            font-size: 16px;
+            color: white;
+            padding: 8px 14px;
+            cursor: pointer;
+            width: flex;
+        }
+        button.login{
+            background-color: var(--color-white);
+            color: var(--color-secondary);
+        }
+        button.signup{
+            background-color: var(--color-default);
+            color: var(--color-white);
+        }
+        header nav a:hover{
+            color: var(--color-secondary);
+        }
+        button.login:hover{
+            background-color: var(--color-gray);
+        }
+        button.signup:hover{
+            background-color: #000000;
+        }
+        footer{
+            display:block;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            gap:8px;
+            background-color: var(--color-white);
+            width: flex;
+            height: 120px;
+            padding: 28px 90px;
+            box-shadow: inset 0 1px 0 #d3d3d3;
+            gap: 16px;
+        }
+        article h2{text-align: right;}
+        form{
+            display:flex;
+            flex-direction: column;
+            gap:16px;
+        }
+        .details{
+            cursor:pointer;
+            padding: 8px;
+            border: 1px solid var(--color-secondary);
+            border-radius: 8px;
+        }
+        .main{
+            display:flex;
+            flex-direction:column;
+            padding-top: 0px;
+            gap: 64px;
+            padding-bottom: 64px;
+        }
+        .highlight{color: var(--color-secondary)}
+        .registered{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+        .user{
+            display:flex;
+            flex-direction:row;
+            gap:16px;
+            align-items:flex-start;
+            background-color: var(--color-white);
+            padding: 28px 90px;
+        }
+        .user h1{
+            font-size: 48px;
+        }
+        .info{
+            display:flex;
+            flex-direction:column;
+            gap:0px;
+            width: 70%;
+        }
+        .user_identity{
+            display:flex;
+            gap:8px;
+        }
+        .border{
+            display:flex;
+            align-items:center;
+            color: white;
+            padding:8px;
+            background-color: var(--color-default);
+            border-radius: 8px; 
+            height: 18px;
+            font-size: small;
+        }
+        .clubs{
+            display: flex;
+            flex-direction: row;
+            gap:16px;
+        }
+        .club_header{
+            display:flex;
+            gap:16px;
+            align-items:center;
+            height: 20px;
+        }
+        .club2{
+            display:flex;
+            gap:8px;
+            align-items:center;
+        }
+        .side{
+            display:flex;
+            gap:8px;}
+        
+        .events_section{
+            display:flex;
+            flex-direction:column;
+            width: flex;
+            gap:16px;
+            margin-left: 90px;
+            margin-right: 90px;
+        }
+        .events{
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            border-radius: 8px;
+            padding: 0;
+            align-items: stretch;
+        }
+        .event_card{
+            display:flex;
+            flex-direction:column;
+            border: 1px solid #d3d3d3;
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding:16px;
+            width: auto;
+        }
+        .clubs:hover{
+            color: #000000;
+        }
+        .club_header{
+            display:flex;
+            align-items: center;
+            height: auto;
+            gap: 16px;
+        }
+        .club_requests{
+            display: flex;
+            flex-direction: column;
+            margin-left: 90px;
+            margin-right: 90px;
+        }
+        .requests{
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 16px;
+            padding: 0;
+            width: flex;
+            flex-direction: column;
+        }
+        .request_card{
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d3d3d3;
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding:16px;
+            width: auto
+        }
+        .description{
+            font-size: medium;
+            color: var(--color-secondary);
+        }
+        h2{
+            font-weight: 550;
+            font-size: larger;
+        }
+        .desc{
+            font-size: medium;
+            color: var(--color-secondary);
+        }
+        article h2{
+            text-align: left;
+        }
+        fieldset{border-radius:8px;
+                 border:1px solid grey;
+        }
+
+        .page{
+            font-weight: 500;
+            color: var(--color-default);
+            background-color: var(--color-gray);
+            border: 1px solid var(--color-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            padding: 4px 8px;
+            cursor: pointer;
+            width: flex;
+        }
+           
+        .main{
+            display: flex;
+            flex-direction: row;
+            gap:64px;
+            padding: 28px 90px;
+            
+        }
+        .sidebar{
+            display:flex;
+            flex-direction:column;
+            padding: 8px 28px 28px 28px;
+            gap: 0px;
+            height: fit-content;
+            border: 1px solid #d3d3d3;
+            border-radius: 8px;
+            width: 300px;
+        }
+        .sidebar input[type="checkbox"]{
+            margin: 8px 8px 8px 0px;
+        }
+        .content{
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+            width: 1200px;
+        }
+        form input[type="search"]{
+            padding: 10px 16px;
+            border: 1px solid #d3d3d3;
+            border-radius: 20px;
+            width: 320px;
+            height: 40px;
+            font-size: medium;
+        }
+        .clubs{
+            display: grid;
+            grid-template-rows: auto auto auto;
+            grid-template-columns: auto auto auto;
+            gap: 28px;
+            margin: auto;
+        }
+        .club_card{
+            display:flex;
+            flex-direction:column;
+            justify-content: flex-start;
+            border: 1px solid #d3d3d3;
+            padding: 24px;
+            border-radius:8px;
+            width: flex;
+            height: 300px;
+        }
+        .club p{
+                margin-top: 8px;
+                font-size: medium;
+                color: var(--color-secondary);
+        }
+        .buttons{
+            display: grid;
+            grid-template-columns: 36% 56%;
+            justify-content: space-between;
+            gap: 8%;
+            margin-top: auto;
+        }
+        .clubs :hover{
+            background-color: var(--color-gray);
+        }
+        .club_header{
+            display:flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 0px;
+            height: 58px;
+        }
+        .search{
+            display:flex;
+            flex-direction:row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        form input[type="radio"]{
+            height: auto;
+            padding: 8px 16px;
+            border: 1px solid #d3d3d3;
+            border-radius: 8px;
+        }
+        .pagination{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:8px;
+            padding:16px;
+        }
+        .pagination button{
+            border: 1px solid var(--color-secondary);
+            border-radius: 8px;
+            background-color: var(--color-white);
+            font-size: medium;
+            color: var(--color-secondary);
+            padding: 2px 8px;
+            cursor: pointer;
+        }
