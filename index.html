@@ -1,21 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club Profile Layout</title>
-    <link rel="stylesheet" href="style.css">
+    <title>NUM.Clubs</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+    <link rel="stylesheet" href="style/enkhjin.css">
+    
 </head>
 <body>
-    <header>Header</header>
-    <main class="grid-layout">
-        <section class="hero">Hero section</section>
-        <aside class="sidebar">Sidebar</aside>
-        <section class="content">Uil ajillaga</section>
-        <section class="extra">Gishuun elseh</section>
-        <section class="content">Event information</section>
-        <section class="extra">Comment</section>
-    </main>
-<footer>Footer</footer>
+    <header>
+        <a class="logo" href="/" data-navigate="/"><img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/></a>
+        <nav>
+            <a class="btn" href="/" data-navigate="/clubs">Клуб</a>
+            <a class="btn" href="/" data-navigate="/clubs">Эвент</a>
+            <button class="btn1">Нэвтрэх</button>
+            <button class="btn2">Бүртгүүлэх</button>
+        </nav>
+    </header>
+
+    <div id="app"></div>
+
+    <footer>
+        <img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/>
+        <p>Холбогдох дугаар: +976 9999 9999</p>
+    </footer>
+
+    <script type="module" src="./js/nc-clubs-page.js"></script>
+    <script type="module" src="./js/nc-user-profile-page.js"></script>
+    <script type="module" src="./js/nc-main-page-new.js"></script>
+    <script type="module" src="./js/nc-club-profile-page.js"></script>
+    <script type="module" src="./js/nc-clubcard.js"></script>
+    <script type="module" src="./js/nc-form.js"></script>
+    <script type="module" src="./js/nc-eventcard.js"></script>
+    <script type="module" src="./js/nc-clubrequestcard.js"></script>
+    <script type="module" src="./js/nc-usercard.js"></script>
+    <script type="module" src="./js/clb-event-card.js"></script>
+    <script type="module" src="./js/nc-Cevent-card.js"></script>
+    <script type="module" src="./js/nc-Cfeed-Back.js"></script>
+
+    <script type="module">
+        try {
+            console.log('index.html: importing router.js');
+            await import('./js/router.js');
+            console.log('index.html: router imported, Router =', window.Router);
+            if (window.Router && typeof window.Router.init === 'function') {
+                window.Router.init('#app');
+                console.log('index.html: Router.init called');
+            } else {
+                console.error('index.html: Router is not available after import');
+            }
+        } catch (err) {
+            console.error('index.html: error importing/initializing Router', err);
+        }
+    </script>
 </body>
 </html>

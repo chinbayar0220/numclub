@@ -52,7 +52,7 @@
         form{
             display:flex;
             flex-direction: column;
-            gap:4px;
+            gap:0px;
         }
 
         /*   BUTTONS   */
@@ -118,6 +118,7 @@
             display:flex;
             gap:8px;
             align-items:center;
+            height: fit-content;
         }
 
 
@@ -129,13 +130,17 @@
             font-size: 48px;
         }
         h2{
-            font-weight: 300;
-            font-size: 24px;
+            font-size: 16px;
             /*text-align: right;*/
         }
         h3{
+            display: flex;
             font-size: 20px;
-            font-weight: 200;
+            line-height: 1.2;
+        }
+        h4{
+            font-size: 16px;
+            font-weight: 400;
         }
         .desc{
             font-size: medium;

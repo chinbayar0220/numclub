@@ -3,107 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styleClub.css">
+    <title>Club Profile - NUM.Clubs</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <script type="module" src="./com/nc-eCard.js"></script>
-    <script type="module" src="com/wc-test1.js"></script>
+    <script type="module" src="./js/nc-Cevent-card.js"></script>
+    <script type="module" src="./js/nc-Cfeed-Back.js"></script>
+    <script type="module" src="./js/nc-club-profile-page.js"></script>
 </head>
 <body>
     <header>
         <div><a href="main.html"><img src="images/Club.svg" alt=""></a></div>
         <nav>
-            <a class="page" href="club s.html">Клуб</a>
-            <a class="page" href="events.hmtl">Эвент</a>
-            <a href="#profile"><img src="/images/profileIcon.svg" alt=""></a>
+            <a class="page" href="clubs.html">Клуб</a>
+            <a class="page" href="events.html">Эвент</a>
+            <a href="#profile"><img src="images/profileIcon.svg" alt=""></a>
         </nav>
     </header>
-    <main>
-        <article>
-            <div class="club-logo">
-                <img src="images/club_logo.svg" alt="clubs logo">
-            </div>
-                <div class="hero">
-                    <section>
-                        <h1>Hackum students club</h1>
-                        <article class="hero-card">
-                            <p><span><img src="Book.svg" alt="">МТЭС-МКУТ</span></p>
-                            <p><span><img src="Book.svg" alt="">Мэргэжлийн</span></p>
-                            <p><span><img src="Book.svg" alt="">Мэдээллийн технологи</span></p>
-                            <p><span><img src="Book.svg" alt="">Hackum@gmail.com</span></p>
-                            <p><span><img src="Book.svg" alt="">МТЭС МКУТ</span></p>
-                            <p><span><img src="Book.svg" alt="">МТЭС МКУТ</span></p>
-                        </article>
-                    </section>
-                    <div class="details">
-                        <details>
-                            <summary>Зорилго <img src="images/Chevron up.svg" alt=""></summary>
-                            <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet laoreet ipsum. Quisque pulvinar
-                                turpis vel lobortis efficitur. Duis nec auctor magna. Nullam tempor ligula nisl, in ultricies nisl commodo et.</p>
-                        </details>
-                        <details>
-                            <summary>Алсын хараа <img src="images/Chevron up.svg" alt=""></summary>
-                            <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet laoreet ipsum. Quisque pulvinar
-                                turpis vel lobortis efficitur. Duis nec auctor magna. Nullam tempor ligula nisl, in ultricies nisl commodo et.</p>
-                        </details>
-                    </div>
-                </div>
-            <aside>
-                <div>
-                <img src="images/FB Icon Button.svg" alt="">
-                <img src="images/youtubeIcon.svg" alt="">
-                <img src="images/IG Icon Button.svg" alt="">
-                <img src="images/Linkedin Icon Button.svg" alt="">
-                </div>
-                <article>
-                    <h5>гишүүд төгсөгчид</h5>
-                    <img src="images/Shape.svg" alt="">
-                </article>
-            </aside>
-        </article>
-        <section id="Uil-ajillagaa">
-            <h2>Үйл ажиллагаа</h2>
-            <div>
-                <p>Tech meetup</p>
-                <p>Work shop</p>
-                <p>Knowledge day</p>
-                <p>Hackathon</p>
-                <p>Pitch nigth</p>
-                <p>Quiz night</p>
-            </div>
-        </section>
-        <section class="gishuun-elseh">
-            <h2>Гишүүнээр элсэх</h2>
-            <details>
-                <summary>шалгуурууд</summary>
-                <p>zuunnayaas deesh undurtei biyiin zuv galbirtai urt huruutai uhaantai geh zergeer</p>
-            </details>
-            <button>Гишүүнээр элсэх</button>
-        </section>
-        <section class="events">
-            <h2>Эвентүүд</h2>
-            <p>Таньд санал болгох</p>
-            <div>
-                <nc-Cevent-card></nc-Cevent-card>
-                <nc-Cevent-card></nc-Cevent-card>
-                <nc-Cevent-card></nc-Cevent-card>
-            </div>
-        </section>
-        <section class="comment">
-            <h2>Сэтгэгдэл</h2>
-            <p>Төгсөгчид үлдээсэн сэтгэгдэл</p>
-            <div class="comment-cards">
-                <nc-Cfeed-Back></nc-Cfeed-Back>
-                <nc-Cfeed-Back></nc-Cfeed-Back>
-                <nc-Cfeed-Back></nc-Cfeed-Back>
-                <nc-Cfeed-Back></nc-Cfeed-Back>
-                <nc-Cfeed-Back></nc-Cfeed-Back>
-                <nc-Cfeed-Back></nc-Cfeed-Back>
-            </div>
-        </section>
-    </main>
+    <nc-club-profile-page></nc-club-profile-page>
     <footer>
         <img src="images/Club.svg" alt="">
         <div>
