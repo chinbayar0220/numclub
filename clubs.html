@@ -18,6 +18,8 @@
         .main{
             flex-direction: row;
             padding: 28px 90px;
+            gap: 5%;
+            width: fit-content;
             
         }
         .sidebar{
@@ -28,10 +30,32 @@
             height: fit-content;
             border: 1px solid #d3d3d3;
             border-radius: 8px;
-            width: 300px;
+            width: 20%;
         }
         .sidebar input[type="checkbox"]{
             margin: 8px 8px 8px 0px;
+            cursor: pointer;
+            accent-color: var(--color-default);
+            width: 16px;
+            height: 16px;
+        }
+        .sidebar input[type="checkbox"]:checked{
+            accent-color: var(--color-default);
+        }
+        /* style label next to checkbox to highlight when checked */
+        .sidebar input[type="checkbox"] + label{
+            cursor: pointer;
+            user-select: none;
+        }
+        .sidebar input[type="checkbox"]:checked + label{
+            color: var(--color-default);
+            font-weight: 500;
+        }
+        .content{
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+            width: 75%;
         }
         form input[type="search"]{
             padding: 10px 16px;
@@ -41,19 +65,61 @@
             height: 40px;
             font-size: medium;
         }
-        form .radio{
+        /* search area: keep input + radio buttons on one row */
+        .search{ 
             display:flex;
-            flex-direction:row;
+            flex-direction: row;
+            align-items:center;
             gap:16px;
-            margin-left: 16px;
+            width:100%;
+            height: fit-content;
         }
-        form .search{
+        .search > form{ /* the form that contains the search input and radios */
             display:flex;
-            flex-direction:row;
+            flex-direction: row;
+            align-items:center;
             justify-content: space-between;
-            align-items: center;
-            width: 100%;
+            gap:12px;
+            width:100%;
         }
+        .search input[type="search"]{
+            max-width: 100%;
+        }
+
+        /* radio group styling: display radios like buttons */
+        .radioff, .radio-group{ display:flex; gap:8px; align-items:center; margin-left:16px; }
+        .radio{ display:flex; align-items:center; gap:8px; }
+
+        /* visually hide native radio but keep it accessible */
+        .radio input[type="radio"]{
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* visible button */
+        .radio label{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:8px 12px;
+            border:1px solid var(--color-secondary);
+            border-radius:8px;
+            cursor:pointer;
+            background: var(--color-white);
+            color: var(--color-secondary);
+            user-select: none;
+        }
+
+        /* checked state: change background and text color */
+        .radio input[type="radio"]:checked + label{
+            background: var(--color-default);
+            color: #ffffff;
+            border-color: var(--color-default);
+        }
+
+        .radio label:hover{ background: var(--color-gray); }
         form input[type="radio"]{
             height: auto;
             padding: 8px 16px;
@@ -98,7 +164,7 @@
     </header>
     <div class="main"> 
         <div class="sidebar">
-            <h2>Клубийн чиглэл</h2>
+            <h3>Клубийн чиглэл</h3>
             <form class="chiglel">
                 <h4>Чөлөөт</h4>
                 <nc-form id="1" name="1" label="Сайн дурын"></nc-form>
@@ -111,35 +177,31 @@
                 <nc-form id="8" name="8" label="Хэл судлал"></nc-form>
             </form>
             <form class="surguuli">
-                <h4>Мэргэжлийн клубүүд</h4>
+                <h4>Сургууль</h4>
                 <nc-form id="1" name="business" label="БС"></nc-form>
                 <nc-form id="2" name="its" label="ИТС"></nc-form>
                 <nc-form id="3" name="mtes" label="МТЭС"></nc-form>
                 <nc-form id="4" name="olonuls" label="УТСОУХНУС"></nc-form>
                 <nc-form id="5" name="huuli" label="ХЗС"></nc-form>
                 <nc-form id="6" name="shus" label="ШУС"></nc-form>
-                <span>10</span>
             </form>
-            <form>
-                <label for="myRange"><h4>Гишүүний тоо</h4></label>
-                <input type="range" name="myRange" min="0" max="100" step="10" class="slider" id="myRange">
-            </form>
-            <span>100</span>
+            
+
         </div>
         <div class="content">
             <div class="search">
                 <form action="#" method="get">
                     <input type="search" placeholder="Хайх" name="search">
-                    <form class="radio">
-                        <div>
-                            <input type="radio" placeholder="A-Ya" name="A-Ya">
-                            <label for="A-Ya">A-Я</label>
+                    <div class="radioff" role="radiogroup" aria-label="Sort order">
+                        <div class="radio">
+                            <input id="sort-az" type="radio" name="sortOrder" value="az">
+                            <label for="sort-az">A-Я</label>
                         </div>
-                        <div>
-                            <input type="radio" placeholder="Ya-A" name="Ya-A">
-                            <label for="Ya-A">Я-А</label>
-                        </div>                        
-                    </form> 
+                        <div class="radio">
+                            <input id="sort-za" type="radio" name="sortOrder" value="za">
+                            <label for="sort-za">Я-А</label>
+                        </div>
+                    </div>
                 </form>
             </div>
               
