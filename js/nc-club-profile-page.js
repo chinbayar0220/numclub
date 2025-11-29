@@ -4,6 +4,17 @@ class NcClubProfilePage extends HTMLElement {
     }
 
     connectedCallback() {
+        const clubId = this.getAttribute('id') || '';
+        const demoData = {
+            '5': {
+                name: 'Hackum students club',
+                email: 'Hackum@gmail.com',
+                category: 'Мэдээллийн технологи',
+                tags: ['МТЭС-МКУТ', 'Мэргэжлийн']
+            }
+        };
+        const club = (clubId && demoData[clubId]) ? demoData[clubId] : (clubId ? { name: `Club ${clubId}`, email: '', category: '', tags: [] } : demoData['5']);
+
         this.innerHTML = `
             <style>
                 :host {
@@ -230,14 +241,11 @@ class NcClubProfilePage extends HTMLElement {
                     </div>
                     <div class="hero">
                         <section>
-                            <h1>Hackum students club</h1>
+                            <h1>${club.name}${clubId ? ` <span style="font-size:14px;color:var(--text-secondary,#888);font-weight:400;">#${clubId}</span>` : ''}</h1>
                             <article class="hero-card">
-                                <p><span><img src="images/Book.svg" alt="">МТЭС-МКУТ</span></p>
-                                <p><span><img src="images/Book.svg" alt="">Мэргэжлийн</span></p>
-                                <p><span><img src="images/Book.svg" alt="">Мэдээллийн технологи</span></p>
-                                <p><span><img src="images/Book.svg" alt="">Hackum@gmail.com</span></p>
-                                <p><span><img src="images/Book.svg" alt="">МТЭС МКУТ</span></p>
-                                <p><span><img src="images/Book.svg" alt="">МТЭС МКУТ</span></p>
+                                ${club.tags.map(t => `<p><span><img src="images/Book.svg" alt="">${t}</span></p>`).join('')}
+                                <p><span><img src="images/Book.svg" alt="">${club.category}</span></p>
+                                <p><span><img src="images/Book.svg" alt="">${club.email}</span></p>
                             </article>
                         </section>
                         <div class="details">
