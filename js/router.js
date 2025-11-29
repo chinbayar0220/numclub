@@ -1,12 +1,18 @@
 class Router {
     constructor() {
-        this.routes = {
-            '/': 'nc-main-page',
-            '/clubs': 'nc-clubs-page',
-            '/user-profile': 'nc-user-profile-page',
-            '/registration': 'nc-registration-page',
-            '/club-profile': 'nc-club-profile-page'
-        };
+        // Define route patterns and associated component tags
+        // Use patterns with optional :param segments for dynamic routes
+        this.routes = [
+            { pattern: '/', component: 'nc-main-page' },
+            { pattern: '/clubs', component: 'nc-clubs-page' },
+            { pattern: '/events', component: 'nc-main-page' },
+            { pattern: '/user-profile', component: 'nc-user-profile-page' },
+            { pattern: '/register', component: 'nc-registration-page' },
+            { pattern: '/registration', component: 'nc-registration-page' },
+            { pattern: '/login', component: 'nc-login' },
+            { pattern: '/club/:id', component: 'nc-club-profile-page' }
+        ];
+
         this.currentComponent = null;
         this.container = null;
     }
@@ -18,7 +24,7 @@ class Router {
             return;
         }
 
-        // Handle navigation clicks
+        // Support both anchor clicks and hash changes
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[data-navigate]');
             if (link) {
@@ -28,43 +34,115 @@ class Router {
             }
         });
 
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', () => {
-            this.loadPage(window.location.pathname);
+        // When hash changes (e.g., location.hash = '#/login')
+        window.addEventListener('hashchange', () => {
+            this.loadFromLocation();
         });
 
-        // Load initial page
-        this.loadPage(window.location.pathname);
+        // Handle back/forward for history API
+        window.addEventListener('popstate', () => {
+            this.loadFromLocation();
+        });
+
+        // Load initial route
+        this.loadFromLocation();
+    }
+
+    // normalize location: use hash if present, otherwise pathname
+    getCurrentPath() {
+        if (window.location.hash && window.location.hash.length > 0) {
+            // remove leading '#'
+            return window.location.hash.slice(1) || '/';
+        }
+        return window.location.pathname || '/';
     }
 
     navigate(path) {
-        // Update URL without page reload
-        window.history.pushState(null, '', path);
+        // If using hash-style, update hash, otherwise use history
+        if (path.startsWith('#')) {
+            window.location.hash = path;
+        } else if (path.startsWith('/')) {
+            // prefer hash navigation to keep static hosting simple
+            window.location.hash = path;
+        } else {
+            window.location.hash = `/${path}`;
+        }
+        // loadFromLocation will be called by hashchange listener
+    }
+
+    loadFromLocation() {
+        const path = this.getCurrentPath();
         this.loadPage(path);
     }
 
-    loadPage(path) {
-        // Default to home if path is root
-        const route = path === '/' ? '/' : path;
-        const componentName = this.routes[route];
+    // match a path against patterns like /club/:id
+    matchRoute(path) {
+        // normalize trailing slash
+        const normalized = path.replace(/\/$/, '') || '/';
 
-        if (!componentName) {
-            // Route not found, go to home
-            this.navigate('/');
+        for (const route of this.routes) {
+            const pattern = route.pattern;
+            if (pattern === normalized) {
+                return { component: route.component, params: {} };
+            }
+
+            // dynamic segment
+            const patternParts = pattern.split('/').filter(Boolean);
+            const pathParts = normalized.split('/').filter(Boolean);
+            if (patternParts.length !== pathParts.length) continue;
+
+            let matched = true;
+            const params = {};
+            for (let i = 0; i < patternParts.length; i++) {
+                const p = patternParts[i];
+                const pp = pathParts[i];
+                if (p.startsWith(':')) {
+                    const name = p.slice(1);
+                    params[name] = decodeURIComponent(pp);
+                } else if (p === pp) {
+                    continue;
+                } else {
+                    matched = false;
+                    break;
+                }
+            }
+
+            if (matched) {
+                return { component: route.component, params };
+            }
+        }
+
+        return null;
+    }
+
+    loadPage(path) {
+        const match = this.matchRoute(path);
+        if (!match) {
+            // no match — go home
+            if (this.getCurrentPath() !== '/') {
+                window.location.hash = '/';
+            }
             return;
         }
+
+        const componentName = match.component;
 
         // Remove old component
         if (this.currentComponent) {
             this.currentComponent.remove();
+            this.currentComponent = null;
         }
 
         // Create and insert new component
         const component = document.createElement(componentName);
+        // attach params as attributes
+        for (const [k, v] of Object.entries(match.params)) {
+            component.setAttribute(k, v);
+        }
+
         this.container.appendChild(component);
         this.currentComponent = component;
 
-        // Scroll to top
         window.scrollTo(0, 0);
     }
 }

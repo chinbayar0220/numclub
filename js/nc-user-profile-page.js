@@ -21,20 +21,34 @@ class NcUserProfilePage extends HTMLElement {
                 .user_card {
                     display: flex;
                     flex-direction: row;
-                    gap: 16px;
+                    gap: 5%;
                     align-items: flex-start;
                     background-color: var(--color-white);
                     padding: 28px 90px;
+                    width: flex;
+                }
+                .profile_picture{
+                    flex: 1 1 auto;
+                    border-radius: 50%;
+                    border: 1px solid var(--color-gray); 
+                    background-color: var(--color-gray)"
+                    width: 20%;
                 }
                 .info {
                     display: flex;
                     flex-direction: column;
                     gap: 0px;
-                    width: 70%;
+                    width: 60%;
                 }
                 .user_identity {
                     display: flex;
                     gap: 8px;
+                }
+                .url{
+                    display:flex;
+                    flex-direction: row;
+                    gap:8px;
+                    width: 10%;
                 }
             </style>
 

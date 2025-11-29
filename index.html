@@ -12,10 +12,11 @@
     <header>
         <a class="logo" href="/" data-navigate="/"><img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/></a>
         <nav>
-            <a class="btn" href="/" data-navigate="/clubs">Клуб</a>
-            <a class="btn" href="/" data-navigate="/clubs">Эвент</a>
-            <button class="btn1">Нэвтрэх</button>
-            <button class="btn2">Бүртгүүлэх</button>
+            <a class="btn" href="#/clubs">Клуб</a>
+            <a class="btn" href="#/events">Эвент</a>
+            <theme-toggle></theme-toggle>
+            <button class="btn1" onclick="location.hash='#/login'">Нэвтрэх</button>
+            <button class="btn2" onclick="location.hash='#/register'">Бүртгүүлэх</button>
         </nav>
     </header>
 
@@ -38,7 +39,10 @@
     <script type="module" src="./js/clb-event-card.js"></script>
     <script type="module" src="./js/nc-Cevent-card.js"></script>
     <script type="module" src="./js/nc-Cfeed-Back.js"></script>
+    <script type="module" src="./js/theme-toggle.js"></script>
+    <script type="module" src="./js/nc-login.js"></script>
 
+    
     <script type="module">
         try {
             console.log('index.html: importing router.js');

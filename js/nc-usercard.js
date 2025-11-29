@@ -11,7 +11,10 @@ class NcUsercard extends HTMLElement {
 
         this.innerHTML=`
         <div class="user_card">
-            <img src="images/user_profile.svg" width="260" height="260" alt="User Profile Image" style="border-radius: 50%; border: 1px solid var(--color-gray); background-color: var(--color-gray)"/>
+            <div class="profile_picture">
+            <img src="images/user_profile.svg" alt="User Profile Image"/>
+            </div>
+            
             <div class="info">
                 <h1><span class="highlight">Гантулга</span> Энхжин</h1>
                 <div class="user_identity">
