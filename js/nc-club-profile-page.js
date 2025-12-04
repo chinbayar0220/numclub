@@ -6,221 +6,317 @@ class NcClubProfilePage extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
             <style>
-                :host {
-                    display: block;
+                body {
+                    display: grid;
+                    grid-template-areas:
+                        "hd"
+                        "main"
+                        "ft";
+                    grid-template-rows: 100px 1fr 272px;
+                    border: 1px solid black;
                 }
+
+                header {
+                    grid-area: hd;
+                    font-family: inter;
+                }
+
                 main {
-                    font-family: 'Inter', sans-serif;
+                    grid-area: main;
+                    border: 1px solid green;
+                    background-color: #F5F5F5;
                 }
-                article {
-                    display: flex;
-                    gap: 20px;
-                    padding: 40px;
+
+                footer {
+                    grid-area: ft;
+                    border: 1px solid red;
+                    padding: 32px;
+                    >img{padding-bottom: 24px;}
                 }
-                .club-logo {
-                    flex: 0 0 200px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                .club-logo img {
-                    max-width: 100%;
-                    height: auto;
-                }
-                .hero {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 20px;
-                }
-                .hero h1 {
-                    font-size: 36px;
-                    margin: 0;
-                    font-weight: 600;
-                }
-                .hero-card {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 12px;
-                    background: #f5f5f5;
-                    padding: 20px;
-                    border-radius: 8px;
-                }
-                .hero-card p {
-                    margin: 0;
+                header{
                     display: flex;
                     align-items: center;
-                    gap: 8px;
+                    justify-content:space-between;
+                    margin: 32px 100px 32px 96px;
                 }
-                .hero-card span {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 6px 12px;
-                    background: white;
-                    border-radius: 4px;
-                }
-                .hero-card img {
-                    width: 16px;
-                    height: 16px;
-                }
-                .details {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                }
-                details {
-                    border: 1px solid #ddd;
-                    border-radius: 8px;
-                    padding: 12px;
-                }
-                summary {
-                    cursor: pointer;
-                    font-weight: 500;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-                details p {
-                    margin: 12px 0 0;
-                    color: #666;
-                    font-size: 14px;
-                    line-height: 1.5;
-                }
-                aside {
-                    flex: 0 0 150px;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 20px;
-                }
-                aside > div {
-                    display: flex;
-                    gap: 12px;
-                    flex-wrap: wrap;
-                }
-                aside img {
-                    width: 36px;
-                    height: 36px;
-                    cursor: pointer;
-                }
-                aside article {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                    align-items: center;
-                }
-                aside h5 {
-                    margin: 0;
-                    font-size: 14px;
-                    font-weight: 500;
-                    text-align: center;
-                }
-                #Uil-ajillagaa {
-                    padding: 40px;
-                    background: #f9f9f9;
-                }
-                #Uil-ajillagaa h2 {
-                    margin-top: 0;
-                    font-size: 28px;
-                }
-                #Uil-ajillagaa > div {
+                header nav{
                     display: flex;
                     gap: 16px;
-                    flex-wrap: wrap;
+                    align-items: center;
                 }
-                #Uil-ajillagaa p {
-                    background: white;
-                    padding: 12px 20px;
+                header nav a{
+                    text-decoration: none;
+                    color: #1e1e1e;
+                    cursor: pointer;
+                    padding: 8px;
+                }
+
+                header nav a:hover{
+                    background-color: #F5F5F5;
                     border-radius: 8px;
-                    border: 1px solid #ddd;
+                }
+                main h2{
                     margin: 0;
-                    cursor: pointer;
-                    transition: all 0.3s;
                 }
-                #Uil-ajillagaa p:hover {
-                    background: #f5f5f5;
-                    border-color: #2c2c2c;
+                main>article{
+                    display: flex;
+                    flex-wrap: wrap;
+                    padding: 64px 100px;
+                    gap: 64px;
+                    justify-content: space-between;
+                    background-color: white;
+                    h1{
+                        font-size: 48px;
+                        font-weight: 700;
+                        font-family: inter;
+                        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+                        margin: 0px 0px 16px 0px ;
+                    }
+                    .hero-card{
+                        display: flex;
+                        flex-wrap: wrap; 
+                        gap: 8px;
+                        p{  
+                        border: 1px solid black;
+                        background-color: #2c2c2c;
+                        color: aliceblue;
+                        border-radius: 8px;
+                        padding: 6px 8px;
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        margin: 0px;
+                        font-family: inter;
+                        }
+                    }
+                    .hero-card p span img{
+                        padding: 0px;
+                        margin-right: 8px;   
+
+                    }
+                    details{
+                        border: 1px solid #D9D9D9;
+                        border-radius: 8px;
+                        background-color: #F5F5F5;
+                        min-height: 54px;
+                        margin-bottom: 18px;
+                    }
+                    .details{
+                        margin: 25px 26px 0px 0px;
+                        font-family: inter;
+                        summary{
+                            padding: 16px;
+                            font-weight: 600;
+                            font-size: 16px;
+                            list-style: none;
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                        p{
+                            margin-top: 0px;
+                            padding-left: 16px;
+                            padding-right: 16px;
+                            font-size: 16px;
+                        }
+                    }
+                    .details summary img{
+                        transition: transform 0.3s ease;
+                    }
+                    .details details[open] summary img {
+                        transform: rotate(180deg);
+                        }
+                    details[open]{
+                        background-color: white;
+                    }
                 }
-                .gishuun-elseh {
-                    padding: 40px;
+
+                .club-logo img{
+                    height: 250px;
+                    width: 250px;
+                    border-radius: 150px;
                 }
-                .gishuun-elseh h2 {
-                    font-size: 28px;
-                    margin-top: 0;
+                .hero{
+                    max-width: 666px;
+                    width: 100%;
                 }
-                .gishuun-elseh details {
-                    margin-bottom: 20px;
+                #Uil-ajillagaa{
+                    padding: 64px 100px;
+                    font-family: inter;
+                    font-weight: 600;
+                    h2{
+                        margin: 0px;
+                        font-size: 24px;
+                    }
                 }
-                .gishuun-elseh button {
-                    padding: 12px 32px;
-                    background: #2c2c2c;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    font-weight: 500;
-                    transition: background 0.3s;
+                #Uil-ajillagaa>div{
+                    display: flex;
+                    gap: 25px;
+                    flex-wrap: wrap;
+                    margin-top: 24px;
+                    p{
+                        display: flex;
+                        border: 1px solid #D9D9D9;
+                        background-color: white;
+                        width: 340.33px;
+                        height: 32px;
+                        border-radius: 8px;
+                        align-items: center;
+                        padding: 24px;
+                        margin: 0px;
+                        font-size: 16px;
+                        box-shadow:  0 4px 4px rgba(0, 0, 0, 0.2);
+                    }
                 }
-                .gishuun-elseh button:hover {
-                    background: #000;
+                .gishuun-elseh{
+                    padding: 64px 100px ;
+                    font-family: inter;
+                    details{
+                        color: #757575;
+                    }
+                    button{
+                        width: 98%;
+                        height: 40px;
+                        border-radius: 8px;
+                        color: white;
+                        background-color: #1e1e1e;
+                        margin-top: 48px;
+                    }
                 }
-                .events {
-                    padding: 40px;
-                    background: #f9f9f9;
+                .events{
+                    padding: 64px 100px;
                 }
-                .events h2 {
-                    font-size: 28px;
-                    margin-top: 0;
-                }
-                .events > p {
-                    color: #666;
-                    font-size: 14px;
-                    margin: 10px 0 20px;
-                }
-                .events > div {
+                .events>div{
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                    gap: 20px;
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                    padding-top: 24px;
+                    gap: 24px;
+                }
+                .events header{
+                    margin:0px;
+                    h4{
+                        font-size: 16px;
+                        font-weight: 600;
+                    }
+                }
+                .event-card{
+                    padding:16px;
+                    border: 1px solid #D9D9D9;
+                    background-color: white;
+                    border-radius: 8px;
+                    >img{
+                        width: 100%;
+                    }
+                label{
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    gap: 8px;
+                    h4{
+                        font-weight: 600px;
+                        font-size: 20px;
+                        margin: 0;
+                    }
+                }
                 }
                 .comment {
-                    padding: 40px;
+                    padding: 64px 100px;
+                    font-family: inter;
                 }
+
                 .comment h2 {
-                    font-size: 28px;
-                    margin-top: 0;
+                    font-weight: 600;
+                    margin: 0;
                 }
+
+                .comment h3 {
+                    margin: 24px 0 0;
+                }
+
                 .comment > p {
-                    color: #666;
-                    font-size: 14px;
-                    margin: 10px 0 20px;
+                    margin: 10px 0 0 0;
+                    color: #757575;
                 }
+
                 .comment-cards {
+                    margin-top: 48px;
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                    gap: 20px;
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                    gap: 24px;
                 }
-                footer {
-                    background: #2c2c2c;
-                    color: white;
-                    padding: 40px;
+
+                .comment-cards article {
+                    padding: 24px;
                     display: flex;
-                    justify-content: space-between;
+                    flex-direction: column;
+                    gap: 12px;
+                    background-color: white;
+                    border: 1px solid #D9D9D9;
+                    border-radius: 8px;
+                }
+
+                .comment-cards article > img {
+                    width: 116px;
+                    height: 20px;
+                }
+
+                .comment-cards article #review h3 {
+                    margin: 0 0 4px 0;
+                    font-size: 24px;
+                }
+
+                .comment-cards article #review p {
+                    margin: 0;
+                }
+
+                .comment-cards article #comment-tt {
+                    display: flex;
                     align-items: center;
+                    gap: 12px;
                 }
-                footer img {
-                    max-width: 60px;
-                    height: auto;
+
+                .comment-cards article #comment-tt h5 {
+                    margin: 0;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #757575;
                 }
-                footer > div {
-                    display: flex;
-                    gap: 16px;
+
+                .comment-cards article #comment-tt p {
+                    margin: 2px 0 0;
+                    font-size: 12px;
+                    color: #B3B3B3;
                 }
-                footer img[src*="white"] {
-                    width: 24px;
-                    height: 24px;
-                    cursor: pointer;
+
+                .comment-cards article #comment-tt img {
+                    border: 1px solid #D9D9D9;
+                    border-radius: 50%;
                 }
+
+
+                @media (max-width: 1024px) {
+                    .comment {
+                        padding: 48px 32px;
+                    }
+                    .comment-cards {
+                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                    }
+                    .events {
+                        padding: 48px 32px;
+                    }
+                    .events>div{
+                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                    }
+                }
+
+                @media (max-width: 640px) {
+                    .comment {
+                        padding: 32px 16px;
+                    }
+                    .comment-cards {
+                        grid-template-columns: 1fr;
+                    }
+                }
+
             </style>
 
             <main>

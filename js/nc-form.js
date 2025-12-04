@@ -10,8 +10,9 @@ class NcForm extends HTMLElement {
         const type = this.getAttribute('type') || 'checkbox';
         
         this.innerHTML=`
-        <input type="${type}" id="option${id}" name="${name}" value="yes">
-        <label for="${id}">${label}</label>`;
+        <label>${label}
+            <input type="${type}" value="${id}">
+        </label>`;
     }
 }
 
