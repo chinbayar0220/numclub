@@ -28,7 +28,7 @@ class NcRegistrationPage extends HTMLElement {
             </style>
 
             
-        <div class="content">
+        <div class="main">
             <h2>Элсэлтийн форм</h2>
             <h3>Hackum students club</h3>
             <div class="form">

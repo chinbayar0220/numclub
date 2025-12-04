@@ -12,7 +12,7 @@ class NcClubcard extends HTMLElement {
         const imgAlt = this.getAttribute('img-alt') || clubname;
         const clubId = this.getAttribute('club-id') || this.getAttribute('data-index') || '1';
 
-        this.innerHTML=`
+        this.innerHTML = `
         <article class="club_card">
             <div class="club_name">
                 <img src="${imgSrc}" alt="${imgAlt}" class="club-card-img" style="width:58px;height:58px;object-fit:cover;border:1px solid var(--color-gray);box-shadow:0px 4px 16px rgba(0,0,0,0.06);">
@@ -20,8 +20,8 @@ class NcClubcard extends HTMLElement {
             </div>
             <p class="desc">${description}</p>
             <div class="buttons">
-                <button class="btn1">${button1}</button>
-                <button class="btn2" data-club-id="${clubId}">Дэлгэрэнгүй</button>
+                <button class="btn1" data-club-id="${clubId}">${button1}</button>
+                <button class="btn2" data-club-id="${clubId}">${button2}</button>
             </div>
         </article>`;
         
@@ -34,6 +34,21 @@ class NcClubcard extends HTMLElement {
                     window.Router.navigate(`/club/${id}`);
                 } else {
                     window.location.hash = `#/club/${id}`;
+                }
+            });
+        }
+
+        // btn1: go to registration page and store selected club id
+        const btn1 = this.querySelector('.btn1');
+        if (btn1) {
+            btn1.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn1.getAttribute('data-club-id') || clubId || this.getAttribute('data-index') || '1';
+                try { localStorage.setItem('register_club_id', id); } catch (err) {}
+                if (window.Router) {
+                    window.Router.navigate('/registration');
+                } else {
+                    window.location.hash = '#/registration';
                 }
             });
         }
