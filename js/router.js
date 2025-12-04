@@ -10,7 +10,10 @@ class Router {
             { pattern: '/register', component: 'nc-registration-page' },
             { pattern: '/registration', component: 'nc-registration-page' },
             { pattern: '/login', component: 'nc-login' },
-            { pattern: '/club/:id', component: 'nc-club-profile-page' }
+            { pattern: '/club/:id', component: 'nc-club-profile-page' },
+            { pattern: '/event/:id', component: 'nc-event-page' },
+            { pattern: '/event/:id/register', component: 'nc-event-registration-page' },
+            { pattern: '/club/:id/request', component: 'nc-req-page' }
         ];
 
         this.currentComponent = null;
