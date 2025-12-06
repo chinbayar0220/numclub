@@ -1,3 +1,8 @@
+const loadData=(url)=>{
+    fetch(url).then  
+    //get download 
+    //ene componentiig urlaar data avaad const ashiglaj componentiig zurna
+}
 const DATA = {
   filters: {
     directions: [

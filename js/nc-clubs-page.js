@@ -181,17 +181,7 @@ class NcClubsPage extends HTMLElement {
                         </form>
                     </div>
 
-                    <div class="clubs" id="clubs">
-                        <nc-clubcard cname="Hackum students club"></nc-clubcard>
-                        <nc-clubcard cname="BSONK" desc="BSONK"></nc-clubcard>
-                        <nc-clubcard></nc-clubcard>
-                        <nc-clubcard cname="Google developers club"></nc-clubcard>
-                        <nc-clubcard></nc-clubcard>
-                        <nc-clubcard></nc-clubcard>
-                        <nc-clubcard></nc-clubcard>
-                        <nc-clubcard></nc-clubcard>
-                        <nc-clubcard></nc-clubcard>
-                    </div>
+                    <nc-clubs-list id="clubs"></nc-clubs-list>
 
                     <div class="pagination">
                         <button>1</button>
