@@ -14,19 +14,19 @@ class NcClubFilter extends HTMLElement {
                         <nc-form id="sport" label="Спорт"></nc-form>
                         <nc-form id="art" label="Урлаг"></nc-form>
                         <nc-form id="humanitarian" label="Чөлөөт"></nc-form>
-                        <nc-form id="5" label="Фото зураг"></nc-form>
-                        <nc-form id="6" label="Шинжлэх ухаан"></nc-form>
-                        <nc-form id="7" label="Мэдээллийн технологи"></nc-form>
-                        <nc-form id="8" label="Хэл судлал"></nc-form>
+                        <nc-form id="photo" label="Фото зураг"></nc-form>
+                        <nc-form id="science" label="Шинжлэх ухаан"></nc-form>
+                        <nc-form id="it" label="Мэдээллийн технологи"></nc-form>
+                        <nc-form id="language" label="Хэл судлал"></nc-form>
                     </form>
                     <form class="surguuli">
                         <h4>Сургууль</h4>
-                        <nc-form id="1" name="business" label="БС"></nc-form>
-                        <nc-form id="2" name="its" label="ИТС"></nc-form>
-                        <nc-form id="3" name="mtes" label="МТЭС"></nc-form>
-                        <nc-form id="4" name="olonuls" label="УТСОУХНУС"></nc-form>
-                        <nc-form id="5" name="huuli" label="ХЗС"></nc-form>
-                        <nc-form id="6" name="shus" label="ШУС"></nc-form>
+                        <nc-form id="bs" name="business" label="БС"></nc-form>
+                        <nc-form id="its" name="its" label="ИТС"></nc-form>
+                        <nc-form id="mtes" name="mtes" label="МТЭС"></nc-form>
+                        <nc-form id="uts" name="olonuls" label="УТСОУХНУС"></nc-form>
+                        <nc-form id="khs" name="huuli" label="ХЗС"></nc-form>
+                        <nc-form id="shus" name="shus" label="ШУС"></nc-form>
                     </form>
                 </div>`;
         this.querySelectorAll('form[class="directions"] nc-form').forEach( fe => {
