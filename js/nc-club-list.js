@@ -1,8 +1,10 @@
-const loadData=(url)=>{
-    return fetch(url).then(res=>res.json())
-    //get download 
-    //ene componentiig urlaar data avaad const ashiglaj componentiig zurna
-}
+import { getClubs} from "./apiclient.js";
+
+// const loadData=(url)=>{
+//     return fetch(url).then(res=>res.json())
+//     //get download 
+//     //ene componentiig urlaar data avaad const ashiglaj componentiig zurna
+// }
 
 
 class NcClubList extends HTMLElement {
@@ -10,16 +12,18 @@ class NcClubList extends HTMLElement {
         super();
     this.clubs = [];
     this.filters = null;
-        
     }
 
-    connectedCallback() {
-        this.clubs = loadData("http://127.0.0.1:3000/api/clubs")
-          .then(data=>{
-            console.log("server data:",data);
-            this.clubs = data.clubs;
-            this.render();
-          })
+    async connectedCallback() {
+        this.clubs= await getClubs();
+        console.log("data",this.clubs)
+        // this.clubs = loadData("http://127.0.0.1:3000/api/clubs")
+        //   .then(data=>{
+        //     console.log("server data:",data);
+        //     this.clubs = data.clubs;
+        //     this.render();
+        //   })
+
     }
 
     filter(filters){
@@ -30,6 +34,7 @@ class NcClubList extends HTMLElement {
     render(){
         let clubsToShow = this.clubs;
         const activeDirection = [];
+        const activeSchools =[];
 
         if(this.filters){
             this.filters.directions.forEach((checked,id) => {
@@ -37,11 +42,20 @@ class NcClubList extends HTMLElement {
                     activeDirection.push(id);
                 }
             });
+            this.filters.surguuli.forEach((checked, id) => {
+                if (checked) activeSchools.push(id);
+            });
         }
         if(activeDirection.length>0){
             clubsToShow = this.clubs.filter(club=>{
                 const matchDir = club.directions.some(d => activeDirection.includes(d));
                 return matchDir;
+            });
+        }
+        if(activeSchools.length>0){
+            clubsToShow = this.clubs.filter(club=>{
+                const matchSchool = activeSchools.includes(club.school)
+                return matchSchool;
             });
         }
         this.innerHTML=`<h1>hiii HI<h1> <ul>

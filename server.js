@@ -87,10 +87,7 @@ const clubs =[
   ];
 
 
-const loadData = (url) =>{
-  return fetch(url)
-    .then(res => res.json())
-}
+
 
 const server = createServer((req, res) => { 
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -108,6 +105,14 @@ const server = createServer((req, res) => {
                         { id: "science", label: "Шинжлэх ухаан" },
                         { id: "it", label: "Мэдээллийн технологи" },
                         { id: "language", label: "Хэл судлал" }
+                    ],
+                    schools:[
+                      { "id": "bs", "label": "БС" },
+                      { "id": "its", "label": "ИТС" },
+                      { "id": "mtes", "label": "МТЭС" },
+                      { "id": "uts", "label": "УТСОХУС" },
+                      { "id": "khs", "label": "ХЗС" },
+                      { "id": "shus", "label": "ШУС" }
                     ]
                 }
             }))

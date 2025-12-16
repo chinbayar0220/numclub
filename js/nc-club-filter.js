@@ -19,7 +19,7 @@ class NcClubFilter extends HTMLElement {
                         <nc-form id="it" label="Мэдээллийн технологи"></nc-form>
                         <nc-form id="language" label="Хэл судлал"></nc-form>
                     </form>
-                    <form class="surguuli">
+                    <form class="schools">
                         <h4>Сургууль</h4>
                         <nc-form id="bs" name="business" label="БС"></nc-form>
                         <nc-form id="its" name="its" label="ИТС"></nc-form>
@@ -47,11 +47,11 @@ class NcClubFilter extends HTMLElement {
             }); 
         });
 
-        this.querySelectorAll('form[class="surguuli"] nc-form').forEach( fe => {
+        this.querySelectorAll('form[class="schools"] nc-form').forEach( fe => {
 
             fe.addEventListener("change", ev=>{
 
-                const id = fe.getAttribute("name");
+                const id = fe.getAttribute("id");
                 const checked = ev.target.checked;
                 this.filters.surguuli.set(id,checked)
                 //darsan elemtiin value ig avaad
