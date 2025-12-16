@@ -89,9 +89,11 @@ class NcLogin extends HTMLElement {
 
         this.querySelector('#loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            // simple demo behavior: show alert and navigate to home
+            // get email and save state
             const email = this.querySelector('#email').value;
-            alert(`Signed in as ${email}`);
+            if (window.AuthState) {
+                window.AuthState.login(email);
+            }
             // navigate to home
             if (window.Router) window.Router.navigate('/');
         });
