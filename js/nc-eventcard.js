@@ -23,8 +23,9 @@ class ncEventcard extends HTMLElement {
                 <p class="desc">${description}</p>
             </aside>
             <h4>${price}</h4>
-            <div class="btn1">${ button1!=null?`<button class="login">${button1}</button>`:``}    
-            <button class="btn2">${button2}</button>
+            <div class="buttons ${button1 ? 'both' : 'single'}">
+                ${button1 ? `<button class="btn1">${button1}</button>` : ''}    
+                <button class="btn2">${button2}</button>
             </div>
         </div>`;
     }

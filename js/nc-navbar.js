@@ -74,7 +74,7 @@ class NcNavbar extends HTMLElement {
                 }
                 a.btn, button.btn1, button.btn2 {
                     padding: 8px 12px;
-                    border: none;
+                    border: 1px solid var(--border-color);
                     background: transparent;
                     color: var(--text-primary, #000);
                     cursor: pointer;
@@ -82,36 +82,49 @@ class NcNavbar extends HTMLElement {
                     font-size: 14px;
                     border-radius: 6px;
                     transition: background 0.2s ease;
+                    white-space: nowrap;
+                    min-width: fit-content;
+                    box-sizing: border-box;
                 }
-                a.btn:hover, button.btn1:hover, button.btn2:hover {
-                    background: var(--hover-bg, #f0f0f0);
+                a.btn {
+                    border: none;
+                }
+                a.btn:hover, button.btn1:hover {
+                    background: var(--color-gray, #f0f0f0);
                 }
                 button.btn2 {
-                    background: var(--primary-color, #007bff);
+                    background: #1e1e1e;
                     color: white;
+                    border-color: #1e1e1e;
                 }
                 button.btn2:hover {
-                    background: var(--primary-hover, #0056b3);
+                    background: var(--color-secondary);
                 }
                 .user-menu {
                     display: flex;
                     align-items: center;
                     gap: 12px;
                 }
-                .user-email {
-                    font-size: 14px;
-                    color: var(--text-secondary, #666);
+                .user-profile-icon {
+                    width: 32px;
+                    height: 32px;
+                    cursor: pointer;
+                    border-radius: 50%;
+                    transition: opacity 0.2s ease;
+                }
+                .user-profile-icon:hover {
+                    opacity: 0.8;
                 }
             </style>
 
             <nav>
                 <a class="btn" href="#/clubs">Клуб</a>
                 <a class="btn" href="#/events">Эвент</a>
-                <theme-toggle></theme-toggle>
+                <!-- <theme-toggle></theme-toggle> -->
 
                 ${isLoggedIn ? `
                     <div class="user-menu">
-                        <span class="user-email">${currentUser}</span>
+                        <img src="images/userprofile.svg" alt="User Profile" class="user-profile-icon" onclick="window.location.hash='#/user-profile'">
                         <button class="btn1" onclick="window.AuthState.logout(); window.Router.navigate('/');">Гарах</button>
                     </div>
                 ` : `

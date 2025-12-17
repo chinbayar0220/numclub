@@ -122,20 +122,72 @@ class NcClubsPage extends HTMLElement {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    gap: 8px;
-                    padding: 16px;
+                    gap: 12px;
+                    padding: 32px 16px;
                 }
-                .pagination button {
-                    border: 1px solid var(--color-secondary);
-                    border-radius: 8px;
-                    background-color: var(--color-white);
-                    font-size: medium;
-                    color: var(--color-secondary);
-                    padding: 2px 8px;
+                .pagination-previous,
+                .pagination-next {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 8px 12px;
+                    height: fit-content;
+                    border: 1px solid var(--border-color);
+                    border-radius: 6px;
+                    background-color: var(--card-bg);
+                    color: var(--text-primary);
+                    font-size: 14px;
+                    font-weight: 500;
                     cursor: pointer;
+                    transition: all 0.2s ease;
+                    user-select: none;
                 }
-                .pagination button:hover {
-                    background-color: var(--color-gray);
+                .pagination-previous:hover,
+                .pagination-next:hover {
+                    background-color: var(--bg-secondary);
+                }
+                .pagination-previous img,
+                .pagination-next img {
+                    width: 16px;
+                    height: 12px;
+                    filter: var(--img-filter, none);
+                }
+                .pagination-list {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+                .pagination-page,
+                .element-wrapper {
+                    min-width: 24px;
+                    min-height: 24px;
+                    height: fit-content;
+                    border: 1px solid var(--border-color);
+                    border-radius: 8px;
+                    background-color: var(--card-bg);
+                    color: var(--text-primary);
+                    font-size: 14px;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    padding: 4px 8px;
+                }
+                .pagination-page {
+                    background-color: var(--color-default);
+                    color: var(--color-white);
+                    border-color: var(--color-default);
+                }
+                .element-wrapper:hover {
+                    background-color: var(--bg-secondary);
+                }
+                .pagination-gap {
+                    padding: 0 4px;
+                    color: var(--text-secondary);
+                    font-size: 14px;
+                    user-select: none;
                 }
             </style>
 
@@ -184,11 +236,22 @@ class NcClubsPage extends HTMLElement {
                     <nc-clubs-list id="clubs"></nc-clubs-list>
 
                     <div class="pagination">
-                        <button>1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button>4</button>
-                        <button>5</button>
+                        <div class="pagination-previous">
+                            <img src="images/Arrow Left.svg" alt="Previous" />
+                            Өмнөх
+                        </div>
+                        <div class="pagination-list">
+                            <div class="pagination-page">1</div>
+                            <div class="element-wrapper">2</div>
+                            <div class="element-wrapper">3</div>
+                            <div class="pagination-gap">...</div>
+                            <div class="element-wrapper">9</div>
+                            <div class="element-wrapper">10</div>
+                        </div>
+                        <div class="pagination-next">
+                            Дараагийн
+                            <img src="images/Arrow Right.svg" alt="Next" />
+                        </div>
                     </div>
                 </div>
             </div>
