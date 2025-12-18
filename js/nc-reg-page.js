@@ -4,20 +4,9 @@ class NcRegistrationPage extends HTMLElement {
     }
 
     connectedCallback() {
-        // Read selected club id from localStorage
+        // Read selected club id and name from localStorage
         const clubId = localStorage.getItem('register_club_id') || '1';
-        const clubNames = {
-            '1': 'Hackum',
-            '2': 'AI Innovators',
-            '3': 'Web Dev Club',
-            '4': 'Mobile Club',
-            '5': 'Data Science',
-            '6': 'Game Dev',
-            '7': 'Robotics',
-            '8': 'Cloud Computing',
-            '9': 'Cybersecurity'
-        };
-        const selectedClubName = clubNames[clubId] || 'Hackum students club';
+        const selectedClubName = localStorage.getItem('register_club_name') || 'Hackum students club';
 
         this.innerHTML = `
             <style>
@@ -139,8 +128,9 @@ class NcRegistrationPage extends HTMLElement {
             };
             console.log('Registration submitted:', formData);
             alert('Элсэлтээ амжилтай илгээсэн болно. Баярлалаа!');
-            // Clear the saved club id after successful submission
+            // Clear the saved club id and name after successful submission
             localStorage.removeItem('register_club_id');
+            localStorage.removeItem('register_club_name');
             // Navigate back to home
             if (window.Router) window.Router.navigate('/');
         });

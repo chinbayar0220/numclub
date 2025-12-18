@@ -6,110 +6,135 @@ class NcClubProfilePage extends HTMLElement {
     connectedCallback() {
         const clubId = this.getAttribute('id') || '1';
         
-        // Demo club data
-        const clubData = {
-            '1': { 
-                name: 'Hackum', 
-                logo: 'images/hackum logo 1.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Мэдээллийн технологи'],
-                email: 'hackumclub@gmail.com',
-                phone: '66191111',
-                goal: 'Оюутнуудын мэдлэг чадварыг бодит төсөл, тэмцээн, сургалт, уулзалтын оролцоогоор хөгжүүлж, мэдээллийн хүртээмжийг нэмэгдүүлэх',
-                vision: 'Монголын хамгийн том технологийн клуб болж, олон улсын хэмжээнд таниулах',
-                category: 'Мэдээллийн технологи', 
-                memberCount: '150+' 
-            },
-            '2': { 
-                name: 'AI Innovators', 
-                logo: 'images/club_logo.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Хиймэл оюун ухаан'],
-                email: 'ai@num.edu.mn',
-                phone: '66191112',
-                goal: 'AI технологийг судалж хөгжүүлэх',
-                vision: 'AI чиглэлээр тэргүүлэх клуб',
-                category: 'Технологи', 
-                memberCount: '120+' 
-            },
-            '3': { 
-                name: 'Web Dev Club', 
-                logo: 'images/club_logo.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Вэб хөгжүүлэлт'],
-                email: 'webdev@num.edu.mn',
-                phone: '66191113',
-                goal: 'Вэб технологи судлах',
-                vision: 'Монголын шилдэг вэб хөгжүүлэгчид бэлтгэх',
-                category: 'Хөгжүүлэлт', 
-                memberCount: '200+' 
-            },
-            '4': { 
-                name: 'Mobile Club', 
-                logo: 'images/club_logo.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Гар утасны хөгжүүлэлт'],
-                email: 'mobile@num.edu.mn',
-                phone: '66191114',
-                goal: 'Гар утасны аппликэйшн хөгжүүлэх',
-                vision: 'Монголын аппын зах зээлд нөлөөлөх',
-                category: 'Технологи', 
-                memberCount: '80+' 
-            },
-            '5': { 
-                name: 'Data Science', 
-                logo: 'images/club_logo.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Өгөгдлийн шинжилгээ'],
-                email: 'datascience@num.edu.mn',
-                phone: '66191115',
-                goal: 'Өгөгдлийн шинжилгээ судлах',
-                vision: 'Data Science чиглэлээр манлайлах',
-                category: 'Шинжлэх ухаан', 
-                memberCount: '100+' 
-            },
-            '6': { 
-                name: 'Game Dev', 
-                logo: 'images/club_logo.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Тоглоом хөгжүүлэлт'],
-                email: 'gamedev@num.edu.mn',
-                phone: '66191116',
-                goal: 'Тоглоом хөгжүүлэх',
-                vision: 'Монголын тоглоомын индустрийг хөгжүүлэх',
-                category: 'Технологи', 
-                memberCount: '90+' 
-            },
-            '7': { 
-                name: 'Robotics', 
-                logo: 'images/club_logo.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Робот техник'],
-                email: 'robotics@num.edu.mn',
-                phone: '66191117',
-                goal: 'Робот техник судлах',
-                vision: 'Робот техникийн чиглэлээр тэргүүлэх',
-                category: 'Инженерчлэл', 
-                memberCount: '60+' 
-            },
-            '8': { 
-                name: 'Cloud Computing', 
-                logo: 'images/club_logo.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Үүлэн технологи'],
-                email: 'cloud@num.edu.mn',
-                phone: '66191118',
-                goal: 'Үүлэн технологи судлах',
-                vision: 'Cloud технологийн мэргэжилтэн бэлтгэх',
-                category: 'Технологи', 
-                memberCount: '70+' 
-            },
-            '9': { 
-                name: 'Cybersecurity', 
-                logo: 'images/club_logo.svg', 
-                tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Кибер аюулгүй байдал'],
-                email: 'security@num.edu.mn',
-                phone: '66191119',
-                goal: 'Кибер аюулгүй байдал судлах',
-                vision: 'Монголын кибер аюулгүй байдлыг хамгаалах',
-                category: 'Аюулгүй байдал', 
-                memberCount: '85+' 
+        // Try to get stored club data from localStorage
+        let club = null;
+        try {
+            const storedData = localStorage.getItem('current_club_data');
+            if (storedData) {
+                const clubInfo = JSON.parse(storedData);
+                // Use stored data if available
+                club = {
+                    name: clubInfo.name || 'Клуб',
+                    logo: clubInfo.logo || 'images/club_logo.svg',
+                    tags: clubInfo.tags || ['NUM', 'Клуб'],
+                    email: clubInfo.email || 'club@num.edu.mn',
+                    phone: clubInfo.phone || '66191111',
+                    goal: clubInfo.description || 'Клубын тайлбар байхгүй',
+                    vision: clubInfo.vision || 'Клубын алсын хараа',
+                    category: clubInfo.category || 'Бусад',
+                    memberCount: clubInfo.memberCount || '50+'
+                };
             }
-        };
+        } catch (err) {
+            console.error('Failed to load club data from localStorage:', err);
+        }
+        
+        // Fallback to demo data if no stored data
+        if (!club) {
+            const clubData = {
+                '1': { 
+                    name: 'Hackum', 
+                    logo: 'images/hackum logo 1.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Мэдээллийн технологи'],
+                    email: 'hackumclub@gmail.com',
+                    phone: '66191111',
+                    goal: 'Оюутнуудын мэдлэг чадварыг бодит төсөл, тэмцээн, сургалт, уулзалтын оролцоогоор хөгжүүлж, мэдээллийн хүртээмжийг нэмэгдүүлэх',
+                    vision: 'Монголын хамгийн том технологийн клуб болж, олон улсын хэмжээнд таниулах',
+                    category: 'Мэдээллийн технологи', 
+                    memberCount: '150+' 
+                },
+                '2': { 
+                    name: 'AI Innovators', 
+                    logo: 'images/club_logo.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Хиймэл оюун ухаан'],
+                    email: 'ai@num.edu.mn',
+                    phone: '66191112',
+                    goal: 'AI технологийг судалж хөгжүүлэх',
+                    vision: 'AI чиглэлээр тэргүүлэх клуб',
+                    category: 'Технологи', 
+                    memberCount: '120+' 
+                },
+                '3': { 
+                    name: 'Web Dev Club', 
+                    logo: 'images/club_logo.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Вэб хөгжүүлэлт'],
+                    email: 'webdev@num.edu.mn',
+                    phone: '66191113',
+                    goal: 'Вэб технологи судлах',
+                    vision: 'Монголын шилдэг вэб хөгжүүлэгчид бэлтгэх',
+                    category: 'Хөгжүүлэлт', 
+                    memberCount: '200+' 
+                },
+                '4': { 
+                    name: 'Mobile Club', 
+                    logo: 'images/club_logo.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Гар утасны хөгжүүлэлт'],
+                    email: 'mobile@num.edu.mn',
+                    phone: '66191114',
+                    goal: 'Гар утасны аппликэйшн хөгжүүлэх',
+                    vision: 'Монголын аппын зах зээлд нөлөөлөх',
+                    category: 'Технологи', 
+                    memberCount: '80+' 
+                },
+                '5': { 
+                    name: 'Data Science', 
+                    logo: 'images/club_logo.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Өгөгдлийн шинжилгээ'],
+                    email: 'datascience@num.edu.mn',
+                    phone: '66191115',
+                    goal: 'Өгөгдлийн шинжилгээ судлах',
+                    vision: 'Data Science чиглэлээр манлайлах',
+                    category: 'Шинжлэх ухаан', 
+                    memberCount: '100+' 
+                },
+                '6': { 
+                    name: 'Game Dev', 
+                    logo: 'images/club_logo.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Тоглоом хөгжүүлэлт'],
+                    email: 'gamedev@num.edu.mn',
+                    phone: '66191116',
+                    goal: 'Тоглоом хөгжүүлэх',
+                    vision: 'Монголын тоглоомын индустрийг хөгжүүлэх',
+                    category: 'Технологи', 
+                    memberCount: '90+' 
+                },
+                '7': { 
+                    name: 'Robotics', 
+                    logo: 'images/club_logo.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Робот техник'],
+                    email: 'robotics@num.edu.mn',
+                    phone: '66191117',
+                    goal: 'Робот техник судлах',
+                    vision: 'Робот техникийн чиглэлээр тэргүүлэх',
+                    category: 'Инженерчлэл', 
+                    memberCount: '60+' 
+                },
+                '8': { 
+                    name: 'Cloud Computing', 
+                    logo: 'images/club_logo.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Үүлэн технологи'],
+                    email: 'cloud@num.edu.mn',
+                    phone: '66191118',
+                    goal: 'Үүлэн технологи судлах',
+                    vision: 'Cloud технологийн мэргэжилтэн бэлтгэх',
+                    category: 'Технологи', 
+                    memberCount: '70+' 
+                },
+                '9': { 
+                    name: 'Cybersecurity', 
+                    logo: 'images/club_logo.svg', 
+                    tags: ['МТЭС-МКУТ', 'Мэргэжлийн', 'Кибер аюулгүй байдал'],
+                    email: 'security@num.edu.mn',
+                    phone: '66191119',
+                    goal: 'Кибер аюулгүй байдал судлах',
+                    vision: 'Монголын кибер аюулгүй байдлыг хамгаалах',
+                    category: 'Аюулгүй байдал', 
+                    memberCount: '85+' 
+                }
+            };
 
-        const club = clubData[clubId] || clubData['1'];
+            club = clubData[clubId] || clubData['1'];
+        }
 
         this.innerHTML = `
             <style>
@@ -148,7 +173,6 @@ class NcClubProfilePage extends HTMLElement {
                     font-weight: 700;
                     color: var(--text-primary, #1e1e1e);
                     margin-bottom: 16px;
-                    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
                 }
                 
                 .frame {
