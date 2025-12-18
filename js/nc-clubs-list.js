@@ -21,7 +21,6 @@ class NcClubsList extends HTMLElement {
         //     ];
         // }
 
-
         const container = document.createElement('div');
         container.className = 'clubs';
 
