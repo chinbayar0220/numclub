@@ -18,6 +18,7 @@
             --border-color: #d3d3d3;
             --card-bg: #ffffff;
             --shadow-color: rgba(0, 0, 0, 0.1);
+            --img-filter: none;
             
             background-color: var(--bg-primary);
             color: var(--text-primary);
@@ -36,6 +37,7 @@
             --border-color: #3a3a3a;
             --card-bg: #1e1e1e;
             --shadow-color: rgba(0, 0, 0, 0.3);
+            --img-filter: invert(1);
         }
         header{
             display:flex;
@@ -112,8 +114,16 @@
             gap: 8%;
             margin-top: auto;
         }
+        .buttons.single {
+            justify-content: stretch;
+        }
+        .buttons.single .btn2 {
+            width: 100%;
+        }
         .btn1{
             background-color: var(--color-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             color: var(--color-secondary);
             width: 46%;
         }
@@ -129,7 +139,7 @@
             background-color: var(--color-gray);
         }
         button.btn2:hover{
-            background-color: #000000;
+            background-color: var(--color-secondary);
         }
 
 
@@ -232,6 +242,10 @@
             flex: 1 1 300px;
             min-width: 240px;
             color: var(--text-primary);
+            transition: transform 0.3s ease;
+        }
+        .event_card:hover{
+            transform: scale(1.02);
         }
     
         
@@ -245,6 +259,10 @@
             padding:16px;
             width: auto;
             color: var(--text-primary);
+            transition: transform 0.3s ease;
+        }
+        .request_card:hover{
+            transform: scale(1.02);
         }
         .club_requests{
             display: flex;
@@ -294,6 +312,7 @@
             min-width: 220px;
             background-color: var(--card-bg);
             color: var(--text-primary);
+            transition: transform 0.3s ease;
         }
 
         @media (max-width: 900px) {
@@ -307,7 +326,7 @@
             header, footer { padding-left: 20px; padding-right: 20px; }
         }
         .club_card:hover{
-            background-color: var(--bg-secondary);
+            transform: scale(1.02);
         }
 
         

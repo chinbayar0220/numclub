@@ -15,39 +15,21 @@ class NcClubsPage extends HTMLElement {
                     padding: 28px 90px;
                     gap: 5%;
                 }
-                .sidebar {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 8px 28px 28px 28px;
-                    gap: 0px;
-                    height: fit-content;
-                    border: 1px solid #d3d3d3;
-                    border-radius: 8px;
-                    width: 20%;
-                }
-                .sidebar input[type="checkbox"] {
-                    margin: 8px 8px 8px 0px;
-                    cursor: pointer;
-                    accent-color: var(--color-default);
-                    width: 16px;
-                    height: 16px;
-                }
-                .sidebar input[type="checkbox"]:checked {
-                    accent-color: var(--color-default);
-                }
-                .sidebar input[type="checkbox"] + label {
-                    cursor: pointer;
-                    user-select: none;
-                }
-                .sidebar input[type="checkbox"]:checked + label {
-                    color: var(--color-default);
-                    font-weight: 500;
-                }
                 .content {
                     display: flex;
                     flex-direction: column;
                     gap: 28px;
                     width: 75%;
+                }
+                
+                @media (max-width: 768px) {
+                    .main {
+                        flex-direction: column;
+                        padding: 20px;
+                    }
+                    .content {
+                        width: 100%;
+                    }
                 }
                 .search {
                     display: flex;
@@ -122,47 +104,77 @@ class NcClubsPage extends HTMLElement {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    gap: 8px;
-                    padding: 16px;
+                    gap: 12px;
+                    padding: 32px 16px;
                 }
-                .pagination button {
-                    border: 1px solid var(--color-secondary);
-                    border-radius: 8px;
-                    background-color: var(--color-white);
-                    font-size: medium;
-                    color: var(--color-secondary);
-                    padding: 2px 8px;
+                .pagination-previous,
+                .pagination-next {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 8px 12px;
+                    height: fit-content;
+                    border: 1px solid var(--border-color);
+                    border-radius: 6px;
+                    background-color: var(--card-bg);
+                    color: var(--text-primary);
+                    font-size: 14px;
+                    font-weight: 500;
                     cursor: pointer;
+                    transition: all 0.2s ease;
+                    user-select: none;
                 }
-                .pagination button:hover {
-                    background-color: var(--color-gray);
+                .pagination-previous:hover,
+                .pagination-next:hover {
+                    background-color: var(--bg-secondary);
+                }
+                .pagination-previous img,
+                .pagination-next img {
+                    width: 16px;
+                    height: 12px;
+                    filter: var(--img-filter, none);
+                }
+                .pagination-list {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+                .pagination-page,
+                .element-wrapper {
+                    min-width: 24px;
+                    min-height: 24px;
+                    height: fit-content;
+                    border: 1px solid var(--border-color);
+                    border-radius: 8px;
+                    background-color: var(--card-bg);
+                    color: var(--text-primary);
+                    font-size: 14px;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    padding: 4px 8px;
+                }
+                .pagination-page {
+                    background-color: var(--color-default);
+                    color: var(--color-white);
+                    border-color: var(--color-default);
+                }
+                .element-wrapper:hover {
+                    background-color: var(--bg-secondary);
+                }
+                .pagination-gap {
+                    padding: 0 4px;
+                    color: var(--text-secondary);
+                    font-size: 14px;
+                    user-select: none;
                 }
             </style>
 
             <div class="main">
-                <div class="sidebar">
-                    <h2>Клубийн чиглэл</h2>
-                    <form class="chiglel">
-                        <h4>Чөлөөт</h4>
-                        <nc-form id="1" name="1" label="Сайн дурын"></nc-form>
-                        <nc-form id="2" name="2" label="Спорт"></nc-form>
-                        <nc-form id="3" name="3" label="Урлаг"></nc-form>
-                        <nc-form id="4" name="4" label="Чөлөөт"></nc-form>
-                        <nc-form id="5" name="5" label="Фото зураг"></nc-form>
-                        <nc-form id="6" name="6" label="Шинжлэх ухаан"></nc-form>
-                        <nc-form id="7" name="7" label="Мэдээллийн технологи"></nc-form>
-                        <nc-form id="8" name="8" label="Хэл судлал"></nc-form>
-                    </form>
-                    <form class="surguuli">
-                        <h4>Сургууль</h4>
-                        <nc-form id="1" name="business" label="БС"></nc-form>
-                        <nc-form id="2" name="its" label="ИТС"></nc-form>
-                        <nc-form id="3" name="mtes" label="МТЭС"></nc-form>
-                        <nc-form id="4" name="olonuls" label="УТСОУХНУС"></nc-form>
-                        <nc-form id="5" name="huuli" label="ХЗС"></nc-form>
-                        <nc-form id="6" name="shus" label="ШУС"></nc-form>
-                    </form>
-                </div>
+                <nc-clubs-sidebar></nc-clubs-sidebar>
 
                 <div class="content">
                     <div class="search">
@@ -184,11 +196,22 @@ class NcClubsPage extends HTMLElement {
                     <nc-clubs-list id="clubs"></nc-clubs-list>
 
                     <div class="pagination">
-                        <button>1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button>4</button>
-                        <button>5</button>
+                        <div class="pagination-previous">
+                            <img src="images/Arrow Left.svg" alt="Previous" />
+                            Өмнөх
+                        </div>
+                        <div class="pagination-list">
+                            <div class="pagination-page">1</div>
+                            <div class="element-wrapper">2</div>
+                            <div class="element-wrapper">3</div>
+                            <div class="pagination-gap">...</div>
+                            <div class="element-wrapper">9</div>
+                            <div class="element-wrapper">10</div>
+                        </div>
+                        <div class="pagination-next">
+                            Дараагийн
+                            <img src="images/Arrow Right.svg" alt="Next" />
+                        </div>
                     </div>
                 </div>
             </div>
