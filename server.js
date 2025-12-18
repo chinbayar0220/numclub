@@ -6,7 +6,7 @@ import { url } from 'node:inspector';
 const clubs =[
     {
       "id": 1,
-      "name": "Hackum students club",
+      "cname": "Hackum students club",
       "shortName": "Hackum",
       "description": "Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудад мэдлэгийг хөгжүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг.",
       "directions": ["it", "science"],
@@ -16,7 +16,7 @@ const clubs =[
     },
     {
       "id": 2,
-      "name": "BSONK",
+      "cname": "BSONK",
       "shortName": "BSONK",
       "description": "BSONK клуб нь бизнес ба стартап сонирхдог оюутнуудад зориулсан уулзалт, хэлэлцүүлэг, pitch event зохион байгуулдаг.",
       "directions": ["volunteer", "science"],

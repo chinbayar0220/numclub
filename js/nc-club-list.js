@@ -6,7 +6,6 @@ import { getClubs} from "./apiclient.js";
 //     //ene componentiig urlaar data avaad const ashiglaj componentiig zurna
 // }
 
-
 class NcClubList extends HTMLElement {
     constructor() {
         super();
@@ -14,16 +13,16 @@ class NcClubList extends HTMLElement {
     this.filters = null;
     }
 
-    async connectedCallback() {
-        this.clubs= await getClubs();
-        console.log("data",this.clubs)
+    async connectedCallback(){
+        const neg = await getClubs();
+        this.clubs = neg.data;
+        this.render();
         // this.clubs = loadData("http://127.0.0.1:3000/api/clubs")
         //   .then(data=>{
         //     console.log("server data:",data);
         //     this.clubs = data.clubs;
         //     this.render();
         //   })
-
     }
 
     filter(filters){

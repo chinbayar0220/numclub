@@ -5,12 +5,11 @@ export const getClubs = async () => {
             return { code: 500, data: [] };
         }
         const data = await result.json();
-        return { code: 200, data: data};
-
+        return{code:200, data:data};
+        
     } catch (error) {
         return { code: 500, data: [] };
     }
-
 }
 
 // export const updateClub = (club) => {
