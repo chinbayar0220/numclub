@@ -3,7 +3,43 @@ class NcMainPage extends HTMLElement {
         super();
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await this.loadAndRender();
+    }
+
+    async loadAndRender() {
+        // Load clubs from API or JSON
+        let clubs = [];
+        try {
+            const response = await fetch('http://127.0.0.1:3000/api/clubs');
+            if (response.ok) {
+                const data = await response.json();
+                clubs = data.clubs || [];
+            }
+        } catch (error) {
+            console.error('Failed to load clubs from API:', error);
+        }
+
+        // Fallback to JSON file if API fails
+        if (clubs.length === 0) {
+            try {
+                const response = await fetch('/json/Club.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    clubs = data.clubs || [];
+                }
+            } catch (error) {
+                console.error('Failed to load clubs from JSON:', error);
+            }
+        }
+
+        // Take first 6 clubs for display
+        const displayClubs = clubs.slice(0, 6);
+
+        this.render(displayClubs);
+    }
+
+    render(clubs) {
         this.innerHTML = `
             <style>
                 :host {
@@ -248,84 +284,21 @@ class NcMainPage extends HTMLElement {
 
                 <h2 class="section-title">club</h2>
 
-                <div class="clubs-grid">
-                    <div class="club-card">
-                        <button class="club-favorite">♡</button>
-                        <div class="club-header">
-                            <div class="club-icon">📚</div>
-                            <div class="club-info">
-                                <h3>Hasbun students club</h3>
-                                <p class="club-category">Боловсрол</p>
+                <div class="clubs-grid" id="clubsGrid">
+                    ${clubs.map(club => `
+                        <div class="club-card" data-club-id="${club.id}">
+                            <button class="club-favorite">♡</button>
+                            <div class="club-header">
+                                <div class="club-icon">📚</div>
+                                <div class="club-info">
+                                    <h3>${club.name || club.shortName}</h3>
+                                    <p class="club-category">${club.school || 'Клуб'}</p>
+                                </div>
                             </div>
+                            <p class="club-description">${club.description || 'Клубын тайлбар байхгүй'}</p>
+                            <button class="btn-join" onclick="window.location.hash='#/club/${club.id}'">ДЭЛГЭРЭНГҮЙ</button>
                         </div>
-                        <p class="club-description">Хасбун сургуулийн оюутнуудын клуб. Суралцах, хөгжих, сайжрах зорилготой хамт олон. Хичээлээс гадуур олон арга хэмжээ зохион байгуулдаг.</p>
-                        <button class="btn-join">ЭЛСЭГСЭНГҮЙ</button>
-                    </div>
-
-                    <div class="club-card">
-                        <button class="club-favorite">♡</button>
-                        <div class="club-header">
-                            <div class="club-icon">💻</div>
-                            <div class="club-info">
-                                <h3>Hasbun students club</h3>
-                                <p class="club-category">Технологи</p>
-                            </div>
-                        </div>
-                        <p class="club-description">Технологид сонирхолтой оюутнуудын бүлэг. Программчлал, робот техник, шинэ технологи судалдаг. Hackathon болон төрөл бүрийн уралдаанд оролцдог.</p>
-                        <button class="btn-join">ДЭЛГЭРЭНГҮЙ</button>
-                    </div>
-
-                    <div class="club-card">
-                        <button class="club-favorite">♡</button>
-                        <div class="club-header">
-                            <div class="club-icon">⚽</div>
-                            <div class="club-info">
-                                <h3>Hasbun students club</h3>
-                                <p class="club-category">Спорт</p>
-                            </div>
-                        </div>
-                        <p class="club-description">Спортоор хичээллэх дуртай оюутнуудын клуб. Хөл бөмбөг, сагсан бөмбөг болон бусад спортын төрлүүдээр тогло. Эрүүл амьдралын хэв маяг!</p>
-                        <button class="btn-join">ДЭЛГЭРЭНГҮЙ</button>
-                    </div>
-
-                    <div class="club-card">
-                        <button class="club-favorite">♡</button>
-                        <div class="club-header">
-                            <div class="club-icon">🎭</div>
-                            <div class="club-info">
-                                <h3>Hasbun students club</h3>
-                                <p class="club-category">Урлаг</p>
-                            </div>
-                        </div>
-                        <p class="club-description">Театр урлагийг хайрлагчдын бүлэг. Жүжиг бэлтгэх, дүрд тоглох, урлагаа хөгжүүлэх боломж. Бүтээлч хүмүүсийн гайхалтай орчин.</p>
-                        <button class="btn-join">ДЭЛГЭРЭНГҮЙ</button>
-                    </div>
-
-                    <div class="club-card">
-                        <button class="club-favorite">♡</button>
-                        <div class="club-header">
-                            <div class="club-icon">🎵</div>
-                            <div class="club-info">
-                                <h3>Hasbun students club</h3>
-                                <p class="club-category">Хөгжим</p>
-                            </div>
-                        </div>
-                        <p class="club-description">Хөгжим сонирхогчдын цуглаан. Дуулах, хөгжим тоглох, бүтээх. Бүх төрлийн хөгжимд нээлттэй. Долоо хоног бүр дасгал хийдэг.</p>
-                        <button class="btn-join">ДЭЛГЭРЭНГҮЙ</button>
-                    </div>
-
-                    <div class="club-card">
-                        <button class="club-favorite">♡</button>
-                        <div class="club-header">
-                            <div class="club-icon">📸</div>
-                            <div class="club-info">
-                                <h3>Hasbun students club</h3>
-                                <p class="club-category">Гэрэл зураг</p>
-                            </div>
-                        </div>
-                        <p class="club-description">Гэрэл зургийн урлагт сонирхолтой залуусын клуб. Зураг авах техник, боловсруулах арга барил сурах. Үзэсгэлэн зохион байгуулдаг.</p>
-                        <button class="btn-join">ДЭЛГЭРЭНГҮЙ</button>
-                    </div>
+                    `).join('')}
                 </div>
 
                 <h2 class="section-title">Сэтгэгдэл</h2>

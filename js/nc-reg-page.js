@@ -3,10 +3,53 @@ class NcRegistrationPage extends HTMLElement {
         super();
     }
 
-    connectedCallback() {
-        // Read selected club id and name from localStorage
+    async connectedCallback() {
+        // Read selected club id from localStorage
         const clubId = localStorage.getItem('register_club_id') || '1';
-        const selectedClubName = localStorage.getItem('register_club_name') || 'Hackum students club';
+        await this.loadAndRender(clubId);
+    }
+
+    async loadAndRender(clubId) {
+        let selectedClubName = 'Клуб';
+        
+        // Try to load club name from API
+        try {
+            const response = await fetch('http://127.0.0.1:3000/api/clubs');
+            if (response.ok) {
+                const data = await response.json();
+                const clubs = data.clubs || [];
+                const foundClub = clubs.find(c => c.id == clubId);
+                
+                if (foundClub) {
+                    selectedClubName = foundClub.name || foundClub.shortName || 'Клуб';
+                }
+            }
+        } catch (error) {
+            console.error('Failed to load club data from API:', error);
+        }
+
+        // Fallback to JSON file if API fails
+        if (selectedClubName === 'Клуб') {
+            try {
+                const response = await fetch('/json/Club.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    const clubs = data.clubs || [];
+                    const foundClub = clubs.find(c => c.id == clubId);
+                    
+                    if (foundClub) {
+                        selectedClubName = foundClub.name || foundClub.shortName || 'Клуб';
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load club data from JSON:', error);
+            }
+        }
+
+        this.render(clubId, selectedClubName);
+    }
+
+    render(clubId, selectedClubName) {
 
         this.innerHTML = `
             <style>

@@ -3,7 +3,23 @@ class NcClubsSidebar extends HTMLElement {
         super();
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await this.loadAndRender();
+    }
+
+    async loadAndRender() {
+        // Fetch filters from JSON
+        let filters = { directions: [], schools: [] };
+        try {
+            const response = await fetch('/json/Club.json');
+            if (response.ok) {
+                const data = await response.json();
+                filters = data.filters || filters;
+            }
+        } catch (error) {
+            console.error('Failed to load filters:', error);
+        }
+
         this.innerHTML = `
             <style>
                 :host {
@@ -63,23 +79,15 @@ class NcClubsSidebar extends HTMLElement {
                 <h2>Клубийн чиглэл</h2>
                 <form class="chiglel">
                     <h4>Чөлөөт</h4>
-                    <nc-form id="1" name="1" label="Сайн дурын"></nc-form>
-                    <nc-form id="2" name="2" label="Спорт"></nc-form>
-                    <nc-form id="3" name="3" label="Урлаг"></nc-form>
-                    <nc-form id="4" name="4" label="Чөлөөт"></nc-form>
-                    <nc-form id="5" name="5" label="Фото зураг"></nc-form>
-                    <nc-form id="6" name="6" label="Шинжлэх ухаан"></nc-form>
-                    <nc-form id="7" name="7" label="Мэдээллийн технологи"></nc-form>
-                    <nc-form id="8" name="8" label="Хэл судлал"></nc-form>
+                    ${filters.directions.map(dir => 
+                        `<nc-form id="${dir.id}" name="${dir.id}" label="${dir.label}"></nc-form>`
+                    ).join('')}
                 </form>
                 <form class="surguuli">
                     <h4>Сургууль</h4>
-                    <nc-form id="1" name="business" label="БС"></nc-form>
-                    <nc-form id="2" name="its" label="ИТС"></nc-form>
-                    <nc-form id="3" name="mtes" label="МТЭС"></nc-form>
-                    <nc-form id="4" name="olonuls" label="УТСОУХНУС"></nc-form>
-                    <nc-form id="5" name="huuli" label="ХЗС"></nc-form>
-                    <nc-form id="6" name="shus" label="ШУС"></nc-form>
+                    ${filters.schools.map(school => 
+                        `<nc-form id="${school.id}" name="${school.id}" label="${school.label}"></nc-form>`
+                    ).join('')}
                 </form>
             </div>
         `;
