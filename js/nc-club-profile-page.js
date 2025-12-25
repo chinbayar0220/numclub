@@ -148,52 +148,6 @@ class NcClubProfilePage extends HTMLElement {
                     height: 16px;
                 }
                 
-                .accordion {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 16px;
-                    margin-top: 25px;
-                }
-                
-                .accordion-item,
-                .accordion-title-wrapper {
-                    border: 1px solid #D9D9D9;
-                    border-radius: 8px;
-                    background-color: #F5F5F5;
-                    min-height: 54px;
-                }
-                
-                .accordion-item[open] {
-                    background-color: white;
-                }
-                
-                .accordion-title,
-                .accordion-title-2 {
-                    padding: 16px;
-                    font-weight: 600;
-                    font-size: 16px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    cursor: pointer;
-                }
-                
-                .accordion-title img,
-                .accordion-title-2 img {
-                    transition: transform 0.3s ease;
-                }
-                
-                .accordion-item[open] .accordion-title img {
-                    transform: rotate(180deg);
-                }
-                
-                .accordion-content {
-                    padding: 0 16px 16px 16px;
-                    color: var(--text-secondary, #6b7280);
-                    font-size: 16px;
-                    line-height: 1.6;
-                }
-                
                 .frame-2 {
                     display: flex;
                     flex-direction: column;

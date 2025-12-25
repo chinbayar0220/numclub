@@ -46,14 +46,15 @@ class NcUsercard extends HTMLElement {
                     </div>
                 </div> 
                 <p class="desc">Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p> 
-                <details>
-                    <summary>
-                        Дэлгэрэнгүй
-                    </summary>
-                    <p class="desc">
-                        Бүүр дэлгэрэнгүй био
-                    </p>
-                </details>
+                <details class="accordion-item" open>
+                                <summary class="accordion-title">
+                                    <div class="title-4">Зорилго</div>
+                                    <img src="images/Chevron up.svg" alt="">
+                                </summary>
+                                <div class="accordion-content">
+                                    <p class="body">${club.goal}</p>
+                                </div>
+                            </details>
             </div>
             <div class="url">
                 <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/FB Icon Button.svg" width="36" height="36" alt="facebook Icon"/></a>
