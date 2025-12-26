@@ -1,6 +1,13 @@
 class NcClubsPage extends HTMLElement {
     constructor() {
         super();
+        this.currentPage = 1;
+        this.totalPages = 1;
+        this.filters = {
+            search: '',
+            direction: '',
+            school: ''
+        };
     }
 
     connectedCallback() {
@@ -101,7 +108,7 @@ class NcClubsPage extends HTMLElement {
                     margin: auto;
                 }
                 .pagination {
-                    display: flex;
+                    display: none;
                     justify-content: center;
                     align-items: center;
                     gap: 12px;
@@ -127,6 +134,12 @@ class NcClubsPage extends HTMLElement {
                 .pagination-previous:hover,
                 .pagination-next:hover {
                     background-color: var(--bg-secondary);
+                }
+                .pagination-previous.disabled,
+                .pagination-next.disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                    pointer-events: none;
                 }
                 .pagination-previous img,
                 .pagination-next img {
@@ -178,8 +191,8 @@ class NcClubsPage extends HTMLElement {
 
                 <div class="content">
                     <div class="search">
-                        <form action="#" method="get">
-                            <input type="search" placeholder="Хайх" name="search">
+                        <form id="searchForm" action="#" method="get">
+                            <input type="search" id="searchInput" placeholder="Хайх" name="search">
                             <div class="radioff" role="radiogroup" aria-label="Sort order">
                                 <div class="radio">
                                     <input id="sort-az" type="radio" name="sortOrder" value="az">
@@ -195,27 +208,174 @@ class NcClubsPage extends HTMLElement {
 
                     <nc-clubs-list id="clubs"></nc-clubs-list>
 
-                    <div class="pagination">
-                        <div class="pagination-previous">
-                            <img src="images/Arrow Left.svg" alt="Previous" />
-                            Өмнөх
-                        </div>
-                        <div class="pagination-list">
-                            <div class="pagination-page">1</div>
-                            <div class="element-wrapper">2</div>
-                            <div class="element-wrapper">3</div>
-                            <div class="pagination-gap">...</div>
-                            <div class="element-wrapper">9</div>
-                            <div class="element-wrapper">10</div>
-                        </div>
-                        <div class="pagination-next">
-                            Дараагийн
-                            <img src="images/Arrow Right.svg" alt="Next" />
-                        </div>
-                    </div>
+                    <div class="pagination" id="pagination"></div>
                 </div>
             </div>
         `;
+        
+        this.initializeEventListeners();
+        this.loadClubs();
+    }
+
+    initializeEventListeners() {
+        // Search form
+        const searchForm = this.querySelector('#searchForm');
+        const searchInput = this.querySelector('#searchInput');
+        
+        if (searchForm) {
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.filters.search = searchInput.value.trim();
+                this.currentPage = 1;
+                this.loadClubs();
+            });
+        }
+
+        // Real-time search (optional - debounced)
+        if (searchInput) {
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    this.filters.search = e.target.value.trim();
+                    this.currentPage = 1;
+                    this.loadClubs();
+                }, 500);
+            });
+        }
+
+        // Listen to filter changes from sidebar
+        window.addEventListener('filter-changed', (e) => {
+            this.filters = { ...this.filters, ...e.detail };
+            this.currentPage = 1;
+            this.loadClubs();
+        });
+    }
+
+    async loadClubs() {
+        try {
+            const clubsList = this.querySelector('#clubs');
+            if (clubsList) {
+                clubsList.innerHTML = '<p style="text-align:center; padding:20px;">Ачааллаж байна...</p>';
+            }
+
+            // Import the API client
+            const { getClubs } = await import('./apiclient.js');
+            
+            const params = {
+                page: this.currentPage,
+                limit: 9,
+                ...this.filters
+            };
+
+            const response = await getClubs(params);
+            
+            if (response.code === 200) {
+                this.totalPages = response.totalPages || 1;
+                this.renderClubs(response.data);
+                this.renderPagination();
+            } else {
+                if (clubsList) {
+                    clubsList.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Клубуудыг ачаалахад алдаа гарлаа</p>';
+                }
+            }
+        } catch (error) {
+            console.error('Load clubs error:', error);
+            const clubsList = this.querySelector('#clubs');
+            if (clubsList) {
+                clubsList.innerHTML = '<p style="text-align:center; padding:20px; color:red;">Алдаа гарлаа</p>';
+            }
+        }
+    }
+
+    renderClubs(clubs) {
+        const clubsList = this.querySelector('#clubs');
+        if (!clubsList) return;
+
+        if (clubs.length === 0) {
+            clubsList.innerHTML = '<p style="text-align:center; padding:20px;">Клуб олдсонгүй</p>';
+            return;
+        }
+
+        // Dispatch event with clubs data for nc-clubs-list component
+        clubsList.setAttribute('data-clubs', JSON.stringify(clubs));
+        const event = new CustomEvent('clubs-loaded', { detail: clubs });
+        clubsList.dispatchEvent(event);
+    }
+
+    renderPagination() {
+        const pagination = this.querySelector('#pagination');
+        if (!pagination) return;
+
+        if (this.totalPages <= 1) {
+            pagination.style.display = 'none';
+            return;
+        }
+
+        pagination.style.display = 'flex';
+        
+        let html = '';
+        
+        // Previous button
+        html += `
+            <div class="pagination-previous ${this.currentPage === 1 ? 'disabled' : ''}" 
+                 data-page="${this.currentPage - 1}">
+                <img src="images/Arrow Left.svg" alt="Previous" />
+                Өмнөх
+            </div>
+            <div class="pagination-list">
+        `;
+
+        // Page numbers
+        const maxVisible = 5;
+        let startPage = Math.max(1, this.currentPage - 2);
+        let endPage = Math.min(this.totalPages, startPage + maxVisible - 1);
+
+        if (endPage - startPage < maxVisible - 1) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+
+        if (startPage > 1) {
+            html += `<div class="element-wrapper" data-page="1">1</div>`;
+            if (startPage > 2) {
+                html += `<div class="pagination-gap">...</div>`;
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const className = i === this.currentPage ? 'pagination-page' : 'element-wrapper';
+            html += `<div class="${className}" data-page="${i}">${i}</div>`;
+        }
+
+        if (endPage < this.totalPages) {
+            if (endPage < this.totalPages - 1) {
+                html += `<div class="pagination-gap">...</div>`;
+            }
+            html += `<div class="element-wrapper" data-page="${this.totalPages}">${this.totalPages}</div>`;
+        }
+
+        html += `
+            </div>
+            <div class="pagination-next ${this.currentPage === this.totalPages ? 'disabled' : ''}" 
+                 data-page="${this.currentPage + 1}">
+                Дараагийн
+                <img src="images/Arrow Right.svg" alt="Next" />
+            </div>
+        `;
+
+        pagination.innerHTML = html;
+
+        // Add click event listeners
+        pagination.querySelectorAll('[data-page]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const page = parseInt(e.currentTarget.getAttribute('data-page'));
+                if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+                    this.currentPage = page;
+                    this.loadClubs();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
     }
 }
 

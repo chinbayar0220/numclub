@@ -2,48 +2,82 @@ import { getClubs } from "./apiclient.js";
 class NcClubsList extends HTMLElement {
     constructor(){
         super();
+        this.clubsData = [];
     }
 
     async connectedCallback(){
-        let items =[];
+        // Listen for clubs-loaded event from parent
+        this.addEventListener('clubs-loaded', (e) => {
+            if (e.detail && Array.isArray(e.detail)) {
+                this.clubsData = e.detail;
+                this.renderClubs();
+            }
+        });
+
+        // Also fetch clubs if not provided by parent
+        let items = [];
         const result = await getClubs();
-        items = result.data.clubs;
-        console.log(items)
-        // if (!items || !items.length) {
-        //     items = [
-        //         { cname: 'Hackum students club', img: 'images/club_logo.svg' },
-        //         { cname: 'Утга зохиолын нэгдэл', desc: 'Бид утга зохиол судлаач, сонирхогч оюутан залуусын ур чадварыг нээн илрүүлэхээс гадна урлаг, уран зохиолын мэдрэмж бүхий сонголттой уншигч, үндэсний сэхээтнийг бэлтгэн гаргах зорилготой.'},
-        //         { cname: 'Психея клуб', desc: 'Сэтгэл судлалын тэнхимийн харъяа "Психея клуб" нь мэргэжлийн оюутнуудад мэргэжлийн чиг баримжаа олгох, МУИС-ийн нийт оюутнуудад сэтгэл зүйн сайн сайхан байдлыг сурталчлах, сэтгэл зүйн зөвлөгөө үйлчилгээнд хамрагдах сэдлийг олгох үндсэн зорилготой сайн дурын клуб юм.'},
-        //         { cname: 'Astrology club', desc: 'Астрологи клуб нь 2022 оны 10-р сараас хойш үйл ажиллагаа явуулж эхэлсэн бөгөөд одон орон, зурхайн судлалаар үйл ажиллагаа явуулдаг.'},
-        //         { cname: 'Мераки клуб', desc: 'Оюутнуудынхаа сэтгэл зүйн тогтвортой байдлыг бий болгож, хөгжих, бусдад өөрийгөө илэрхийлэх, чөлөөт цагаа зөв боловсон өнгөрүүлэхэд дэмжлэг туслалцаа үзүүлэн халуун дулаан харилцаа, сэтгэл ханамжийг эрхэмлэн эерэг хандлагыг түгээхийг эрхэмлэдэг халуун дулаан гэр бүл.'},
-        //         { cname: 'Artemisia', desc: 'Artemisia клуб нь  2022 оны намар үүсгэн байгуулагдсан бөгөөд байгуулагдсан өдрөөсөө хойш уран зургийн чиглэлээр тасралтгүй үйл ажиллагаагаа амжилттай явуулсаар ирсэн МУИС-д харъяалагдах бие даасан зургийн цор ганц клуб билээ.'},
-        //         { cname: 'Num Career Club', desc: 'NUM Career клуб нь МУИС-ийн суралцагчдыг хөдөлмөрийн зах зээлд бэлтгэх, сургалтаас хөдөлмөрт шилжих шилжилтийг дэмжих, ажлын байранд шаардлагатай ур чадварыг нэмэгдүүлэх зорилгоор CV бичих, ажлын ярилцлагад бэлдэх, ажилд зуучлах зэрэгт мэргэжлийн болон туршлагад суурилсан зөвлөгөө, сургалт, арга хэмжээнүүдийг зохион байгуулж байгаа сайн дурын клуб юм.'}
-        //     ];
-        // }
+        // Handle different response structures
+        if (result.data && Array.isArray(result.data)) {
+            items = result.data;
+        } else if (result.data && result.data.clubs && Array.isArray(result.data.clubs)) {
+            items = result.data.clubs;
+        } else if (result.clubs && Array.isArray(result.clubs)) {
+            items = result.clubs;
+        }
+        
+        console.log('Clubs data:', items);
+        
+        if (items && items.length > 0) {
+            this.clubsData = items;
+            this.renderClubs();
+        } else if (this.clubsData.length === 0) {
+            this.innerHTML = '<p style="text-align:center; padding:20px;">Клуб олдсонгүй</p>';
+        }
+    }
+
+    renderClubs() {
+        const items = this.clubsData;
+        
+        if (!items || items.length === 0) {
+            this.innerHTML = '<p style="text-align:center; padding:20px;">Клуб олдсонгүй</p>';
+            return;
+        }
 
         const container = document.createElement('div');
         container.className = 'clubs';
 
         items.forEach((it, idx) => {
-            console.log("===========================================",it,idx)
+            console.log("Club item:", it);
             const el = document.createElement('nc-clubcard');
-            if (it.cname) el.setAttribute('cname', it.cname);
-            if (it.desc) el.setAttribute('desc', it.desc);
-            if (it.img) el.setAttribute('img', it.img);
-            const clubId = it.id || String(idx + 1);
+            
+            // Map database fields to component attributes
+            const clubName = it.cname || it.name || '';
+            const clubDesc = it.description || it.desc || '';
+            const clubImg = it.logo || it.img || 'images/clubs/default.png';
+            
+            if (clubName) el.setAttribute('cname', clubName);
+            if (clubDesc) el.setAttribute('desc', clubDesc);
+            el.setAttribute('img', clubImg);
+            
+            const clubId = it._id || it.id || String(idx + 1);
             el.setAttribute('club-id', clubId);
             el.setAttribute('data-index', String(idx));
             el.setAttribute('tabindex', '0');
+            
             el.addEventListener('click', () => {
-                const detail = { index: idx, cname: it.cname || null, id: it.id || null };
+                const detail = { index: idx, cname: clubName, id: clubId };
                 this.dispatchEvent(new CustomEvent('club-select', { detail, bubbles: true }));
             });
+            
             el.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    this.dispatchEvent(new CustomEvent('club-select', { detail: { index: idx, cname: it.cname || null, id: it.id || null }, bubbles: true }));
+                    const detail = { index: idx, cname: clubName, id: clubId };
+                    this.dispatchEvent(new CustomEvent('club-select', { detail, bubbles: true }));
                 }
             });
+            
             container.appendChild(el);
         });
 

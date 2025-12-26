@@ -3,6 +3,38 @@
 
 const API_BASE_URL = 'http://127.0.0.1:3000';
 
+// Check if user is admin
+async function checkAdminAccess() {
+    const userId = localStorage.getItem('userId');
+    
+    if (!userId) {
+        showAlert('⚠️ Нэвтрэх шаардлагатай. Нэвтрэх хуудас руу шилжиж байна...', 'error');
+        setTimeout(() => {
+            window.location.href = '/index.html';
+        }, 2000);
+        return false;
+    }
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/auth/check-admin?userId=${userId}`);
+        const result = await response.json();
+        
+        if (!result.success || !result.isAdmin) {
+            showAlert('⛔ Танд энэ хуудсанд нэвтрэх эрх байхгүй байна.', 'error');
+            setTimeout(() => {
+                window.location.href = '/main.html';
+            }, 2000);
+            return false;
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Admin check error:', error);
+        showAlert('❌ Серверт холбогдоход алдаа гарлаа', 'error');
+        return false;
+    }
+}
+
 // Form validation
 function validateForm(formData) {
     const errors = {};
@@ -99,11 +131,18 @@ async function parseRequestBody(req) {
 // Create club function
 async function createClub(clubData) {
     try {
+        const userId = localStorage.getItem('userId');
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+        
+        if (userId) {
+            headers['Authorization'] = `Bearer ${userId}`;
+        }
+        
         const response = await fetch(`${API_BASE_URL}/api/clubs`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: headers,
             body: JSON.stringify(clubData)
         });
 
@@ -127,6 +166,17 @@ document.getElementById('createClubForm')?.addEventListener('submit', async (e) 
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Үүсгэж байна...';
+
+    // Check admin access
+    const isAdmin = await checkAdminAccess();
+    if (!isAdmin) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Клуб үүсгэх';
+        return;
+    }
+
+    // Get user ID from localStorage
+    const userId = localStorage.getItem('userId');
 
     // Collect form data
     const formData = {
@@ -213,6 +263,11 @@ document.getElementById('description')?.addEventListener('input', (e) => {
     
     // You can add a character counter display here if needed
     console.log(`${remaining} characters remaining`);
+});
+
+// Check admin access on page load
+window.addEventListener('DOMContentLoaded', async () => {
+    await checkAdminAccess();
 });
 
 console.log('Admin club creation page loaded');

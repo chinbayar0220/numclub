@@ -1,10 +1,13 @@
 class NcClubsSidebar extends HTMLElement {
     constructor() {
         super();
+        this.selectedDirections = [];
+        this.selectedSchools = [];
     }
 
     async connectedCallback() {
         await this.loadAndRender();
+        this.attachEventListeners();
     }
 
     async loadAndRender() {
@@ -91,6 +94,48 @@ class NcClubsSidebar extends HTMLElement {
                 </form>
             </div>
         `;
+    }
+
+    attachEventListeners() {
+        // Listen to all checkboxes in both forms
+        const checkboxes = this.querySelectorAll('input[type="checkbox"]');
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                this.updateFilters();
+            });
+        });
+    }
+
+    updateFilters() {
+        // Get all checked directions
+        const directionCheckboxes = this.querySelectorAll('.chiglel input[type="checkbox"]');
+        this.selectedDirections = Array.from(directionCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        // Get all checked schools
+        const schoolCheckboxes = this.querySelectorAll('.surguuli input[type="checkbox"]');
+        this.selectedSchools = Array.from(schoolCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        // Dispatch custom event with filter data
+        const filterData = {
+            direction: this.selectedDirections.length === 1 ? this.selectedDirections[0] : '',
+            school: this.selectedSchools.length === 1 ? this.selectedSchools[0] : ''
+        };
+
+        // If multiple are selected, we'll need to handle that differently
+        // For now, the API supports one direction and one school filter
+        const event = new CustomEvent('filter-changed', {
+            detail: filterData,
+            bubbles: true
+        });
+        
+        window.dispatchEvent(event);
+        
+        console.log('Filters updated:', filterData);
     }
 }
 
