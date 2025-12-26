@@ -138,7 +138,7 @@ const seedDatabase = async () => {
     await connectDB();
     
     // Clear existing data
-    console.log('🗑️  Clearing existing data...');
+    console.log('Clearing existing data...');
     await Club.deleteMany({});
     await User.deleteMany({});
     await Event.deleteMany({});
@@ -200,7 +200,7 @@ const seedDatabase = async () => {
     console.log(`${createdEvents.length} events inserted`);
     
     // Link users to clubs
-    console.log('🔗 Creating club memberships...');
+    console.log('Creating club memberships...');
     await createdUsers[0].joinClub(createdClubs[0]._id, 'member');
     await createdUsers[1].joinClub(createdClubs[1]._id, 'admin');
     console.log('Club memberships created');

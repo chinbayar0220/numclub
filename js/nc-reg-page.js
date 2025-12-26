@@ -55,106 +55,167 @@ class NcRegistrationPage extends HTMLElement {
             <style>
                 :host {
                     display: block;
-                    padding: 20px;
+                    background-color: #f5f5f5;
+                    min-height: 100vh;
                 }
-                article h2 {
-                    text-align: right;
-                }
-                header {
+                
+                .page-container {
                     display: flex;
-                    justify-content: space-between;
+                    flex-direction: column;
                     align-items: center;
+                    min-height: 100vh;
+                    background-color: #f5f5f5;
                 }
-                form {
+                
+                .content-wrapper {
                     display: flex;
                     flex-direction: column;
-                    gap: 16px;
+                    align-items: center;
+                    width: 100%;
+                    max-width: 1440px;
+                    padding: 64px 100px;
+                    box-sizing: border-box;
                 }
-                .main {
+                
+                .page-title {
+                    font-family: "Inter", Helvetica, sans-serif;
+                    font-weight: 700;
+                    color: #1e1e1e;
+                    font-size: 48px;
+                    letter-spacing: -0.96px;
+                    line-height: 48px;
+                    margin-bottom: 16px;
+                    text-align: center;
+                }
+                
+                .club-name {
+                    font-size: 24px;
+                    font-weight: 600;
+                    color: #1e1e1e;
+                    margin-bottom: 32px;
+                    text-align: center;
+                }
+                
+                .form-container {
                     display: flex;
                     flex-direction: column;
-                    gap: 32px;
-                    margin-left: 100px;
-                    margin-right: 100px;
+                    width: 100%;
+                    max-width: 480px;
+                    gap: 24px;
+                    padding: 24px;
+                    background-color: #ffffff;
+                    border-radius: 8px;
+                    border: 1px solid #d9d9d9;
                 }
-                .question {
+                
+                .question-item {
                     display: flex;
                     flex-direction: column;
                     gap: 8px;
                 }
-                .question label {
-                    font-weight: 500;
-                    color: var(--text-primary, #000);
+                
+                .question-label {
+                    font-family: "Inter", Helvetica, sans-serif;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #1e1e1e;
+                    line-height: 24px;
                 }
-                .question input {
-                    padding: 10px 12px;
-                    border: 1px solid var(--border-color, #ddd);
-                    border-radius: 6px;
-                    background: var(--input-bg, #fff);
-                    color: var(--input-text, #000);
-                    font-size: 14px;
+                
+                .question-number {
+                    font-weight: 600;
+                    color: #1e1e1e;
+                    margin-right: 8px;
                 }
-                input[type="submit"] {
-                    padding: 12px 20px;
-                    background: var(--primary-color, #007bff);
-                    color: white;
-                    border: none;
-                    border-radius: 6px;
-                    cursor: pointer;
+                
+                .input-field {
+                    padding: 12px 16px;
+                    background-color: #ffffff;
+                    border: 1px solid #d9d9d9;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    color: #1e1e1e;
+                    width: 100%;
+                    box-sizing: border-box;
+                    font-family: "Inter", Helvetica, sans-serif;
+                }
+                
+                .input-field:focus {
+                    outline: none;
+                    border-color: #2c2c2c;
+                }
+                
+                .input-field::placeholder {
+                    color: #b3b3b3;
+                }
+                
+                .submit-button {
+                    padding: 12px;
+                    background-color: #2c2c2c;
+                    color: #ffffff;
+                    border: 1px solid #2c2c2c;
+                    border-radius: 8px;
                     font-size: 16px;
                     font-weight: 500;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                    font-family: "Inter", Helvetica, sans-serif;
                 }
-                input[type="submit"]:hover {
-                    background: var(--primary-hover, #0056b3);
+                
+                .submit-button:hover {
+                    background-color: #000000;
                 }
-                ol {
-                    list-style: decimal;
-                    padding-left: 20px;
-                }
-                li {
-                    margin-bottom: 24px;
+                
+                @media (max-width: 768px) {
+                    .content-wrapper {
+                        padding: 32px 20px;
+                    }
+                    
+                    .page-title {
+                        font-size: 32px;
+                    }
+                    
+                    .club-name {
+                        font-size: 20px;
+                    }
                 }
             </style>
 
             
-        <div class="main">
-            <h2>Элсэлтийн форм</h2>
-            <h3>${selectedClubName} students club</h3>
-            <form id="registrationForm">
-                <ol>
-                    <li>
-                        <section class="question">
-                            <label for="email">Таны мэйл хаяг (өдөр тутам ашигладаг)?</label>
-                            <input type="email" name="email" id="email" placeholder="example@email.com" required>
-                        </section>
-                    </li>
-                    <li>
-                        <section class="question">
-                            <label for="phone">Таны утасны дугаар?</label>
-                            <input type="tel" name="phone" id="phone" placeholder="+976 ..." required>
-                        </section>
-                    </li>
-                    <li>
-                        <section class="question">
-                            <label for="reason">Та яагаад ${selectedClubName} клубт элсэхийг хүсэж байна вэ?</label>
-                            <input type="text" name="reason" id="reason" placeholder="Хариултаа оруулна уу" required>
-                        </section>
-                    </li>
-                    <li>
-                        <section class="question">
-                            <label for="impact">Технологийн клубт орсноороо таны амьдрал, карьерт ямар өөрчлөлт авчирна гэж төсөөлж байгаа вэ?</label>
-                            <input type="text" name="impact" id="impact" placeholder="Хариултаа оруулна уу" required>
-                        </section>
-                    </li>
-                    <li>
-                        <section class="question">
-                            <label for="description">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                            <input type="text" name="description" id="description" placeholder="Үг 1, Үг 2, Үг 3" required>
-                        </section>
-                    </li>
-                </ol>
-                <input type="submit" value="Илгээх">
-            </form>
+        <div class="page-container">
+            <div class="content-wrapper">
+                <h1 class="page-title">Элсэлтийн форм</h1>
+                <h3 class="club-name">${selectedClubName}</h3>
+                
+                <form class="form-container" id="registrationForm">
+                    <div class="question-item">
+                        <label class="question-label"><span class="question-number">1.</span>Таны мэйл хаяг (өдөр тутам ашигладаг)?</label>
+                        <input type="email" class="input-field" name="email" id="email" placeholder="example@email.com" required>
+                    </div>
+                    
+                    <div class="question-item">
+                        <label class="question-label"><span class="question-number">2.</span>Таны утасны дугаар?</label>
+                        <input type="tel" class="input-field" name="phone" id="phone" placeholder="+976 99999999" required>
+                    </div>
+                    
+                    <div class="question-item">
+                        <label class="question-label"><span class="question-number">3.</span>Та яагаад ${selectedClubName} клубт элсэхийг хүсэж байна вэ?</label>
+                        <input type="text" class="input-field" name="reason" id="reason" placeholder="Хариултаа оруулна уу" required>
+                    </div>
+                    
+                    <div class="question-item">
+                        <label class="question-label"><span class="question-number">4.</span>Клубт орсноороо таны амьдрал, карьерт ямар өөрчлөлт авчирна гэж төсөөлж байгаа вэ?</label>
+                        <input type="text" class="input-field" name="impact" id="impact" placeholder="Хариултаа оруулна уу" required>
+                    </div>
+                    
+                    <div class="question-item">
+                        <label class="question-label"><span class="question-number">5.</span>Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
+                        <input type="text" class="input-field" name="description" id="description" placeholder="Үг 1, Үг 2, Үг 3" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Илгээх</button>
+                </form>
+            </div>
         </div>
         `;
 

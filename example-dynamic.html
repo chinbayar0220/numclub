@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example - Dynamic Clubs</title>
+</head>
+<body>
+    <div id="clubs-container"></div>
+
+    <script type="module">
+        import { getDirectionLabel } from './js/club-labels.js';
+
+        // Fetch clubs from API
+        async function loadClubs() {
+            try {
+                const response = await fetch('http://127.0.0.1:3000/api/clubs');
+                const data = await response.json();
+                
+                if (data.success && data.clubs) {
+                    displayClubs(data.clubs);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Display clubs with mapped labels
+        function displayClubs(clubs) {
+            const container = document.getElementById('clubs-container');
+            
+            container.innerHTML = clubs.map(club => {
+                // Get the first direction for display
+                const primaryDirection = club.directions?.[0] || 'it';
+                
+                // Map enum to display text
+                const displayLabel = getDirectionLabel(primaryDirection);  // "it" -> "Мэдээллийн технологи"
+                
+                return `
+                    <div class="club-card">
+                        <h3>${club.cname}</h3>
+                        <p>Category: ${displayLabel}</p>
+                        <p>Stored in DB: ${primaryDirection}</p>
+                        <p>${club.description}</p>
+                        
+                        <div>All directions:
+                            ${club.directions.map(dir => 
+                                `<span>${getDirectionLabel(dir)}</span>`
+                            ).join(', ')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Load on page load
+        loadClubs();
+    </script>
+</body>
+</html>

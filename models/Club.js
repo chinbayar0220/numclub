@@ -34,7 +34,7 @@ const clubSchema = new mongoose.Schema({
   school: {
     type: String,
     enum: ['bs', 'its', 'mtes', 'uts', 'khs', 'shus'],
-    required: [true, 'School is required']
+    required: [false, 'School is not required']
   },
   logo: {
     type: String,

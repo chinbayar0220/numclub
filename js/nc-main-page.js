@@ -8,162 +8,256 @@ class NcRegistrationPage extends HTMLElement {
             <style>
                 :host {
                     display: block;
+                    background-color: #f5f5f5;
                 }
-                article h2 {
-                    text-align: right;
-                }
-                header {
+                
+                .page-container {
                     display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    min-height: 100vh;
+                    background-color: #f5f5f5;
+                }
+                
+                .header {
+                    display: flex;
+                    width: 100%;
+                    max-width: 1440px;
+                    align-items: center;
                     justify-content: space-between;
+                    padding: 32px 100px;
+                    background-color: #ffffff;
+                    border-bottom: 1px solid #d9d9d9;
+                    box-sizing: border-box;
+                }
+                
+                .logo {
+                    font-family: "Leckerli One", cursive;
+                    font-size: 40px;
+                    font-weight: 400;
+                    color: #1e1e1e;
+                    letter-spacing: -1.2px;
+                    text-decoration: none;
+                }
+                
+                .navigation {
+                    display: flex;
+                    gap: 16px;
                     align-items: center;
                 }
-                form {
+                
+                .nav-link {
+                    padding: 8px;
+                    color: #1e1e1e;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                }
+                
+                .content-wrapper {
                     display: flex;
                     flex-direction: column;
-                    gap: 16px;
+                    align-items: center;
+                    width: 100%;
+                    max-width: 1440px;
+                    padding: 64px 480px;
+                    box-sizing: border-box;
                 }
-                .main {
+                
+                .page-title {
+                    font-family: "Inter", Helvetica, sans-serif;
+                    font-weight: 700;
+                    color: #1e1e1e;
+                    font-size: 48px;
+                    letter-spacing: -0.96px;
+                    line-height: 48px;
+                    margin-bottom: 24px;
+                    text-align: center;
+                }
+                
+                .club-name {
+                    font-size: 24px;
+                    font-weight: 600;
+                    color: #1e1e1e;
+                    margin-bottom: 32px;
+                    text-align: center;
+                }
+                
+                .form-container {
                     display: flex;
                     flex-direction: column;
-                    gap: 32px;
-                    margin-left: 100px;
-                    margin-right: 100px;
+                    width: 100%;
+                    max-width: 480px;
+                    gap: 24px;
+                    padding: 24px;
+                    background-color: #ffffff;
+                    border-radius: 8px;
+                    border: 1px solid #d9d9d9;
                 }
-                .question {
-                    margin-bottom: 16px;
+                
+                .question-item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
                 }
-                .question label {
-                    display: block;
-                    margin-bottom: 8px;
-                    font-weight: 500;
+                
+                .question-label {
+                    font-family: "Inter", Helvetica, sans-serif;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #1e1e1e;
+                    line-height: 24px;
                 }
-                .question input {
-                    padding: 8px 12px;
-                    border: 1px solid #d3d3d3;
-                    border-radius: 4px;
-                    font-size: 14px;
+                
+                .input-field {
+                    padding: 12px 16px;
+                    background-color: #ffffff;
+                    border: 1px solid #d9d9d9;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    color: #1e1e1e;
                     width: 100%;
                     box-sizing: border-box;
                 }
-                .question input[type="radio"] {
-                    width: auto;
-                    margin-right: 8px;
+                
+                .input-field:focus {
+                    outline: none;
+                    border-color: #2c2c2c;
                 }
-                input[type="submit"] {
-                    padding: 10px 20px;
-                    background-color: var(--color-default);
-                    color: white;
-                    border: none;
+                
+                .input-field::placeholder {
+                    color: #b3b3b3;
+                }
+                
+                .radio-group {
+                    display: flex;
+                    gap: 16px;
+                    flex-wrap: wrap;
+                }
+                
+                .radio-option {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                
+                .radio-option input[type="radio"] {
+                    width: 16px;
+                    height: 16px;
+                }
+                
+                .submit-button {
+                    padding: 12px;
+                    background-color: #2c2c2c;
+                    color: #ffffff;
+                    border: 1px solid #2c2c2c;
                     border-radius: 8px;
-                    cursor: pointer;
                     font-size: 16px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
                 }
-                input[type="submit"]:hover {
+                
+                .submit-button:hover {
                     background-color: #000000;
+                }
+                
+                .question-number {
+                    font-weight: 600;
+                    color: #1e1e1e;
+                    margin-right: 8px;
                 }
             </style>
 
-            <div class="main">
-                <header>
-                    <a href="#home"><img src="images/Club.svg" width="57.75" height="24" alt="NUM.Club Logo"/></a>
-                    <nav>
-                        <a href="clubs.html">Клуб</a>
-                        <a href="events.html">Эвент</a>
-                        <a href="#profile"><img src="images/Icon Button.svg" width="24" height="24" alt="Icon Button"/></a>
+            <div class="page-container">
+                <div class="header">
+                    <a href="#home" class="logo">Club.</a>
+                    <nav class="navigation">
+                        <a href="clubs.html" class="nav-link">Клуб</a>
+                        <a href="events.html" class="nav-link">Эвент</a>
+                        <a href="#profile" class="nav-link">Профайл</a>
                     </nav>
-                </header>
-                <div class="content">
-                    <h2>Элсэлтийн форм</h2>
-                    <h3>Hackum students club</h3>
-                    <div class="form">
-                        <ol>
-                            <li>
-                                <section class="question">
-                                    <label for="mail">Таны мэйл хаяг (өдөр тутам ашигладаг)?</label>
-                                    <br>
-                                    <input type="text" name="id1" id="id1" value="mail" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="mail">Таны мэйл хаяг (өдөр тутам ашигладаг)?</label>
-                                    <br>
-                                    <input type="text" name="id1" id="id1" value="mail" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Та яагаад Hackum клубт элсэхийг хүсэж байна вэ?</label>
-                                    <br>
-                                    <input type="text" name="id2" id="id2" value="answer" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Технологийн клубт орсноороо таны амьдрал, карьерт ямар өөрчлөлт авчирна гэж төсөөлж байгаа вэ?</label>
-                                    <br>
-                                    <input type="radio" name="id3" id="id3" value="answer1">1-2
-                                    <input type="radio" name="id3" id="id3" value="answer2">3-5
-                                    <input type="radio" name="id3" id="id3" value="answer3">6+
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                                    <br>
-                                    <input type="text" name="id2" id="id2" value="answer" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                                    <br>
-                                    <input type="text" name="id2" id="id2" value="answer" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                                    <br>
-                                    <input type="text" name="id2" id="id2" value="answer" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                                    <br>
-                                    <input type="text" name="id2" id="id2" value="answer" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                                    <br>
-                                    <input type="text" name="id2" id="id2" value="answer" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                                    <br>
-                                    <input type="text" name="id2" id="id2" value="answer" required>
-                                </section>
-                            </li>
-                            <li>
-                                <section class="question">
-                                    <label for="patty">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                                    <br>
-                                    <input type="text" name="id2" id="id2" value="answer" required>
-                                </section>
-                            </li>
-                        </ol>
-                        <form>
-                            <input type="submit" value="Илгээх">
-                        </form>
-                    </div>
+                </div>
+                
+                <div class="content-wrapper">
+                    <h1 class="page-title">Элсэлтийн форм</h1>
+                    <h3 class="club-name">Hackum students club</h3>
+                    
+                    <form class="form-container" id="registrationForm">
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">1.</span>Таны мэйл хаяг (өдөр тутам ашигладаг)?</label>
+                            <input type="email" class="input-field" placeholder="example@email.com" required>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">2.</span>Таны утасны дугаар?</label>
+                            <input type="tel" class="input-field" placeholder="99999999" required>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">3.</span>Та яагаад Hackum клубт элсэхийг хүсэж байна вэ?</label>
+                            <input type="text" class="input-field" placeholder="Таны хариулт" required>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">4.</span>Технологийн клубт орсноороо таны амьдрал, карьерт ямар өөрчлөлт авчирна гэж төсөөлж байгаа вэ?</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="experience" value="1-2" required>
+                                    <span>1-2 жил</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="experience" value="3-5">
+                                    <span>3-5 жил</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="experience" value="6+">
+                                    <span>6+ жил</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">5.</span>Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
+                            <input type="text" class="input-field" placeholder="Таны хариулт" required>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">6.</span>Та өмнө нь ямар нэгэн клубт гишүүнээр элссэн туршлагатай юу?</label>
+                            <input type="text" class="input-field" placeholder="Таны хариулт" required>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">7.</span>Таны хоби юу вэ?</label>
+                            <input type="text" class="input-field" placeholder="Таны хариулт" required>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">8.</span>Та ямар төрлийн идэвхитэй оролцохыг хүсч байна?</label>
+                            <input type="text" class="input-field" placeholder="Таны хариулт" required>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">9.</span>Та долоо хоногт хэдэн цаг клубын үйл ажиллагаанд зориулах боломжтой вэ?</label>
+                            <input type="text" class="input-field" placeholder="Таны хариулт" required>
+                        </div>
+                        
+                        <div class="question-item">
+                            <label class="question-label"><span class="question-number">10.</span>Таны ирээдүйн зорилго юу вэ?</label>
+                            <input type="text" class="input-field" placeholder="Таны хариулт" required>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">Илгээх</button>
+                    </form>
                 </div>
             </div>
         `;
+        
+        this.querySelector('#registrationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log('Form submitted!');
+            alert('Таны хүсэлтийг амжилттай илгээлээ!');
+        });
     }
 }
 
