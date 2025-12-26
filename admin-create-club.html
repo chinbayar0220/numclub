@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Клуб үүсгэх - NumClub Admin</title>
+    <link rel="stylesheet" href="style/all.css">
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+        .admin-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: var(--bg-primary, #fff);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            color: var(--text-primary, #333);
+            margin-bottom: 10px;
+        }
+
+        .admin-header p {
+            color: var(--text-secondary, #666);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary, #333);
+        }
+
+        .form-group label .required {
+            color: #e74c3c;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .social-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .logo-preview {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .logo-preview img {
+            max-width: 200px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <nc-header></nc-header>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>🎯 Шинэ клуб үүсгэх</h1>
+            <p>Клубын мэдээллийг бүрэн бөглөнө үү</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <form id="createClubForm">
+            <!-- Club Name -->
+            <div class="form-group">
+                <label for="cname">
+                    Клубын нэр <span class="required">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="cname" 
+                    name="cname" 
+                    required 
+                    maxlength="100"
+                    placeholder="Жишээ: Hackum students club"
+                >
+                <div class="error-message" id="cnameError"></div>
+            </div>
+
+            <!-- Short Name -->
+            <div class="form-group">
+                <label for="shortName">
+                    Богино нэр <span class="required">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="shortName" 
+                    name="shortName" 
+                    required 
+                    maxlength="50"
+                    placeholder="Жишээ: Hackum"
+                >
+                <p class="helper-text">Клубын товч нэр (давхцахгүй байх ёстой)</p>
+                <div class="error-message" id="shortNameError"></div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description">
+                    Тайлбар <span class="required">*</span>
+                </label>
+                <textarea 
+                    id="description" 
+                    name="description" 
+                    required 
+                    maxlength="1000"
+                    placeholder="Клубын үйл ажиллагаа, зорилго зэргийг тайлбарлана уу..."
+                ></textarea>
+                <div class="error-message" id="descriptionError"></div>
+            </div>
+
+            <!-- Directions -->
+            <div class="form-group">
+                <label>
+                    Чиглэл <span class="required">*</span>
+                </label>
+                <div class="checkbox-group" id="directionsGroup">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dir-volunteer" name="directions" value="volunteer">
+                        <label for="dir-volunteer">Сайн дурын</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dir-sport" name="directions" value="sport">
+                        <label for="dir-sport">Спорт</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dir-art" name="directions" value="art">
+                        <label for="dir-art">Урлаг</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dir-humanitarian" name="directions" value="humanitarian">
+                        <label for="dir-humanitarian">Чөлөөт</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dir-photo" name="directions" value="photo">
+                        <label for="dir-photo">Фото зураг</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dir-science" name="directions" value="science">
+                        <label for="dir-science">Шинжлэх ухаан</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dir-it" name="directions" value="it">
+                        <label for="dir-it">Мэдээллийн технологи</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dir-language" name="directions" value="language">
+                        <label for="dir-language">Хэл судлал</label>
+                    </div>
+                </div>
+                <div class="error-message" id="directionsError"></div>
+            </div>
+
+            <!-- School -->
+            <div class="form-group">
+                <label for="school">
+                    Сургууль <span class="required">*</span>
+                </label>
+                <select id="school" name="school" required>
+                    <option value="">Сургууль сонгох</option>
+                    <option value="bs">БС - Бизнесийн сургууль</option>
+                    <option value="its">ИТС - Инженер технологийн сургууль</option>
+                    <option value="mtes">МТЭС - Мэдээлэл технологи, электроникийн сургууль</option>
+                    <option value="uts">УТСОХУС - Урлаг технологи судлалын сургууль</option>
+                    <option value="khs">ХЗС - Хүний зохиолын сургууль</option>
+                    <option value="shus">ШУС - Шинжлэх ухааны сургууль</option>
+                </select>
+                <div class="error-message" id="schoolError"></div>
+            </div>
+
+            <!-- Logo -->
+            <div class="form-group">
+                <label for="logo">Лого зураг</label>
+                <input 
+                    type="text" 
+                    id="logo" 
+                    name="logo" 
+                    placeholder="images/clubs/myclub.png"
+                >
+                <p class="helper-text">Зургийн зам (хоосон үлдээвэл анхдагч зураг ашиглана)</p>
+                <div class="logo-preview" id="logoPreview">
+                    <img id="logoImage" src="" alt="Logo preview">
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="form-group">
+                <label>Нийгмийн сүлжээний холбоос</label>
+                <div class="social-links">
+                    <input 
+                        type="text" 
+                        id="facebook" 
+                        name="facebook" 
+                        placeholder="Facebook URL"
+                    >
+                    <input 
+                        type="text" 
+                        id="instagram" 
+                        name="instagram" 
+                        placeholder="Instagram URL"
+                    >
+                    <input 
+                        type="text" 
+                        id="twitter" 
+                        name="twitter" 
+                        placeholder="Twitter URL"
+                    >
+                    <input 
+                        type="text" 
+                        id="website" 
+                        name="website" 
+                        placeholder="Website URL"
+                    >
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                    Болих
+                </button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    Клуб үүсгэх
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <nc-footer></nc-footer>
+
+    <script type="module" src="app.js"></script>
+    <script type="module" src="js/nc-admin-create-club.js"></script>
+</body>
+</html>

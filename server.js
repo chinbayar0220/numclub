@@ -1,136 +1,126 @@
-// server.mjs
+// server.js
 import { createServer } from 'node:http';
 import { url } from 'node:inspector';
+import connectDB from './config/database.js';
+import { Club, User, Event } from './models/index.js';
+import 'dotenv/config';
 
+// Connect to MongoDB
+await connectDB();
 
-const clubs =[
-    {
-      "id": 1,
-      "cname": "Hackum students club",
-      "shortName": "Hackum",
-      "description": "Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудад мэдлэгийг хөгжүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг.",
-      "directions": ["it", "science"],
-      "school": "its",
-      "logo": "images/clubs/hackum.png",
-      "members": 65
-    },
-    {
-      "id": 2,
-      "cname": "BSONK",
-      "shortName": "BSONK",
-      "description": "BSONK клуб нь бизнес ба стартап сонирхдог оюутнуудад зориулсан уулзалт, хэлэлцүүлэг, pitch event зохион байгуулдаг.",
-      "directions": ["volunteer", "science"],
-      "school": "bs",
-      "logo": "images/clubs/bsonk.png",
-      "members": 42
-    },
-    {
-      "id": 3,
-      "name": "Google developers club",
-      "shortName": "GDSC",
-      "description": "Google технологи болон ерөнхий программчлалын чиглэлээр workshop, hackathon, coding challenge зохион байгуулдаг.",
-      "directions": ["it"],
-      "school": "its",
-      "logo": "images/clubs/gdsc.png",
-      "members": 80
-    },
-    {
-      "id": 4,
-      "name": "Club name",
-      "shortName": "Art club",
-      "description": "Урлаг, дизайн, илтгэл, контент бүтээх сонирхолтой оюутнуудад зориулсан клуб.",
-      "directions": ["art"],
-      "school": "shus",
-      "logo": "images/clubs/art.png",
-      "members": 30
-    },
-    {
-      "id": 5,
-      "name": "Club name",
-      "shortName": "Sport club",
-      "description": "Спортын тэмцээн, дасгал хөдөлгөөн, health lifestyle-ыг дэмждэг клуб.",
-      "directions": ["sport"],
-      "school": "mtes",
-      "logo": "images/clubs/sport.png",
-      "members": 55
-    },
-    {
-      "id": 6,
-      "name": "Club name",
-      "shortName": "Photo club",
-      "description": "Фото зураг, видео, медиа контентын чиглэлээр дадлага, аялал, workshop хийдэг.",
-      "directions": ["photo", "art"],
-      "school": "uts",
-      "logo": "images/clubs/photo.png",
-      "members": 25
-    },
-    {
-      "id": 7,
-      "name": "Club name",
-      "shortName": "Language club",
-      "description": "Гадаад хэлний ярианы клуб, соёлын солилцоо болон хэлний эвентүүд зохион байгуулдаг.",
-      "directions": ["language"],
-      "school": "shus",
-      "logo": "images/clubs/language.png",
-      "members": 40
-    },
-    {
-      "id": 8,
-      "name": "Club name",
-      "shortName": "Volunteer club",
-      "description": "Нийгэмд эерэг нөлөө үзүүлэх сайн дурын үйл ажиллагаа зохион байгуулдаг.",
-      "directions": ["volunteer"],
-      "school": "bs",
-      "logo": "images/clubs/volunteer.png",
-      "members": 70
-    }
-  ];
+// Helper function to parse request body
+function parseBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (error) {
+        reject(error);
+      }
+    });
+    req.on('error', reject);
+  });
+}
 
-
-
-
-const server = createServer((req, res) => { 
+const server = createServer(async (req, res) => { 
   res.setHeader("Access-Control-Allow-Origin", "*");
-    switch (req.url) {
-        case "/api/filters":
-            res.writeHead(200,{"content-type":"application/json"});
-            res.end(JSON.stringify({
-                filters:{
-                    directions:[
-                        { id: "volunteer", label: "Сайн дурын" },
-                        { id: "sport", label: "Спорт" },
-                        { id: "art", label: "Урлаг" },
-                        { id: "humanitarian", label: "Чөлөөт" },
-                        { id: "photo", label: "Фото зураг" },
-                        { id: "science", label: "Шинжлэх ухаан" },
-                        { id: "it", label: "Мэдээллийн технологи" },
-                        { id: "language", label: "Хэл судлал" }
-                    ],
-                    schools:[
-                      { "id": "bs", "label": "БС" },
-                      { "id": "its", "label": "ИТС" },
-                      { "id": "mtes", "label": "МТЭС" },
-                      { "id": "uts", "label": "УТСОХУС" },
-                      { "id": "khs", "label": "ХЗС" },
-                      { "id": "shus", "label": "ШУС" }
-                    ]
-                }
-            }))
-            break;
-        
-        case "/api/clubs":
-            res.writeHead(200,{"content-type":"application/json"});
-            res.end(JSON.stringify({clubs}));
-            break;
-        default:
-            res.writeHead(404,{"content-type":"application/json"})
-            res.end(JSON.stringify({message:"Not found"}));
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Content-Type", "application/json");
+  
+  // Handle OPTIONS preflight request
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
+  
+  try {
+    const url = req.url;
+    const method = req.method;
+    
+    // Log request for debugging
+    console.log(`${method} ${url}`);
+
+    // GET /api/filters - Get filter options
+    if (url === '/api/filters' && method === 'GET') {
+      res.writeHead(200);
+      res.end(JSON.stringify({
+        filters: {
+          directions: [
+            { id: "volunteer", label: "Сайн дурын" },
+            { id: "sport", label: "Спорт" },
+            { id: "art", label: "Урлаг" },
+            { id: "humanitarian", label: "Чөлөөт" },
+            { id: "photo", label: "Фото зураг" },
+            { id: "science", label: "Шинжлэх ухаан" },
+            { id: "it", label: "Мэдээллийн технологи" },
+            { id: "language", label: "Хэл судлал" }
+          ],
+          schools: [
+            { "id": "bs", "label": "БС" },
+            { "id": "its", "label": "ИТС" },
+            { "id": "mtes", "label": "МТЭС" },
+            { "id": "uts", "label": "УТСОХУС" },
+            { "id": "khs", "label": "ХЗС" },
+            { "id": "shus", "label": "ШУС" }
+          ]
+        }
+      }));
+    } 
+    // POST /api/clubs - Create new club
+    else if (url === '/api/clubs' && method === 'POST') {
+      const body = await parseBody(req);
+      const club = await Club.create(body);
+      res.writeHead(201);
+      res.end(JSON.stringify({ success: true, data: club }));
     }
+    // GET /api/clubs/:id - Get club by ID
+    else if (url.startsWith('/api/clubs/') && url !== '/api/clubs' && method === 'GET') {
+      const id = url.split('/')[3];
+      if (!id) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ success: false, error: 'Invalid club ID' }));
+        return;
+      }
+      
+      const club = await Club.findById(id).populate('createdBy', 'username email');
+      
+      if (!club) {
+        res.writeHead(404);
+        res.end(JSON.stringify({ success: false, error: 'Club not found' }));
+        return;
+      }
+      
+      res.writeHead(200);
+      res.end(JSON.stringify({ success: true, data: club }));
+    }
+    // GET /api/clubs - Get all clubs
+    else if (url === '/api/clubs' && method === 'GET') {
+      const clubsFromDB = await Club.find({ status: 'active' }).sort({ createdAt: -1 }).lean();
+      res.writeHead(200);
+      res.end(JSON.stringify({ success: true, count: clubsFromDB.length, clubs: clubsFromDB }));
+    }
+    // 404 - Route not found
+    else {
+      res.writeHead(404);
+      res.end(JSON.stringify({ success: false, message: `Route not found: ${method} ${url}` }));
+    }
+  } catch (error) {
+    console.error('Server error:', error);
+    res.writeHead(500);
+    res.end(JSON.stringify({ error: error.message }));
+  }
 });
 
 // starts a simple http server locally on port 3000
-server.listen(3000, '127.0.0.1', () => {
-    console.log('Listening on 127.0.0.1:3000');
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, '127.0.0.1', () => {
+    console.log(`Server listening on http://127.0.0.1:${PORT}`);
 });
 
-// run with `node server.mjs`
+// run with `node server.js`
