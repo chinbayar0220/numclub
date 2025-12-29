@@ -1,32 +1,30 @@
+import { getFilters } from "./apiclient.js";
 class NcClubFilter extends HTMLElement {
     constructor() {
         super();
         this.filters={directions:new Map(), surguuli:new Map()};
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        const result  = await getFilters();
+        const filters = (result && result.data && result.data && result.data.filters)
+            ? result.data.filters :{directions : [], schools: []};
+        const directionsHtml = filters.directions
+            .map((f) => `<nc-form id="${f.id}" label="${f.label}"></nc-form>`)
+            .join("");
+        const schoolsHtml = filters.schools
+            .map((f) => `<nc-form id="${f.id}" label="${f.label}"></nc-form>`)
+            .join("");
         this.innerHTML = `
                 <div class="sidebar">
                     <h2>Клубийн чиглэл</h2>
                     <form class="directions">
                         <h4>Чөлөөт</h4>
-                        <nc-form id="volunteer" label="Сайн дурын"></nc-form>
-                        <nc-form id="sport" label="Спорт"></nc-form>
-                        <nc-form id="art" label="Урлаг"></nc-form>
-                        <nc-form id="humanitarian" label="Чөлөөт"></nc-form>
-                        <nc-form id="photo" label="Фото зураг"></nc-form>
-                        <nc-form id="science" label="Шинжлэх ухаан"></nc-form>
-                        <nc-form id="it" label="Мэдээллийн технологи"></nc-form>
-                        <nc-form id="language" label="Хэл судлал"></nc-form>
+                        ${directionsHtml}
                     </form>
                     <form class="schools">
                         <h4>Сургууль</h4>
-                        <nc-form id="bs" name="business" label="БС"></nc-form>
-                        <nc-form id="its" name="its" label="ИТС"></nc-form>
-                        <nc-form id="mtes" name="mtes" label="МТЭС"></nc-form>
-                        <nc-form id="uts" name="olonuls" label="УТСОУХНУС"></nc-form>
-                        <nc-form id="khs" name="huuli" label="ХЗС"></nc-form>
-                        <nc-form id="shus" name="shus" label="ШУС"></nc-form>
+                        ${schoolsHtml}
                     </form>
                 </div>`;
         this.querySelectorAll('form[class="directions"] nc-form').forEach( fe => {
