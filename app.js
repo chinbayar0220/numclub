@@ -19,4 +19,3 @@ import "./js/nc-club-filter.js";
 import "./js/apiclient.js";
 
 
-import "./style/all.cs"

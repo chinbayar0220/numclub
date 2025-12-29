@@ -64,7 +64,10 @@ class NcClubFilter extends HTMLElement {
     }
 
     inform(){
-        document.querySelector("nc-club-list").filter(this.filters);
+        const list = document.querySelector("nc-clubs-list");
+        if (list && typeof list.filter === "function") {
+            list.filter(this.filters);
+        }
     }
     disconnectedCallback() {
 
