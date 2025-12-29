@@ -11,7 +11,7 @@ const clubs =[
       "description": "Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудад мэдлэгийг хөгжүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг.",
       "directions": ["it", "science"],
       "school": "its",
-      "logo": "images/clubs/hackum.png",
+      "logo": "images/club_logo.svg",
       "members": 65
     },
     {
