@@ -17,9 +17,9 @@ class NcClubFilter extends HTMLElement {
             .join("");
         this.innerHTML = `
                 <div class="sidebar">
-                    <h2>Клубийн чиглэл</h2>
+                    <h2>Клуб ангилах</h2>
                     <form class="directions">
-                        <h4>Чөлөөт</h4>
+                        <h4>Чиглэл</h4>
                         ${directionsHtml}
                     </form>
                     <form class="schools">

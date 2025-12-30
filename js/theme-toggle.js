@@ -38,7 +38,7 @@ class ThemeToggle extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
-                    --accent: --var(--border-color);
+                    --accent: var(--border-color);
                 }
 
                 button {

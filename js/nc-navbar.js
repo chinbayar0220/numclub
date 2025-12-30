@@ -74,8 +74,8 @@ class NcNavbar extends HTMLElement {
                 }
                 a.btn, button.btn1, button.btn2 {
                     padding: 8px 12px;
-                    border: none;
                     background: transparent;
+                    border: none;
                     color: var(--text-primary, #000);
                     cursor: pointer;
                     text-decoration: none;
@@ -83,15 +83,25 @@ class NcNavbar extends HTMLElement {
                     border-radius: 6px;
                     transition: background 0.2s ease;
                 }
-                a.btn:hover, button.btn1:hover, button.btn2:hover {
+                a.btn:hover {
                     background: var(--hover-bg, #f0f0f0);
                 }
+                button.btn1 {
+                    background: var(--color-white, #fff);
+                    border: 1px solid var(--border-color, #d1d5db);
+                    color: var(--text-primary, #000);
+                }
+                button.btn1:hover {
+                    background: var(--bg-secondary, #f5f5f5);
+                }
                 button.btn2 {
-                    background: var(--primary-color, #007bff);
+                    background: #2c2c2c;
+                    border: 1px solid #2c2c2c;
                     color: white;
                 }
                 button.btn2:hover {
-                    background: var(--primary-hover, #0056b3);
+                    background: #3a3a3a;
+                    border-color: #3a3a3a;
                 }
                 .user-menu {
                     display: flex;
@@ -102,6 +112,21 @@ class NcNavbar extends HTMLElement {
                     font-size: 14px;
                     color: var(--text-secondary, #666);
                 }
+                .user-icon {
+                    width: 36px;
+                    height: 36px;
+                    cursor: pointer;
+                    transition: opacity 0.2s ease;
+                    flex-shrink: 0;
+                }
+                .user-icon:hover {
+                    opacity: 0.7;
+                }
+                .user-icon img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
             </style>
 
             <nav>
@@ -111,12 +136,14 @@ class NcNavbar extends HTMLElement {
 
                 ${isLoggedIn ? `
                     <div class="user-menu">
-                        <span class="user-email">${currentUser}</span>
+                        <div class="user-icon" onclick="window.location.hash='#/user-profile'" title="${currentUser}">
+                            <img src="images/user_icon.svg" alt="User Profile">
+                        </div>
                         <button class="btn1" onclick="window.AuthState.logout(); window.Router.navigate('/');">Гарах</button>
                     </div>
                 ` : `
                     <button class="btn1" onclick="window.location.hash='#/login'">Нэвтрэх</button>
-                    <button class="btn2" onclick="window.location.hash='#/register'">Бүртгүүлэх</button>
+                    <button class="btn2" onclick="window.location.hash='#/signup'">Бүртгүүлэх</button>
                 `}
             </nav>
         `;

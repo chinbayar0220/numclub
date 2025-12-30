@@ -12,7 +12,7 @@ class NcUsercard extends HTMLElement {
         this.innerHTML=`
         <div class="user_card">
             <div class="profile_picture">
-            <img src="images/user_profile.svg" alt="User Profile Image"/>
+            <img src="images/user_profile.png" alt="User Profile Image"/>
             </div>
             
             <div class="info">
@@ -35,30 +35,12 @@ class NcUsercard extends HTMLElement {
                         <p class="border">МТЭС-МКУТ</p>
                     </div>
                 </div>
-                <div class="registered_clubs">
-                    <div class="club_name">
-                        <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                        <h4>Hackum students club</h4>
-                    </div>
-                    <div class="club_name">
-                        <img src="images/club_logo.svg" width="24" height="24" alt="Club Icon"/>
-                        <h4>Hackum students club</h4>   
-                    </div>
-                </div> 
                 <p class="desc">Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг</p> 
-                <details>
-                    <summary>
-                        Дэлгэрэнгүй
-                    </summary>
-                    <p class="desc">
-                        Бүүр дэлгэрэнгүй био
-                    </p>
-                </details>
             </div>
             <div class="url">
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/FB Icon Button.svg" width="36" height="36" alt="facebook Icon"/></a>
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/IG Icon Button.svg" width="36" height="36" alt="instagram Icon"/></a>
-                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/Linkedin Icon Button.svg" width="36" height="36" alt="linkedin Icon"/></a>
+                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/fb_icon.svg" width="36" height="36" alt="facebook Icon"/></a>
+                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/ig_icon.svg" width="36" height="36" alt="instagram Icon"/></a>
+                <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/linkedin_icon.svg" width="36" height="36" alt="linkedin Icon"/></a>
             </div> 
         </div> `;
     }

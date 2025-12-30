@@ -24,15 +24,18 @@ class NcUserProfilePage extends HTMLElement {
                     gap: 5%;
                     align-items: flex-start;
                     background-color: var(--color-white);
-                    padding: 28px 90px;
+                    padding: 48px 90px;
                     width: flex;
                 }
                 .profile_picture{
-                    flex: 1 1 auto;
+                    flex-shrink: 0;
+                }
+                .profile_picture img {
+                    width: 250px;
+                    height: 250px;
                     border-radius: 50%;
-                    border: 1px solid var(--color-gray); 
-                    background-color: var(--color-gray)"
-                    width: 20%;
+                    object-fit: cover;
+                    border: 1px solid var(--border-color);
                 }
                 .info {
                     display: flex;

@@ -8,7 +8,7 @@ class Router {
             { pattern: '/events', component: 'nc-main-page' },
             { pattern: '/user-profile', component: 'nc-user-profile-page' },
             { pattern: '/register', component: 'nc-reg-page' },
-            { pattern: '/registration', component: 'nc-reg-page' },
+            { pattern: '/signup', component: 'nc-signup' },
             { pattern: '/login', component: 'nc-login' },
             { pattern: '/club/:id', component: 'nc-club-profile-page' },
             { pattern: '/event/:id', component: 'nc-event-page' },

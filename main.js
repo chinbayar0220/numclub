@@ -1294,7 +1294,7 @@
       this.innerHTML = `
         <div class="user_card">
             <div class="profile_picture">
-            <img src="images/user_profile.svg" alt="User Profile Image"/>
+            <img src="images/user_profile.png" alt="User Profile Image"/>
             </div>
             
             <div class="info">

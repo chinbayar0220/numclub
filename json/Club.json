@@ -4,7 +4,7 @@
       { "id": "volunteer", "label": "Сайн дурын" },
       { "id": "sport", "label": "Спорт" },
       { "id": "art", "label": "Урлаг" },
-      { "id": "humanitarian", "label": "Чөлөөт" },
+      { "id": "open", "label": "Чөлөөт" },
       { "id": "photo", "label": "Фото зураг" },
       { "id": "science", "label": "Шинжлэх ухаан" },
       { "id": "it", "label": "Мэдээллийн технологи" },
@@ -23,22 +23,22 @@
   "clubs": [
     {
       "id": 1,
-      "name": "Hackum students club",
-      "shortName": "Hackum",
-      "description": "Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудад мэдлэгийг хөгжүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг.",
-      "directions": ["it", "science"],
-      "school": "its",
-      "logo": "images/clubs/hackum.png",
+      "cname": "Artemisia",
+      "shortName": "Artemisia",
+      "description": "\"Artemisia\" клуб нь 2022 оны намар үүсгэн байгуулагдсан бөгөөд байгуулагдсан өдрөөсөө хойш уран зургийн чиглэлээр тасралтгүй үйл ажиллагаагаа амжилттай явуулсаар ирсэн МУИС-д харъяалагдах бие даасан уран зургийн цор ганц клуб билээ. Одоогийн байдлаар \"Artemisia\"  клуб нь 65 идэвхтэй гишүүдтэй. Мөн үйл ажиллагааны хувьд гишүүдийн хооронд мэдлэг мэдээлэл олгох, урлагаар нийгэмшүүлэх, уран зургийн авъяас чадварыг өргөжүүлэхийг гол зорилго, зорилтоо болгон ажилладаг клуб юм.",
+      "directions": ["art"],
+      "school": "shus",
+      "logo": "artemisia.png",
       "members": 65
     },
     {
       "id": 2,
-      "name": "BSONK",
-      "shortName": "BSONK",
-      "description": "BSONK клуб нь бизнес ба стартап сонирхдог оюутнуудад зориулсан уулзалт, хэлэлцүүлэг, pitch event зохион байгуулдаг.",
+      "cname": "Astrology Club",
+      "shortName": "Astrology",
+      "description": "Астрологи клуб нь 2022 оны 10-р сараас хойш үйл ажиллагаагаа явуулж эхэлсэн бөгөөд одон орон, зурхайн судлалаар үйл ажиллагаа явуулдаг.",
       "directions": ["volunteer", "science"],
-      "school": "bs",
-      "logo": "images/clubs/bsonk.png",
+      "school": "shus",
+      "logo": "images/clubs/astrology.png",
       "members": 42
     },
     {

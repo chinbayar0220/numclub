@@ -1,4 +1,4 @@
-class NcLogin extends HTMLElement {
+class NcRegister extends HTMLElement {
     constructor() {
         super();
     }
@@ -10,33 +10,32 @@ class NcLogin extends HTMLElement {
                     display: block; 
                     padding: 40px; 
                 }
-                .login-card{ 
+                .register-card{ 
                     max-width: 420px; 
                     margin: 0 auto; 
                     margin-top: 100px;
                     margin-bottom: 100px;
-                    allign-items: center;
+                    align-items: center;
                     background: var(--card-bg, #fff); 
-                    padding: 24px; border-radius: 8px; 
-                    border-radius: 8px;
-                    border: 1px solid var(--border-color, #e5e7eb);
+                    padding: 24px; 
+                    border-radius: 8px; 
                     box-shadow: 0 6px 18px rgba(0,0,0,0.06); 
                 }
-                .login-card h2{ 
+                .register-card h2{ 
                     margin: 0 0 16px; 
                     font-size: 20px; 
                     color: var(--text-primary); 
                 }
-                .login-card label{ 
+                .register-card label{ 
                     display:block; 
                     margin-bottom:8px; 
                     color: var(--text-secondary); 
                 }
-                .login-card input{ 
+                .register-card input{ 
                     width:100%; 
                     padding:10px 12px; 
                     margin-bottom:12px; 
-                    border:8px solid var(--border-color); 
+                    border:1px solid var(--border-color); 
                     border-radius:6px; 
                     background: var(--input-bg); 
                     color: var(--input-text); 
@@ -46,7 +45,7 @@ class NcLogin extends HTMLElement {
                     flex-direction: column;
                     gap: 6px;
                     margin-bottom: 16px;
-                    }
+                }
 
                 .form-field label {
                     font-size: 14px;
@@ -63,7 +62,7 @@ class NcLogin extends HTMLElement {
                     outline: none;
                     transition: border-color 0.2s ease, box-shadow 0.2s ease;
                 }
-                .login-card button{ 
+                .register-card button{ 
                     width:100%; 
                     padding:10px 12px; 
                     border: 1px solid var(--border-color, #d1d5db);
@@ -72,13 +71,13 @@ class NcLogin extends HTMLElement {
                     border-radius:6px; 
                     cursor:pointer; 
                 }
-                .login-card button:hover {
+                .register-card button:hover {
                     background: var(--bg-secondary, #f5f5f5);
                 }
             </style>
-            <div class="login-card">
-                <h2>Нэвтрэх</h2>
-                <form id="loginForm">
+            <div class="register-card">
+                <h2>Бүртгүүлэх</h2>
+                <form id="registerForm">
                     <div class="form-field">
                         <label for="email">И-мэйл</label>
                         <input id="email" name="email" type="email" required />
@@ -87,24 +86,39 @@ class NcLogin extends HTMLElement {
                         <label for="password">Нууц үг</label>
                         <input id="password" name="password" type="password" required />
                     </div>
-                    <button type="submit">Нэвтрэх</button>
+                    <div class="form-field">
+                        <label for="confirmPassword">Нууц үг давтах</label>
+                        <input id="confirmPassword" name="confirmPassword" type="password" required />
+                    </div>
+                    <button type="submit">Бүртгүүлэх</button>
                 </form>
             </div>
         `;
 
-        this.querySelector('#loginForm').addEventListener('submit', (e) => {
+        this.querySelector('#registerForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            // get email and save state
+            // get email and passwords
             const email = this.querySelector('#email').value;
+            const password = this.querySelector('#password').value;
+            const confirmPassword = this.querySelector('#confirmPassword').value;
+            
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                alert('Нууц үг таарахгүй байна!');
+                return;
+            }
+            
+            // Save state and log the user in
             if (window.AuthState) {
                 window.AuthState.login(email);
             }
+            
             // navigate to home
             if (window.Router) window.Router.navigate('/');
         });
     }
 }
 
-if (!customElements.get('nc-login')) {
-    customElements.define('nc-login', NcLogin);
+if (!customElements.get('nc-signup')) {
+    customElements.define('nc-signup', NcRegister);
 }
