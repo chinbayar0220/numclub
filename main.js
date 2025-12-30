@@ -197,7 +197,7 @@
                 .hero {
                     text-align: center;
                     padding: 60px 20px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #050c29ff 0%, #11061cff 100%);
                     color: white;
                 }
                 .hero h1 {
@@ -329,7 +329,7 @@
                 .btn-join {
                     width: 100%;
                     padding: 10px;
-                    background: #667eea;
+                    background: #040611ff;
                     color: white;
                     border: none;
                     border-radius: 4px;
@@ -339,7 +339,7 @@
                     transition: background 0.3s;
                 }
                 .btn-join:hover {
-                    background: #764ba2;
+                    background: #1a181cff;
                 }
                 .comments-grid {
                     display: grid;

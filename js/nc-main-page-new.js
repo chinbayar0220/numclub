@@ -2,7 +2,6 @@ class NcMainPage extends HTMLElement {
     constructor() {
         super();
     }
-
     connectedCallback() {
         this.innerHTML = `
             <style>
@@ -12,7 +11,7 @@ class NcMainPage extends HTMLElement {
                 .hero {
                     text-align: center;
                     padding: 60px 20px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #6a64642c 0%, #2c2c2c 100%);
                     color: white;
                 }
                 .hero h1 {
@@ -50,19 +49,23 @@ class NcMainPage extends HTMLElement {
                 .filter-btn.secondary {
                     border-color: rgba(255,255,255,0.5);
                 }
-                .events-section {
-                    padding: 40px 20px;
-                }
-                .events-container {
-                    position: relative;
-                    margin-bottom: 60px;
-                }
-                .events-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                    gap: 20px;
-                    padding: 20px;
-                }
+             .events-container {
+             display: flex;
+             align-items: center;
+               }
+
+            .events-grid {
+                  display: flex;
+               overflow: hidden; /* hide extra cards */
+             scroll-behavior: smooth;
+               width: 300px; /* single card width */
+                   }
+
+                   clb-event-card {
+                     min-width: 300px; /* each card takes full width of container */
+                     margin-right: 10px;
+                         }
+
                 .scroll-btn {
                     position: absolute;
                     top: 50%;
@@ -215,36 +218,26 @@ class NcMainPage extends HTMLElement {
                 <h1>NUM CLUBS</h1>
                 <div class="search-bar">
                     <input type="text" class="search-input" placeholder="хайх...">
-                    <button class="filter-btn">NEW</button>
-                    <button class="filter-btn secondary">Computer</button>
-                    <button class="filter-btn secondary">Sport</button>
-                    <button class="filter-btn secondary">Art</button>
+                    <button class="filter-btn">хайх</button>
+                
                 </div>
             </section>
 
-            <section class="events-section">
-                <div class="events-container">
-                    <button class="scroll-btn scroll-btn-left" id="scrollLeft">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
+         <section class="events-section">
+    <div class="events-container">
+        <button class="scroll-btn scroll-btn-left" id="scrollLeft">◀</button>
 
-                    <div class="events-grid">
-                        <clb-event-card en="hogjimm"></clb-event-card>
-                        <clb-event-card en="jaaz"></clb-event-card>
-                        <clb-event-card></clb-event-card>
-                        <clb-event-card en="jaaz"></clb-event-card>
-                        <clb-event-card en="jaaz"></clb-event-card>
-                        <clb-event-card en="jaaz"></clb-event-card>
-                    </div>
+        <div class="events-grid">
+            <clb-event-card en="hogjimm"></clb-event-card>
+            <clb-event-card en="jaaz"></clb-event-card>
+            <clb-event-card en="rock"></clb-event-card>
+            <clb-event-card en="hogjimm"></clb-event-card>
+        </div>
 
-                    <button class="scroll-btn scroll-btn-right" id="scrollRight">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
+        <button class="scroll-btn scroll-btn-right" id="scrollRight">▶</button>
+    </div>
+</section>
+
 
                 <h2 class="section-title">club</h2>
 
@@ -405,6 +398,24 @@ class NcMainPage extends HTMLElement {
                     const scrollLeft = this.querySelector('#scrollLeft');
                     const scrollRight = this.querySelector('#scrollRight');
                     const grid = this.querySelector('.events-grid');
+
+                     const scrollLeft = this.querySelector('#scrollLeft');
+                     const scrollRight = this.querySelector('#scrollRight');
+                    const grid = this.querySelector('.events-grid');
+                    const cards = grid.querySelectorAll('clb-event-card');
+
+                     let currentIndex = 0;
+
+                   scrollLeft.addEventListener('click', () => {
+                  if(currentIndex > 0) currentIndex--;
+                      grid.scrollTo({ left: currentIndex * (cards[0].offsetWidth + 10), behavior: 'smooth' });
+                        });
+
+                        scrollRight.addEventListener('click', () => {
+                    if(currentIndex < cards.length - 1) currentIndex++;
+                    grid.scrollTo({ left: currentIndex * (cards[0].offsetWidth + 10), behavior: 'smooth' });
+                          });
+
 
                     if (scrollLeft && grid) {
                         scrollLeft.addEventListener('click', () => {

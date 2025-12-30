@@ -6,7 +6,7 @@ class NcCeventCard extends HTMLElement {
 
     connectedCallback() {
         this.innerHTML = `<article class="event-card">
-                    <img src="images/event.png" alt="">
+                    <img src="images/EventW.png" alt="">
                     <header>
                         <label><img src="images/club_logo.svg" alt=""><h4>Hackumx student club</h4></label>
                     </header>

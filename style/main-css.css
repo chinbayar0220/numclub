@@ -71,12 +71,12 @@
         }
         
         .nav-links a:hover {
-            color: #a855f7;
+            color: lch(1.72% 11.07 306.56 / 0.982);
         }
         
         .btn-register-nav {
             padding: 0.5rem 1.5rem;
-            background: #a855f7;
+            background: #0e021a;
             color: #fff;
             border: none;
             border-radius: 20px;
@@ -86,7 +86,7 @@
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(to bottom, #4a4a4a 0%, #d0d0d0 100%);
+            background: linear-gradient(to bottom, #4a4a4a 0%, #575050 100%);
             text-align: center;
             padding: 4rem 2rem;
             color: #fff;
@@ -122,7 +122,7 @@
         
         .filter-btn {
             padding: 0.8rem 1.5rem;
-            background: #a855f7;
+            background: #11021f;
             color: #fff;
             border: none;
             border-radius: 25px;
@@ -265,7 +265,7 @@
         .btn-join {
             width: 100%;
             padding: 0.8rem;
-            background: #a855f7;
+            background: #08010f;
             color: #fff;
             border: none;
             border-radius: 8px;
