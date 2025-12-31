@@ -218,6 +218,26 @@ class NcClubsPage extends HTMLElement {
                 </div>
             </div>
         `;
+
+        
+        const form = this.querySelector(".search form");
+        const input = this.querySelector('.search input[type="search"]');
+        const list = this.querySelector("nc-clubs-list");
+        const updateSearch = () => {
+            if (list && typeof list.setSearchTerm === "function") {
+                list.setSearchTerm(input ? input.value : "");
+            }
+        };
+
+        if (form) {
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();//default reload boliulna 
+                updateSearch();
+            });
+        }
+        if (input) {
+            input.addEventListener("input", updateSearch);
+        }
     }
 }
 

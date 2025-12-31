@@ -3,8 +3,9 @@ import { getClubs } from "./apiclient.js";
 class NcClubsList extends HTMLElement {
     constructor(){
         super();
-        this.items = [];
+        this.items = [];//search
         this.filters = null;
+        this.searchTerm = "";
     }
 
     async connectedCallback(){
@@ -15,6 +16,12 @@ class NcClubsList extends HTMLElement {
 
     filter(filters){
         this.filters = filters;
+        this.render();
+    }
+
+
+    setSearchTerm(term) {
+        this.searchTerm = (term || "").toString();
         this.render();
     }
 
@@ -32,11 +39,11 @@ class NcClubsList extends HTMLElement {
             });
         }
 
-        if (activeDirections.length > 0) {
+        if (activeDirections.length > 0){
             clubsToShow = clubsToShow.filter((club) => {
                 const directions = club.directions || [];
                 return directions.some((dir) => activeDirections.includes(dir));
-            });
+            }); 
         }
         if (activeSchools.length > 0) {
             clubsToShow = clubsToShow.filter((club) => {
@@ -44,6 +51,20 @@ class NcClubsList extends HTMLElement {
             });
         }
 
+
+        const searchTerm = this.searchTerm.trim().toLowerCase();
+        if (searchTerm) {
+            clubsToShow = clubsToShow.filter((club) => {
+                const nameParts = [club.cname, club.name, club.shortName]
+                    .filter((value) => value !== null && value !== undefined)
+                    .map((value) => String(value));
+                if (nameParts.length === 0) {
+                    return false;
+                }
+                const nameText = nameParts.join(" ").toLowerCase();
+                return nameText.includes(searchTerm);
+            });
+        }
         const container = document.createElement("div");
         container.className = "clubs";
 

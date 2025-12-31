@@ -63,34 +63,6 @@ class NcClubProfilePage extends HTMLElement {
             console.error('Failed to load club data from API:', error);
         }
 
-        // Fallback to JSON file if API fails
-        if (!club) {
-            try {
-                const response = await fetch('/json/Club.json');
-                if (response.ok) {
-                    const data = await response.json();
-                    const clubs = data.clubs || [];
-                    const foundClub = clubs.find(c => c.id == clubId);
-                    
-                    if (foundClub) {
-                        club = {
-                            name: foundClub.name || foundClub.shortName || 'Клуб',
-                            logo: foundClub.logo || 'images/club_logo.svg',
-                            tags: foundClub.directions || [],
-                            email: foundClub.email || 'club@num.edu.mn',
-                            phone: foundClub.phone || '66191111',
-                            goal: foundClub.description || 'Клубын тайлбар байхгүй',
-                            vision: foundClub.vision || 'Клубын алсын хараа',
-                            category: foundClub.school || 'Бусад',
-                            memberCount: foundClub.members ? `${foundClub.members}+` : '50+'
-                        };
-                    }
-                }
-            } catch (error) {
-                console.error('Failed to load club data from JSON:', error);
-            }
-        }
-
         // Ultimate fallback
         if (!club) {
             club = {

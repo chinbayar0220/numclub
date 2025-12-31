@@ -31,7 +31,7 @@ class Router {
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[data-navigate]');
             if (link) {
-                e.preventDefault();
+                e.preventDefault();//html boliulj,spa
                 const path = link.getAttribute('data-navigate');
                 this.navigate(path);
             }
@@ -86,7 +86,7 @@ class Router {
         for (const route of this.routes) {
             const pattern = route.pattern;
             if (pattern === normalized) {
-                return { component: route.component, params: {} };
+                return{ component: route.component, params: {} };
             }
 
             // dynamic segment
@@ -98,14 +98,14 @@ class Router {
             const params = {};
             for (let i = 0; i < patternParts.length; i++) {
                 const p = patternParts[i];
-                const pp = pathParts[i];
+                const pp = pathParts[i];//ehnii hesgiig avnaa
                 if (p.startsWith(':')) {
-                    const name = p.slice(1);
+                    const name = p.slice(1);// : avch id bolgono 
                     params[name] = decodeURIComponent(pp);
-                } else if (p === pp) {
+                } else if (p === pp) { //tuuniiig end jishne
                     continue;
                 } else {
-                    matched = false;
+                    matched = false;//buhel route taarahgui 
                     break;
                 }
             }
