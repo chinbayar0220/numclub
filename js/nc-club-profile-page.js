@@ -1,6 +1,18 @@
+﻿import { getClubRequests, getReviews, submitReview } from "./apiclient.js";
+
+const escapeHtml = (value) =>
+    String(value ?? "").replace(/[&<>"']/g, (ch) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+    })[ch]);
+
 class NcClubProfilePage extends HTMLElement {
     constructor() {
         super();
+        this.canSubmitReview = false;
     }
 
     async connectedCallback() {
@@ -8,19 +20,19 @@ class NcClubProfilePage extends HTMLElement {
         await this.loadAndRender(clubId);
     }
     //avsan datag mongol ru orchuulna
-    translateSchool(school) {
+        translateSchool(school) {
         const schoolMap = {
             'bs': 'БС',
             'its': 'ИТС',
             'mtes': 'МТЭС',
             'uts': 'УТСОХУС',
-            'khs': 'ХУС',
+            'khs': 'ХЗС',
             'shus': 'ШУС'
         };
         return schoolMap[school?.toLowerCase()] || school;
     }
 
-    translateDirection(direction) {
+        translateDirection(direction) {
         const directionMap = {
             'volunteer': 'Сайн дурын',
             'sport': 'Спорт',
@@ -34,17 +46,18 @@ class NcClubProfilePage extends HTMLElement {
         return directionMap[direction?.toLowerCase()] || direction;
     }
 
-    async loadAndRender(clubId) {
+        async loadAndRender(clubId) {
+        this.currentClubId = clubId;
         let club = null;
+        let events = [];
+        let reviews = [];
         
-        // Try to load from API first
+        // Try detail endpoint first
         try {
-            const response = await fetch('http://127.0.0.1:3000/api/clubs');
-            if (response.ok) {
-                const data = await response.json();
-                const clubs = data.clubs || [];
-                const foundClub = clubs.find(c => c.id == clubId);
-                
+            const detailResponse = await fetch(`http://127.0.0.1:3000/api/clubs/${clubId}`);
+            if (detailResponse.ok) {
+                const data = await detailResponse.json();
+                const foundClub = data.club;
                 if (foundClub) {
                     club = {
                         name: foundClub.name || foundClub.shortName || 'Клуб',
@@ -52,15 +65,45 @@ class NcClubProfilePage extends HTMLElement {
                         tags: (foundClub.directions || []).map(dir => this.translateDirection(dir)),
                         email: foundClub.email || 'club@num.edu.mn',
                         phone: foundClub.phone || '66191111',
-                        goal: foundClub.description || 'Клубын тайлбар байхгүй',
+                        goal: foundClub.goal || foundClub.description || 'Клубын зорилго',
                         vision: foundClub.vision || 'Клубын алсын хараа',
-                        category: this.translateSchool(foundClub.school) || 'Бусад',
+                        category: this.translateSchool(foundClub.school) || 'Клуб',
                         memberCount: foundClub.members ? `${foundClub.members}+` : '50+'
                     };
+                    events = Array.isArray(data.events) ? data.events : [];
+                    reviews = Array.isArray(data.reviews) ? data.reviews : [];
                 }
             }
         } catch (error) {
-            console.error('Failed to load club data from API:', error);
+            console.error('Failed to load club detail from API:', error);
+        }
+
+        // Fallback to list endpoint
+        if (!club) {
+            try {
+                const response = await fetch('http://127.0.0.1:3000/api/clubs');
+                if (response.ok) {
+                    const data = await response.json();
+                    const clubs = data.clubs || [];
+                    const foundClub = clubs.find(c => c.id == clubId);
+                    
+                    if (foundClub) {
+                        club = {
+                            name: foundClub.name || foundClub.shortName || 'Клуб',
+                            logo: foundClub.logo || 'images/club_logo.svg',
+                            tags: (foundClub.directions || []).map(dir => this.translateDirection(dir)),
+                            email: foundClub.email || 'club@num.edu.mn',
+                            phone: foundClub.phone || '66191111',
+                            goal: foundClub.goal || foundClub.description || 'Клубын зорилго',
+                            vision: foundClub.vision || 'Клубын алсын хараа',
+                            category: this.translateSchool(foundClub.school) || 'Клуб',
+                            memberCount: foundClub.members ? `${foundClub.members}+` : '50+'
+                        };
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load club data from API:', error);
+            }
         }
 
         // Ultimate fallback
@@ -71,17 +114,54 @@ class NcClubProfilePage extends HTMLElement {
                 tags: ['NUM'],
                 email: 'club@num.edu.mn',
                 phone: '66191111',
-                goal: 'Клубын тайлбар байхгүй',
+                goal: 'Клубын зорилго',
                 vision: 'Клубын алсын хараа',
-                category: 'Бусад',
+                category: 'Клуб',
                 memberCount: '50+'
             };
         }
 
-        this.render(club, clubId);
+        this.currentClub = club;
+        this.render(club, clubId, events, reviews);
+        this.bindReviewForm();
+        this.refreshReviews(clubId);
     }
 
-    render(club, clubId) {
+        render(club, clubId, events = [], reviews = []) {
+        const activityClasses = [
+            "card",
+            "frame-wrapper",
+            "div-wrapper",
+            "card-2",
+            "card-3",
+            "card-4"
+        ];
+        const activityItems = (events || []).slice(0, activityClasses.length).map((event, idx) => {
+            const title = event.title || "Үйл ажиллагаа";
+            const className = activityClasses[idx] || "card";
+            return `
+                    <div class="${className}">
+                        <div class="frame-5"><div class="text-wrapper-3">${title}</div></div>
+                    </div>
+                `;
+        });
+        const activitiesHtml = activityItems.length > 0
+            ? activityItems.join("")
+            : `
+                    <div class="card">
+                        <div class="frame-5"><div class="text-wrapper-3">Одоогоор үйл ажиллагаа байхгүй</div></div>
+                    </div>
+                `;
+
+
+        const reviewCardsHtml = this.buildReviewCards(reviews, club);
+        const reviewEmptyStyle = reviewCardsHtml ? "display:none;" : "";
+        const currentEmail = window.AuthState?.currentUser || "";
+        const reviewEmailValue = escapeHtml(currentEmail);
+        const reviewEmailDisabled = currentEmail ? "disabled" : "";
+        const reviewEmailHint = currentEmail
+            ? "Нэвтэрсэн хэрэглэгчээр хадгална."
+            : "Нэвтрээгүй бол и-мэйлээ оруулж болно.";
 
         this.innerHTML = `
             <style>
@@ -439,6 +519,123 @@ class NcClubProfilePage extends HTMLElement {
                     gap: 24px;
                     margin-top: 48px;
                 }
+
+                .review-form {
+                    margin-top: 20px;
+                    padding: 20px;
+                    border: 1px solid var(--border-color);
+                    border-radius: 12px;
+                    background-color: var(--card-bg);
+                }
+
+                .review-form.is-hidden {
+                    display: none;
+                }
+
+                .review-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 16px;
+                }
+
+                .review-edit-toggle {
+                    height: 48px;
+                    border-radius: 8px;
+                    border: 1px solid var(--border-color, #d1d5db);
+                    background: var(--color-white, #fff);
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--text-primary, #111827);
+                    cursor: pointer;
+                    padding: 0 20px;
+                    font-size: 16px;
+                    transition: background-color 0.2s ease, border-color 0.2s ease;
+                }
+
+                .review-edit-toggle.is-active {
+                    background: var(--bg-secondary, #f5f5f5);
+                    border-color: var(--border-color, #d1d5db);
+                }
+                
+                .review-form-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 12px 16px;
+                }
+                
+                .review-form .form-field {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                }
+                
+                .review-form .form-field label {
+                    font-size: 14px;
+                    color: var(--text-secondary, #6b7280);
+                }
+                
+                .review-form input,
+                .review-form select,
+                .review-form textarea {
+                    padding: 8px 10px;
+                    border-radius: 8px;
+                    border: 1px solid var(--border-color, #d1d5db);
+                    background: var(--input-bg, #fff);
+                    color: var(--input-text, #111827);
+                    font-size: 14px;
+                }
+                
+                .review-form textarea {
+                    resize: vertical;
+                    min-height: 90px;
+                }
+
+                .review-form-hint {
+                    margin-top: 4px;
+                    font-size: 12px;
+                    color: var(--text-secondary, #6b7280);
+                }
+                
+                .review-form-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    margin-top: 12px;
+                }
+                
+                .review-form-actions button {
+                    padding: 10px 16px;
+                    border-radius: 8px;
+                    border: 1px solid var(--border-color, #d1d5db);
+                    background: #111827;
+                    color: #fff;
+                    cursor: pointer;
+                }
+                
+                .review-form-actions button:disabled {
+                    background: #9ca3af;
+                    border-color: #9ca3af;
+                    cursor: not-allowed;
+                }
+                
+                .review-form-message {
+                    font-size: 14px;
+                }
+                
+                .review-form-message.success {
+                    color: #107d4e;
+                }
+                
+                .review-form-message.error {
+                    color: #b42318;
+                }
+                
+                .review-empty {
+                    color: var(--text-secondary, #6b7280);
+                    margin-top: 12px;
+                }
                 
                 .review-card,
                 .review-card-wrapper,
@@ -447,12 +644,13 @@ class NcClubProfilePage extends HTMLElement {
                 .review-card-5,
                 .review-card-6 {
                     padding: 24px;
-                    background-color: var(--card-bg);
+                    background-color: var(--color-white);
                     border: 1px solid var(--border-color);
-                    border-radius: 8px;
+                    border-radius: 16px;
                     display: flex;
                     flex-direction: column;
                     gap: 12px;
+                    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
                 }
                 
                 .review-card-2 {
@@ -476,6 +674,12 @@ class NcClubProfilePage extends HTMLElement {
                     height: 20px;
                 }
                 
+                .review-card-2 .div-2 img.is-empty {
+                    opacity: 0.3;
+                }
+
+                
+                                
                 .review-body {
                     display: flex;
                     flex-direction: column;
@@ -589,7 +793,7 @@ class NcClubProfilePage extends HTMLElement {
                     </div>
                     <div class="column">
                         <div>
-                            <div class="full-name">${club.name} students club</div>
+                            <div class="full-name">${club.name} оюутны клуб</div>
                             <div class="frame">
                                 ${club.tags.map(tag => `
                                     <div class="tag-toggle">
@@ -633,35 +837,18 @@ class NcClubProfilePage extends HTMLElement {
                             <a href ="https://www.facebook.com/enhjinn.g" target="_blank"><img src="images/web_icon.svg" width="36" height="36" alt="web Icon"/></a>
                         </div> 
                         <div class="join-button-section">
-                            <button class="button" onclick="window.location.hash='#/registration'; localStorage.setItem('register_club_id', '${clubId}');">
+                            <button class="button" onclick="window.location.hash='#/register'; localStorage.setItem('register_club_id', '${clubId}');">
                                 <div class="button-2">Гишүүнээр элсэх</div>
                             </button>
                         </div>
-                    </div>
+                    </div>  
                 </div>
             </div>
 
-            <div class="card-grid-content">
+                        <div class="card-grid-content">
                 <div class="text-content-heading"><div class="heading-2">Үйл ажиллагаа</div></div>
                 <div class="frame-6">
-                    <div class="card">
-                        <div class="frame-5"><div class="text-wrapper-3">Tech Meetup</div></div>
-                    </div>
-                    <div class="frame-wrapper">
-                        <div class="frame-5"><div class="text-wrapper-3">Workshop</div></div>
-                    </div>
-                    <div class="div-wrapper">
-                        <div class="frame-5"><div class="text-wrapper-3">Knowledge Day</div></div>
-                    </div>
-                    <div class="card-2">
-                        <div class="frame-5"><div class="text-wrapper-3">Hackathon</div></div>
-                    </div>
-                    <div class="card-3">
-                        <div class="frame-5"><div class="text-wrapper-3">Pitch Night</div></div>
-                    </div>
-                    <div class="card-4">
-                        <div class="frame-5"><div class="text-wrapper-3">Quiz Night</div></div>
-                    </div>
+                    ${activitiesHtml}
                 </div>
             </div>
 
@@ -678,141 +865,263 @@ class NcClubProfilePage extends HTMLElement {
             </div>
 
             <div class="card-grid">
-                <div class="text-content-heading">
-                    <div class="heading-3">Сэтгэгдэл</div>
-                    <div class="subheading-2">Төгсөгчидийн үлдээсэн сэтгэгдэл</div>
+                <div class="review-header">
+                    <div class="text-content-heading">
+                        <div class="heading-3">Сэтгэгдэл</div>
+                        <div class="subheading-2">Төгсөгчид болон элсэгчдийн үлдээсэн сэтгэгдэл</div>
+                    </div>
+                    <button class="review-edit-toggle" id="reviewOpenBtn" type="button" title="Сэтгэгдэл өгөх" aria-label="Сэтгэгдэл өгөх">Сэтгэгдэл өгөх</button>
                 </div>
-                <div class="card-grid-2">
-                    <div class="review-card">
-                        <div class="review-card-2">
-                            <img class="img-4" src="images/Rating.svg" alt="Rating">
-                            <div class="review-body">
-                                <div class="div-wrapper-2"><div class="text-heading">Review title</div></div>
-                                <div class="text"><div class="text-5">Review body</div></div>
+                <div class="review-form is-hidden" id="reviewFormSection">
+                    <form id="reviewForm">
+                        <div class="review-form-grid">
+                            <div class="form-field">
+                                <label for="reviewRating">Үнэлгээ</label>
+                                <select id="reviewRating" name="reviewRating" required>
+                                    <option value="5">5 - Маш сайн</option>
+                                    <option value="4">4 - Сайн</option>
+                                    <option value="3">3 - Дунд</option>
+                                    <option value="2">2 - Сайжруулах</option>
+                                    <option value="1">1 - Муу</option>
+                                </select>
                             </div>
-                            <div class="avatar-block">
-                                <div class="shape-wrapper"><img class="shape" src="images/club_logo.svg" alt="Avatar"></div>
-                                <div class="info">
-                                    <p class="title-6">${club.name} students club</p>
-                                    <div class="description">Г. Энхжин</div>
-                                </div>
+                            <div class="form-field">
+                                <label for="reviewTitle">Гарчиг</label>
+                                <input id="reviewTitle" name="reviewTitle" type="text" placeholder="Сэтгэгдлийн гарчиг" />
                             </div>
-                        </div>
-                    </div>
-                    <div class="review-card-wrapper">
-                        <div class="review-card-2">
-                            <div class="div-2">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                            </div>
-                            <div class="review-body">
-                                <div class="div-wrapper-2"><div class="text-heading-2">Review title</div></div>
-                                <div class="text"><div class="text-5">Review body</div></div>
-                            </div>
-                            <div class="avatar-block">
-                                <div class="avatar-5"></div>
-                                <div class="info">
-                                    <div class="title-6">${club.name} students club</div>
-                                    <div class="description-2">Г. Энхжин</div>
-                                </div>
+                            <div class="form-field">
+                                <label for="reviewEmail">И-мэйл</label>
+                                <input id="reviewEmail" name="reviewEmail" type="email" value="${reviewEmailValue}" ${reviewEmailDisabled} />
+                                <div class="review-form-hint">${reviewEmailHint}</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="review-card-3">
-                        <div class="review-card-2">
-                            <div class="div-2">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                            </div>
-                            <div class="review-body">
-                                <div class="div-wrapper-2"><div class="text-heading-2">Review title</div></div>
-                                <div class="text"><div class="text-5">Review body</div></div>
-                            </div>
-                            <div class="avatar-block">
-                                <div class="avatar-6"></div>
-                                <div class="info">
-                                    <div class="title-6">${club.name} students club</div>
-                                    <div class="description-2">Г. Энхжин</div>
-                                </div>
-                            </div>
+                        <div class="form-field">
+                            <label for="reviewBody">Сэтгэгдэл</label>
+                            <textarea id="reviewBody" name="reviewBody" placeholder="Сэтгэгдлээ энд бичнэ үү." required></textarea>
                         </div>
-                    </div>
-                    <div class="review-card-4">
-                        <div class="review-card-2">
-                            <div class="div-2">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                            </div>
-                            <div class="review-body">
-                                <div class="div-wrapper-2"><div class="text-heading-2">Review title</div></div>
-                                <div class="text"><div class="text-5">Review body</div></div>
-                            </div>
-                            <div class="avatar-block">
-                                <div class="avatar-7"></div>
-                                <div class="info">
-                                    <div class="title-6">${club.name} students club</div>
-                                    <div class="description-2">Г. Энхжин</div>
-                                </div>
-                            </div>
+                        <div class="review-form-actions">
+                            <button type="submit">Сэтгэгдэл илгээх</button>
+                            <span id="reviewFormMessage" class="review-form-message"></span>
                         </div>
-                    </div>
-                    <div class="review-card-5">
-                        <div class="review-card-2">
-                            <div class="div-2">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                            </div>
-                            <div class="review-body">
-                                <div class="div-wrapper-2"><div class="text-heading-2">Review title</div></div>
-                                <div class="text"><div class="text-5">Review body</div></div>
-                            </div>
-                            <div class="avatar-block">
-                                <div class="avatar-8"></div>
-                                <div class="info">
-                                    <div class="title-6">${club.name} students club</div>
-                                    <div class="description-2">Г. Энхжин</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review-card-6">
-                        <div class="review-card-2">
-                            <div class="div-2">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                                <img src="images/Star.svg" alt="Star">
-                            </div>
-                            <div class="review-body">
-                                <div class="div-wrapper-2"><div class="text-heading-2">Review title</div></div>
-                                <div class="text"><div class="text-5">Review body</div></div>
-                            </div>
-                            <div class="avatar-block">
-                                <div class="avatar-9"></div>
-                                <div class="info">
-                                    <div class="title-6">${club.name} students club</div>
-                                    <div class="description-2">Г. Энхжин</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
+                <div class="card-grid-2" id="reviewList">
+                    ${reviewCardsHtml}
+                </div>
+                <p class="review-empty" id="reviewEmpty" style="${reviewEmptyStyle}">Одоогоор сэтгэгдэл алга.</p>
+                
             </div>
         `;
+    }
+
+    buildReviewCards(reviews, club) {
+        if (!Array.isArray(reviews) || reviews.length === 0) {
+            return "";
+        }
+        const clubLogo = club?.logo || "images/club_logo.svg";
+        return reviews.map((review) => {
+            const rating = Number(review.rating) || 0;
+            const title = review.title || "Сэтгэгдэл";
+            const body = review.body || "";
+            const userName = review.userName || review.userEmail || "Зочин";
+            const dateText = this.formatReviewDate(review.createdAt);
+            const starsHtml = this.renderStars(rating);
+            return `
+                <div class="review-card">
+                    <div class="review-card-2">
+                        <div class="div-2">
+                            ${starsHtml}
+                        </div>
+                        <div class="review-body">
+                            <div class="div-wrapper-2"><div class="text-heading-2">${escapeHtml(title)}</div></div>
+                            <div class="text"><div class="text-5">${escapeHtml(body)}</div></div>
+                        </div>
+                        <div class="avatar-block">
+                            <div class="shape-wrapper"><img class="shape" src="${escapeHtml(clubLogo)}" alt="Avatar"></div>
+                            <div class="info">
+                                <div class="title-6">${escapeHtml(userName)}</div>
+                                <div class="description-2">${escapeHtml(dateText)}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    renderStars(rating) {
+        const safeRating = Math.max(0, Math.min(5, Number(rating) || 0));
+        let stars = "";
+        for (let i = 1; i <= 5; i++) {
+            const emptyClass = i <= safeRating ? "" : " is-empty";
+            stars += `<img src="images/Star.svg" class="${emptyClass}" alt="Star">`;
+        }
+        return stars;
+    }
+
+    formatReviewDate(value) {
+        if (!value) return "";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "";
+        return date.toLocaleDateString("mn-MN");
+    }
+
+    setReviewFormMessage(text, type) {
+        const message = this.querySelector("#reviewFormMessage");
+        if (!message) return;
+        message.textContent = text || "";
+        message.classList.remove("success", "error");
+        if (type) {
+            message.classList.add(type);
+        }
+    }
+
+    bindReviewForm() {
+        const form = this.querySelector("#reviewForm");
+        if (!form) return;
+        const openButton = this.querySelector("#reviewOpenBtn");
+        if (openButton) {
+            openButton.addEventListener("click", () => {
+                this.toggleReviewForm();
+                this.updateReviewEligibility();
+            });
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            this.setReviewFormMessage("");
+            const rating = parseInt(this.querySelector("#reviewRating")?.value, 10);
+            const title = this.querySelector("#reviewTitle")?.value.trim() || "";
+            const body = this.querySelector("#reviewBody")?.value.trim() || "";
+            const emailInput = this.querySelector("#reviewEmail");
+            const email = (window.AuthState?.currentUser || emailInput?.value.trim() || "").trim();
+            const submitButton = form.querySelector("button[type='submit']");
+
+            if (!this.canSubmitReview) {
+                this.setReviewFormMessage("Сэтгэгдэл үлдээхийн тулд гишүүнээр элссэн байх шаардлагатай.", "error");
+                return;
+            }
+
+            if (!rating || rating < 1 || rating > 5) {
+                this.setReviewFormMessage("Үнэлгээ сонгоно уу.", "error");
+                return;
+            }
+            if (!body) {
+                this.setReviewFormMessage("Сэтгэгдлээ бичнэ үү.", "error");
+                return;
+            }
+
+            if (submitButton) submitButton.disabled = true;
+            const payload = {
+                clubId: Number(this.currentClubId || 0),
+                rating,
+                title,
+                body,
+                email: email || null
+            };
+
+            const result = await submitReview(payload);
+            if (submitButton) submitButton.disabled = false;
+            if (result.code !== 200) {
+                this.setReviewFormMessage("Сэтгэгдэл илгээхэд алдаа гарлаа.", "error");
+                return;
+            }
+
+            this.setReviewFormMessage("Сэтгэгдэл амжилттай нэмэгдлээ.", "success");
+            form.reset();
+            if (emailInput && window.AuthState?.currentUser) {
+                emailInput.value = window.AuthState.currentUser;
+            }
+            await this.refreshReviews(this.currentClubId);
+        });
+    }
+
+    async updateReviewEligibility() {
+        const submitButton = this.querySelector("#reviewForm button[type='submit']");
+        if (!submitButton) return;
+        const email = window.AuthState?.currentUser;
+        this.canSubmitReview = false;
+
+        if (!email) {
+            submitButton.disabled = true;
+            this.setReviewFormMessage("Сэтгэгдэл үлдээхийн тулд нэвтэрч, гишүүнээр элссэн байх шаардлагатай.", "error");
+            return;
+        }
+
+        const result = await getClubRequests({
+            clubId: this.currentClubId,
+            email,
+            status: "approved"
+        });
+        const approved = result.code === 200 && (result.data?.requests || []).length > 0;
+        if (!approved) {
+            submitButton.disabled = true;
+            this.setReviewFormMessage("Гишүүнээр элссэний дараа сэтгэгдэл үлдээх боломжтой.", "error");
+            return;
+        }
+
+        submitButton.disabled = false;
+        this.canSubmitReview = true;
+        this.setReviewFormMessage("");
+    }
+
+        setReviewFormOpen(isOpen) {
+        const section = this.querySelector("#reviewFormSection");
+        const toggle = this.querySelector("#reviewOpenBtn");
+        if (!section || !toggle) return;
+        section.classList.toggle("is-hidden", !isOpen);
+        toggle.classList.toggle("is-active", isOpen);
+        toggle.setAttribute("aria-pressed", isOpen ? "true" : "false");
+        toggle.title = isOpen ? "Сэтгэгдэл хаах" : "Сэтгэгдэл өгөх";
+        toggle.textContent = isOpen ? "Сэтгэгдэл хаах" : "Сэтгэгдэл өгөх";
+        if (isOpen) {
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+            this.updateReviewEligibility();
+        }
+    }
+
+toggleReviewForm() {
+        const section = this.querySelector("#reviewFormSection");
+        if (!section) return;
+        const shouldOpen = section.classList.contains("is-hidden");
+        this.setReviewFormOpen(shouldOpen);
+    }
+
+    async refreshReviews(clubId) {
+        const list = this.querySelector("#reviewList");
+        const empty = this.querySelector("#reviewEmpty");
+        if (!list || !empty) return;
+
+        const result = await getReviews(clubId);
+        if (result.code !== 200 || !result.data) {
+            list.innerHTML = "";
+            empty.textContent = "Сэтгэгдэл ачаалж чадсангүй.";
+            empty.style.display = "block";
+            return;
+        }
+
+        const reviews = result.data.reviews || [];
+        this.updateReviewList(reviews);
+    }
+
+    updateReviewList(reviews) {
+        const list = this.querySelector("#reviewList");
+        const empty = this.querySelector("#reviewEmpty");
+        if (!list || !empty) return;
+
+        if (!reviews || reviews.length === 0) {
+            list.innerHTML = "";
+            empty.textContent = "Одоогоор сэтгэгдэл алга.";
+            empty.style.display = "block";
+            return;
+        }
+
+        empty.style.display = "none";
+        list.innerHTML = this.buildReviewCards(reviews, this.currentClub);
     }
 }
 
 window.customElements.define('nc-club-profile-page', NcClubProfilePage);
+
+
+

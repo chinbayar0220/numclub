@@ -57,3 +57,39 @@ insert into club_directions (club_id, direction_id) values
 on conflict do nothing;
 
 select setval(pg_get_serial_sequence('clubs', 'id'), (select max(id) from clubs));
+
+alter table clubs add column if not exists goal text;
+alter table clubs add column if not exists vision text;
+alter table clubs add column if not exists email text;
+alter table clubs add column if not exists phone text;
+alter table users add column if not exists password text;
+alter table users add column if not exists school text;
+alter table users add column if not exists major text;
+alter table users add column if not exists year text;
+alter table users add column if not exists phone text;
+alter table users add column if not exists bio text;
+alter table users add column if not exists avatar_url text;
+
+create table if not exists club_requests (
+  id bigserial primary key,
+  club_id bigint references clubs(id) on delete cascade,
+  email text not null,
+  phone text,
+  reason text,
+  impact text,
+  description text,
+  status text default 'pending',
+  decided_at timestamp,
+  decided_by text,
+  created_at timestamp default now()
+);
+
+create table if not exists club_reviews (
+  id bigserial primary key,
+  club_id bigint references clubs(id) on delete cascade,
+  user_id bigint references users(id) on delete set null,
+  rating integer check (rating between 1 and 5),
+  title text,
+  body text,
+  created_at timestamp default now()
+);

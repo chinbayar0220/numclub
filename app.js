@@ -16,6 +16,7 @@ import "./js/nc-login.js";
 import "./js/nc-signup.js";
 import "./js/nc-clubs-list.js";
 import "./js/nc-reg-page.js";
+import "./js/nc-admin-requests-page.js";
 import "./js/nc-club-filter.js";
 import "./js/apiclient.js";
 import "./js/nc-header.js";

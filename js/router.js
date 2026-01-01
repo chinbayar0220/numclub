@@ -7,6 +7,7 @@ class Router {
             { pattern: '/clubs', component: 'nc-clubs-page' },
             { pattern: '/events', component: 'nc-main-page' },
             { pattern: '/user-profile', component: 'nc-user-profile-page' },
+            { pattern: '/admin/requests', component: 'nc-admin-requests-page' },
             { pattern: '/register', component: 'nc-reg-page' },
             { pattern: '/signup', component: 'nc-signup' },
             { pattern: '/login', component: 'nc-login' },
@@ -119,6 +120,10 @@ class Router {
     }
 
     loadPage(path) {
+        if (window.AuthState?.currentRole === 'admin' && path !== '/admin/requests') {
+            window.location.hash = '/admin/requests';
+            return;
+        }
         const match = this.matchRoute(path);
         if (!match) {
             // no match — go home

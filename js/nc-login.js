@@ -1,3 +1,5 @@
+import { loginUser } from "./apiclient.js";
+
 class NcLogin extends HTMLElement {
     constructor() {
         super();
@@ -63,6 +65,16 @@ class NcLogin extends HTMLElement {
                     outline: none;
                     transition: border-color 0.2s ease, box-shadow 0.2s ease;
                 }
+                .form-field select {
+                    height: 36px;
+                    width: 90%;
+                    padding: 0 12px;
+                    font-size: 14px;
+                    border-radius: 8px;
+                    border: 1px solid #d1d5db;
+                    background: #fff;
+                    outline: none;
+                }
                 .login-card button{ 
                     width:100%; 
                     padding:10px 12px; 
@@ -87,20 +99,38 @@ class NcLogin extends HTMLElement {
                         <label for="password">Нууц үг</label>
                         <input id="password" name="password" type="password" required />
                     </div>
+                    <div class="form-field">
+                        <label for="role">Нэвтрэх төрөл</label>
+                        <select id="role" name="role">
+                            <option value="user">Хэрэглэгч</option>
+                            <option value="admin">Админ</option>
+                        </select>
+                    </div>
                     <button type="submit">Нэвтрэх</button>
                 </form>
             </div>
         `;
 
-        this.querySelector('#loginForm').addEventListener('submit', (e) => {
+        this.querySelector('#loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             // get email and save state
             const email = this.querySelector('#email').value;
+            const password = this.querySelector('#password').value;
+            const role = this.querySelector('#role')?.value || 'user';
+
+            const result = await loginUser({ email, password });
+            if (result.code !== 200) {
+                alert("Login failed.");
+                return;
+            }
+
             if (window.AuthState) {
-                window.AuthState.login(email);
+                window.AuthState.login(email, role);
             }
             // navigate to home
-            if (window.Router) window.Router.navigate('/');
+            if (window.Router) {
+                window.Router.navigate(role === 'admin' ? '/admin/requests' : '/');
+            }
         });
     }
 }

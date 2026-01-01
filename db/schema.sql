@@ -13,8 +13,12 @@ create table if not exists clubs (
   name text not null,
   short_name text,
   description text,
+  goal text,
+  vision text,
   school text references schools(id),
   logo text,
+  email text,
+  phone text,
   members integer default 0
 );
 
@@ -28,6 +32,13 @@ create table if not exists users (
   id bigserial primary key,
   name text not null,
   email text unique,
+  password text,
+  school text,
+  major text,
+  year text,
+  phone text,
+  bio text,
+  avatar_url text,
   role text default 'member',
   created_at timestamp default now()
 );
@@ -51,6 +62,30 @@ create table if not exists event_registrations (
   status text default 'registered',
   created_at timestamp default now(),
   primary key (event_id, user_id)
+);
+
+create table if not exists club_requests (
+  id bigserial primary key,
+  club_id bigint references clubs(id) on delete cascade,
+  email text not null,
+  phone text,
+  reason text,
+  impact text,
+  description text,
+  status text default 'pending',
+  decided_at timestamp,
+  decided_by text,
+  created_at timestamp default now()
+);
+
+create table if not exists club_reviews (
+  id bigserial primary key,
+  club_id bigint references clubs(id) on delete cascade,
+  user_id bigint references users(id) on delete set null,
+  rating integer check (rating between 1 and 5),
+  title text,
+  body text,
+  created_at timestamp default now()
 );
 
 create table if not exists club_members (

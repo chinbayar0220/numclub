@@ -1,3 +1,5 @@
+﻿import { submitClubRequest } from "./apiclient.js";
+
 class NcRegistrationPage extends HTMLElement {
     constructor() {
         super();
@@ -85,39 +87,39 @@ class NcRegistrationPage extends HTMLElement {
             </style>
 
             
-        <div class="main">
-            <h2>Элсэлтийн форм</h2>
+                <div class="main">
+            <h2>Клубт элсэх хүсэлт</h2>
             <h3>${selectedClubName} students club</h3>
             <form id="registrationForm">
                 <ol>
                     <li>
                         <section class="question">
-                            <label for="email">Таны мэйл хаяг (өдөр тутам ашигладаг)?</label>
+                            <label for="email">Имэйл хаяг (жишээ: example@email.com)</label>
                             <input type="email" name="email" id="email" placeholder="example@email.com" required>
                         </section>
                     </li>
                     <li>
                         <section class="question">
-                            <label for="phone">Таны утасны дугаар?</label>
+                            <label for="phone">Утасны дугаар</label>
                             <input type="tel" name="phone" id="phone" placeholder="+976 ..." required>
                         </section>
                     </li>
                     <li>
                         <section class="question">
                             <label for="reason">Та яагаад ${selectedClubName} клубт элсэхийг хүсэж байна вэ?</label>
-                            <input type="text" name="reason" id="reason" placeholder="Хариултаа оруулна уу" required>
+                            <input type="text" name="reason" id="reason" placeholder="Товч тайлбар" required>
                         </section>
                     </li>
                     <li>
                         <section class="question">
-                            <label for="impact">Технологийн клубт орсноороо таны амьдрал, карьерт ямар өөрчлөлт авчирна гэж төсөөлж байгаа вэ?</label>
-                            <input type="text" name="impact" id="impact" placeholder="Хариултаа оруулна уу" required>
+                            <label for="impact">Клубт элссэнээр ямар хувь нэмэр оруулах вэ?</label>
+                            <input type="text" name="impact" id="impact" placeholder="Товч тайлбар" required>
                         </section>
                     </li>
                     <li>
                         <section class="question">
-                            <label for="description">Өөрийгөө 3 үгээр илэрхийл гэвэл?</label>
-                            <input type="text" name="description" id="description" placeholder="Үг 1, Үг 2, Үг 3" required>
+                            <label for="description">Өөрийнхөө 3 давуу талыг бичнэ үү</label>
+                            <input type="text" name="description" id="description" placeholder="Жишээ: Манлайлал, Харилцаа, Багаар ажиллах" required>
                         </section>
                     </li>
                 </ol>
@@ -127,7 +129,7 @@ class NcRegistrationPage extends HTMLElement {
         `;
 
         // Handle form submission
-        this.querySelector('#registrationForm').addEventListener('submit', (e) => {
+        this.querySelector('#registrationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = {
                 clubId: clubId,
@@ -137,8 +139,12 @@ class NcRegistrationPage extends HTMLElement {
                 impact: this.querySelector('#impact').value,
                 description: this.querySelector('#description').value
             };
-            console.log('Registration submitted:', formData);
-            alert('Элсэлтээ амжилтай илгээсэн болно. Баярлалаа!');
+            const result = await submitClubRequest(formData);
+            if (result.code !== 201) {
+                alert("Хүсэлт илгээж чадсангүй.");
+                return;
+            }
+            alert("Хүсэлт илгээгдлээ.");
             // Clear the saved club id after successful submission
             localStorage.removeItem('register_club_id');
             // Navigate back to home
@@ -148,3 +154,6 @@ class NcRegistrationPage extends HTMLElement {
 }
 
 window.customElements.define('nc-reg-page', NcRegistrationPage);
+
+
+

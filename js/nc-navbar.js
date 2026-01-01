@@ -2,6 +2,7 @@
 window.AuthState = {
     isLoggedIn: false,
     currentUser: null,
+    currentRole: "user",
 
     init() {
         // Check if user is already logged in from localStorage
@@ -11,18 +12,21 @@ window.AuthState = {
                 const data = JSON.parse(saved);
                 this.isLoggedIn = data.isLoggedIn || false;
                 this.currentUser = data.currentUser || null;
+                this.currentRole = data.currentRole || "user";
             } catch (err) {
                 console.error('Error parsing user_session:', err);
             }
         }
     },
 
-    login(email) {
+    login(email, role = "user") {
         this.isLoggedIn = true;
         this.currentUser = email;
+        this.currentRole = role || "user";
         localStorage.setItem('user_session', JSON.stringify({
             isLoggedIn: true,
-            currentUser: email
+            currentUser: email,
+            currentRole: this.currentRole
         }));
         this.notifyListeners();
     },
@@ -30,6 +34,7 @@ window.AuthState = {
     logout() {
         this.isLoggedIn = false;
         this.currentUser = null;
+        this.currentRole = null;
         localStorage.removeItem('user_session');
         this.notifyListeners();
     },
@@ -60,7 +65,8 @@ class NcNavbar extends HTMLElement {
     }
 
     render() {
-        const { isLoggedIn, currentUser } = window.AuthState;
+        const { isLoggedIn, currentUser, currentRole } = window.AuthState;
+        const isAdminView = isLoggedIn && currentRole === 'admin';
 
         this.innerHTML = `
             <style>
@@ -128,22 +134,26 @@ class NcNavbar extends HTMLElement {
                     object-fit: contain;
                 }
             </style>
-
             <nav>
-                <a class="btn" href="#/clubs">Клуб</a>
-                <a class="btn" href="#/events">Эвент</a>
-                <theme-toggle></theme-toggle>
-
-                ${isLoggedIn ? `
-                    <div class="user-menu">
-                        <div class="user-icon" onclick="window.location.hash='#/user-profile'" title="${currentUser}">
-                            <img src="images/user_icon.svg" alt="User Profile">
-                        </div>
-                        <button class="btn1" onclick="window.AuthState.logout(); window.Router.navigate('/');">Гарах</button>
-                    </div>
+                ${isAdminView ? `
+                    <button class="btn2" onclick="window.location.hash='#/admin/requests'">Элсэлтийн хүсэлтүүд</button>
+                    <button class="btn1" onclick="window.AuthState.logout(); window.Router.navigate('/');">Гарах</button>
                 ` : `
-                    <button class="btn1" onclick="window.location.hash='#/login'">Нэвтрэх</button>
-                    <button class="btn2" onclick="window.location.hash='#/signup'">Бүртгүүлэх</button>
+                    <a class="btn" href="#/clubs">Клуб</a>
+                    <a class="btn" href="#/events">Эвент</a>
+                    <theme-toggle></theme-toggle>
+
+                    ${isLoggedIn ? `
+                        <div class="user-menu">
+                            <div class="user-icon" onclick="window.location.hash='#/user-profile'" title="${currentUser}">
+                                <img src="images/user_icon.svg" alt="User Profile">
+                            </div>
+                            <button class="btn1" onclick="window.AuthState.logout(); window.Router.navigate('/');">Гарах</button>
+                        </div>
+                    ` : `
+                        <button class="btn1" onclick="window.location.hash='#/login'">Нэвтрэх</button>
+                        <button class="btn2" onclick="window.location.hash='#/signup'">Бүртгүүлэх</button>
+                    `}
                 `}
             </nav>
         `;

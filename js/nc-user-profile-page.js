@@ -1,9 +1,20 @@
+import { getClubRequests, getUserProfile, saveUserProfile } from "./apiclient.js";
+
 class NcUserProfilePage extends HTMLElement {
     constructor() {
         super();
+        this.handleProfileSubmit = this.handleProfileSubmit.bind(this);
+        this.handleToggleClick = this.handleToggleClick.bind(this);
     }
 
     connectedCallback() {
+        this.render();
+        this.bindEvents();
+        this.loadProfile();
+        this.loadRequests();
+    }
+
+    render() {
         this.innerHTML = `
             <style>
                 :host {
@@ -17,6 +28,7 @@ class NcUserProfilePage extends HTMLElement {
                     flex-direction: column;
                     padding-top: 0px;
                     padding-bottom: 64px;
+                    gap: 32px;
                 }
                 .user_card {
                     display: flex;
@@ -51,20 +63,176 @@ class NcUserProfilePage extends HTMLElement {
                     display:flex;
                     flex-direction: row;
                     gap:8px;
-                    width: 10%;
+                    width: auto;
+                    flex-shrink: 0;
+                    margin-left: auto;
+                }
+                .profile-edit-toggle {
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    border: 1px solid var(--border-color, #d1d5db);
+                    background: var(--color-white, #fff);
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--text-primary, #111827);
+                    cursor: pointer;
+                    padding: 0;
+                }
+                .profile-edit-toggle svg {
+                    width: 18px;
+                    height: 18px;
+                }
+                .profile-edit-toggle.is-active {
+                    background: #111827;
+                    color: #fff;
+                    border-color: #111827;
+                }
+                .profile-edit-toggle:disabled {
+                    background: #f3f4f6;
+                    color: #9ca3af;
+                    border-color: #e5e7eb;
+                    cursor: not-allowed;
+                }
+                .profile-edit {
+                    margin: 0 90px;
+                    padding: 24px 32px;
+                    background: var(--color-white);
+                    border: 1px solid var(--border-color, #e5e7eb);
+                    border-radius: 12px;
+                }
+                .profile-edit.is-hidden {
+                    display: none;
+                }
+                .profile-edit h2 {
+                    margin: 0 0 8px 0;
+                    font-size: 20px;
+                }
+                .profile-edit .hint {
+                    margin: 0 0 16px 0;
+                    color: var(--text-secondary, #6b7280);
+                    font-size: 14px;
+                }
+                .profile-form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                }
+                .form-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                    gap: 12px 16px;
+                }
+                .form-field {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                }
+                .form-field label {
+                    font-size: 14px;
+                    color: var(--text-secondary, #6b7280);
+                }
+                .form-field input,
+                .form-field textarea {
+                    padding: 8px 10px;
+                    border-radius: 8px;
+                    border: 1px solid var(--border-color, #d1d5db);
+                    background: var(--input-bg, #fff);
+                    color: var(--input-text, #111827);
+                    font-size: 14px;
+                }
+                .form-field textarea {
+                    resize: vertical;
+                    min-height: 90px;
+                }
+                .form-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+                .form-actions button {
+                    padding: 10px 16px;
+                    border-radius: 8px;
+                    border: 1px solid var(--border-color, #d1d5db);
+                    background: #111827;
+                    color: #fff;
+                    cursor: pointer;
+                }
+                .form-actions button:disabled {
+                    background: #9ca3af;
+                    border-color: #9ca3af;
+                    cursor: not-allowed;
+                }
+                .form-message {
+                    font-size: 14px;
+                }
+                .form-message.success {
+                    color: #107d4e;
+                }
+                .form-message.error {
+                    color: #b42318;
+                }
+                .club_requests {
+                    padding: 0 90px;
+                }
+                .events_section {
+                    padding: 0 90px;
                 }
             </style>
 
             <div class="main">
-                <nc-usercard></nc-usercard>
+                <nc-usercard id="profileCard"></nc-usercard>
+
+                <section class="profile-edit is-hidden" id="profileEditSection">
+                    <h2>Профайл засах</h2>
+                    <p class="hint" id="profileHint"></p>
+                    <form id="profileForm" class="profile-form">
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="profileName">Овог нэр</label>
+                                <input id="profileName" name="profileName" type="text" />
+                            </div>
+                            <div class="form-field">
+                                <label for="profileEmail">И-мэйл</label>
+                                <input id="profileEmail" name="profileEmail" type="email" disabled />
+                            </div>
+                            <div class="form-field">
+                                <label for="profileSchool">Сургууль</label>
+                                <input id="profileSchool" name="profileSchool" type="text" />
+                            </div>
+                            <div class="form-field">
+                                <label for="profileMajor">Мэргэжил</label>
+                                <input id="profileMajor" name="profileMajor" type="text" />
+                            </div>
+                            <div class="form-field">
+                                <label for="profileYear">Түвшин</label>
+                                <input id="profileYear" name="profileYear" type="text" />
+                            </div>
+                            <div class="form-field">
+                                <label for="profilePhone">Утас</label>
+                                <input id="profilePhone" name="profilePhone" type="text" />
+                            </div>
+                            <div class="form-field">
+                                <label for="profileAvatar">Зураг (URL)</label>
+                                <input id="profileAvatar" name="profileAvatar" type="url" />
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="profileBio">Танилцуулга</label>
+                            <textarea id="profileBio" name="profileBio"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit">Хадгалах</button>
+                            <span id="profileMessage" class="form-message"></span>
+                        </div>
+                    </form>
+                </section>
 
                 <div class="club_requests" id="clubs">
-                    <h2>Таны элсэх хүсэлт явуулсан клубүүд</h2>
-                    <div class="requests">
-                        <nc-clubrequestcard></nc-clubrequestcard>
-                        <nc-clubrequestcard></nc-clubrequestcard>
-                        <nc-clubrequestcard></nc-clubrequestcard>
-                    </div>
+                    <h2>Таны элсэх хүсэлт явуулсан клубууд</h2>
+                    <div class="requests" id="userRequests"></div>
+                    <p id="userRequestsEmpty" style="display:none; color: var(--text-secondary, #6b7280); margin-top: 12px;"></p>
                 </div>
 
                 <section class="events_section" id="events">
@@ -76,17 +244,8 @@ class NcUserProfilePage extends HTMLElement {
                     </section>
                 </section>
 
-                <div class="club_requests">
-                    <h2>Хадгалсан</h2>
-                    <div class="requests">
-                        <nc-clubrequestcard desc="Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг"></nc-clubrequestcard>
-                        <nc-clubrequestcard desc="Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг"></nc-clubrequestcard>
-                        <nc-clubrequestcard desc="Мэдээллийн технологийн чиглэлээр үйл ажиллагаа явуулдаг бөгөөд оюутнуудын мэдлэгийг дээшлүүлэх, практик ур чадвар олгох, инновац бүтээхэд чиглэсэн үйл ажиллагаа явуулдаг"></nc-clubrequestcard>
-                    </div>
-                </div>
-
                 <section class="events_section">
-                    <h2>Таны бүртгүүлсэн эвентүүд</h2>
+                    <h2>Хадгалсан эвентүүд</h2>
                     <section class="events">
                         <nc-eventcard></nc-eventcard>
                         <nc-eventcard></nc-eventcard>
@@ -95,6 +254,244 @@ class NcUserProfilePage extends HTMLElement {
                 </section>
             </div>
         `;
+    }
+
+    bindEvents() {
+        const form = this.querySelector("#profileForm");
+        if (form) {
+            form.addEventListener("submit", this.handleProfileSubmit);
+        }
+        this.addEventListener("click", this.handleToggleClick);
+    }
+
+    handleToggleClick(event) {
+        const button = event.target.closest(".profile-edit-toggle");
+        if (!button || !this.contains(button) || button.disabled) {
+            return;
+        }
+        this.toggleEditSection();
+    }
+
+    setEditSectionOpen(isOpen) {
+        const section = this.querySelector("#profileEditSection");
+        if (!section) return;
+        section.classList.toggle("is-hidden", !isOpen);
+
+        const button = this.querySelector(".profile-edit-toggle");
+        if (button) {
+            button.classList.toggle("is-active", isOpen);
+            button.setAttribute("aria-pressed", isOpen ? "true" : "false");
+            if (!button.disabled) {
+                button.title = isOpen ? "Засвар хаах" : "Профайл засах";
+            }
+        }
+    }
+
+    toggleEditSection() {
+        const section = this.querySelector("#profileEditSection");
+        if (!section) return;
+        const shouldOpen = section.classList.contains("is-hidden");
+        this.setEditSectionOpen(shouldOpen);
+        if (shouldOpen) {
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }
+
+    syncEditButtonState(enabled) {
+        const button = this.querySelector(".profile-edit-toggle");
+        if (!button) return;
+        button.disabled = !enabled;
+        if (!enabled) {
+            button.title = "Нэвтэрч орно уу";
+            button.setAttribute("aria-pressed", "false");
+            button.classList.remove("is-active");
+        } else {
+            const section = this.querySelector("#profileEditSection");
+            const isOpen = section ? !section.classList.contains("is-hidden") : false;
+            button.title = isOpen ? "Засвар хаах" : "Профайл засах";
+            button.setAttribute("aria-pressed", isOpen ? "true" : "false");
+            button.classList.toggle("is-active", isOpen);
+        }
+    }
+
+    setProfileMessage(text, type) {
+        const message = this.querySelector("#profileMessage");
+        if (!message) return;
+        message.textContent = text || "";
+        message.classList.remove("success", "error");
+        if (type) {
+            message.classList.add(type);
+        }
+    }
+
+    setFormDisabled(disabled) {
+        const form = this.querySelector("#profileForm");
+        if (!form) return;
+        const elements = form.querySelectorAll("input, textarea, button");
+        elements.forEach((el) => {
+            if (el.id === "profileEmail") {
+                el.disabled = true;
+            } else {
+                el.disabled = disabled;
+            }
+        });
+    }
+
+    setProfileCard(profile, email) {
+        const card = this.querySelector("#profileCard");
+        if (!card) return;
+        const fallbackName = email ? email.split("@")[0] : "";
+        const displayName = profile?.name || fallbackName || "Таны нэр";
+        const avatarUrl = profile?.avatarUrl || profile?.avatar_url || "";
+
+        const setOrRemove = (attr, value) => {
+            if (value && String(value).trim()) {
+                card.setAttribute(attr, String(value).trim());
+            } else {
+                card.removeAttribute(attr);
+            }
+        };
+
+        card.setAttribute("uname", displayName);
+        setOrRemove("school", profile?.school);
+        setOrRemove("major", profile?.major);
+        setOrRemove("year", profile?.year);
+        setOrRemove("phone", profile?.phone);
+        setOrRemove("bio", profile?.bio);
+        setOrRemove("avatar", avatarUrl);
+
+        this.syncEditButtonState(Boolean(email));
+    }
+
+    fillProfileForm(profile, email) {
+        const setValue = (selector, value) => {
+            const input = this.querySelector(selector);
+            if (input) {
+                input.value = value || "";
+            }
+        };
+
+        setValue("#profileName", profile?.name || "");
+        setValue("#profileEmail", email || "");
+        setValue("#profileSchool", profile?.school || "");
+        setValue("#profileMajor", profile?.major || "");
+        setValue("#profileYear", profile?.year || "");
+        setValue("#profilePhone", profile?.phone || "");
+        setValue("#profileAvatar", profile?.avatarUrl || profile?.avatar_url || "");
+        setValue("#profileBio", profile?.bio || "");
+    }
+
+    async loadProfile() {
+        const email = window.AuthState?.currentUser;
+        const hint = this.querySelector("#profileHint");
+        this.setProfileMessage("");
+
+        if (!email) {
+            if (hint) {
+                hint.textContent = "Профайл засахын тулд нэвтэрч орно уу.";
+            }
+            this.setEditSectionOpen(false);
+            this.setFormDisabled(true);
+            this.setProfileCard(null, null);
+            return;
+        }
+
+        this.setFormDisabled(false);
+        if (hint) {
+            hint.textContent = "Мэдээллээ шинэчилж хадгалаарай.";
+        }
+
+        let profile = {};
+        const result = await getUserProfile(email);
+        if (result.code === 200 && result.data?.profile) {
+            profile = result.data.profile;
+        } else if (result.code !== 404) {
+            this.setProfileMessage("Профайл ачаалж чадсангүй.", "error");
+        }
+
+        const fallbackName = email.split("@")[0] || email;
+        if (!profile.name) {
+            profile.name = fallbackName;
+        }
+
+        this.fillProfileForm(profile, email);
+        this.setProfileCard(profile, email);
+    }
+
+    async handleProfileSubmit(event) {
+        event.preventDefault();
+        const email = window.AuthState?.currentUser;
+        if (!email) {
+            this.setProfileMessage("Нэвтэрч орно уу.", "error");
+            return;
+        }
+
+        const getValue = (selector) => {
+            const input = this.querySelector(selector);
+            return input && input.value ? input.value.trim() : "";
+        };
+
+        const payload = {
+            email,
+            name: getValue("#profileName"),
+            school: getValue("#profileSchool"),
+            major: getValue("#profileMajor"),
+            year: getValue("#profileYear"),
+            phone: getValue("#profilePhone"),
+            avatarUrl: getValue("#profileAvatar"),
+            bio: getValue("#profileBio")
+        };
+
+        const result = await saveUserProfile(payload);
+        if (result.code !== 200 || !result.data?.profile) {
+            this.setProfileMessage("Хадгалах үед алдаа гарлаа.", "error");
+            return;
+        }
+
+        this.setProfileMessage("Амжилттай хадгаллаа.", "success");
+        this.fillProfileForm(result.data.profile, email);
+        this.setProfileCard(result.data.profile, email);
+    }
+
+    async loadRequests() {
+        const list = this.querySelector("#userRequests");
+        const empty = this.querySelector("#userRequestsEmpty");
+        if (!list || !empty) return;
+
+        const email = window.AuthState?.currentUser;
+        if (!email) {
+            list.innerHTML = "";
+            empty.textContent = "Нэвтэрч орсны дараа таны хүсэлтүүд харагдана.";
+            empty.style.display = "block";
+            return;
+        }
+
+        const result = await getClubRequests({ email });
+        if (result.code !== 200 || !result.data) {
+            list.innerHTML = "";
+            empty.textContent = "Хүсэлтүүдийг ачаалж чадсангүй.";
+            empty.style.display = "block";
+            return;
+        }
+
+        const requests = result.data.requests || [];
+        if (requests.length === 0) {
+            list.innerHTML = "";
+            empty.textContent = "Одоогоор илгээсэн хүсэлт алга.";
+            empty.style.display = "block";
+            return;
+        }
+
+        empty.style.display = "none";
+        list.innerHTML = "";
+
+        requests.forEach((req) => {
+            const card = document.createElement("nc-clubrequestcard");
+            card.setAttribute("cname", req.clubName || `Клуб #${req.club_id}`);
+            if (req.clubLogo) card.setAttribute("logo", req.clubLogo);
+            if (req.status) card.setAttribute("status", req.status);
+            list.appendChild(card);
+        });
     }
 }
 

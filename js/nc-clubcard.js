@@ -74,9 +74,9 @@ class NcClubcard extends HTMLElement {
                     localStorage.setItem('register_club_name', clubname);
                 } catch (err) {}
                 if (window.Router) {
-                    window.Router.navigate('/registration');
+                    window.Router.navigate('/register');
                 } else {
-                    window.location.hash = '#/registration';
+                    window.location.hash = '#/register';
                 }
             });
         }

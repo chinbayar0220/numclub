@@ -1,3 +1,5 @@
+import { signupUser } from "./apiclient.js";
+
 class NcRegister extends HTMLElement {
     constructor() {
         super();
@@ -79,6 +81,10 @@ class NcRegister extends HTMLElement {
                 <h2>Бүртгүүлэх</h2>
                 <form id="registerForm">
                     <div class="form-field">
+                        <label for="name">Овог нэр</label>
+                        <input id="name" name="name" type="text" required />
+                    </div>
+                    <div class="form-field">
                         <label for="email">И-мэйл</label>
                         <input id="email" name="email" type="email" required />
                     </div>
@@ -95,26 +101,34 @@ class NcRegister extends HTMLElement {
             </div>
         `;
 
-        this.querySelector('#registerForm').addEventListener('submit', (e) => {
+        this.querySelector('#registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            // get email and passwords
+            const name = this.querySelector('#name').value.trim();
             const email = this.querySelector('#email').value;
             const password = this.querySelector('#password').value;
             const confirmPassword = this.querySelector('#confirmPassword').value;
-            
-            // Check if passwords match
+
+            if (!name) {
+                alert('Овог нэрээ оруулна уу.');
+                return;
+            }
+
             if (password !== confirmPassword) {
                 alert('Нууц үг таарахгүй байна!');
                 return;
             }
-            
-            // Save state and log the user in
+
+            const result = await signupUser({ email, password, name });
+            if (result.code !== 200) {
+                alert('Бүртгэл амжилтгүй боллоо.');
+                return;
+            }
+
             if (window.AuthState) {
                 window.AuthState.login(email);
             }
-            
-            // navigate to home
-            if (window.Router) window.Router.navigate('/');
+
+            if (window.Router) window.Router.navigate('/user-profile');
         });
     }
 }
