@@ -1,4 +1,4 @@
-﻿import { getClubRequests, getReviews, submitReview } from "./apiclient.js";
+import { getClubRequests, getReviews, submitReview } from "./apiclient.js";
 
 const escapeHtml = (value) =>
     String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -22,26 +22,26 @@ class NcClubProfilePage extends HTMLElement {
     //avsan datag mongol ru orchuulna
         translateSchool(school) {
         const schoolMap = {
-            'bs': 'БС',
-            'its': 'ИТС',
-            'mtes': 'МТЭС',
-            'uts': 'УТСОХУС',
-            'khs': 'ХЗС',
-            'shus': 'ШУС'
+            'bs': '\u0411\u0421',
+            'its': '\u0418\u0422\u0421',
+            'mtes': '\u041C\u0422\u042D\u0421',
+            'uts': '\u0423\u0422\u0421',
+            'khs': '\u0425\u0417\u0421',
+            'shus': '\u0428\u0423\u0421'
         };
         return schoolMap[school?.toLowerCase()] || school;
     }
 
         translateDirection(direction) {
         const directionMap = {
-            'volunteer': 'Сайн дурын',
-            'sport': 'Спорт',
-            'art': 'Урлаг',
-            'open': 'Чөлөөт',
-            'photo': 'Фото зураг',
-            'science': 'Шинжлэх ухаан',
-            'it': 'Мэдээллийн технологи',
-            'language': 'Хэл судлал'
+            'volunteer': '\u0421\u0430\u0439\u043D \u0434\u0443\u0440\u044B\u043D',
+            'sport': '\u0421\u043F\u043E\u0440\u0442',
+            'art': '\u0423\u0440\u043B\u0430\u0433',
+            'open': '\u0427\u04E9\u043B\u04E9\u04E9\u0442',
+            'photo': '\u0424\u043E\u0442\u043E \u0437\u0443\u0440\u0430\u0433',
+            'science': '\u0428\u0438\u043D\u0436\u043B\u044D\u0445 \u0443\u0445\u0430\u0430\u043D',
+            'it': '\u041C\u044D\u0434\u044D\u044D\u043B\u043B\u0438\u0439\u043D \u0442\u0435\u0445\u043D\u043E\u043B\u043E\u0433\u0438',
+            'language': '\u0413\u0430\u0434\u0430\u0430\u0434 \u0445\u044D\u043B'
         };
         return directionMap[direction?.toLowerCase()] || direction;
     }
@@ -60,14 +60,14 @@ class NcClubProfilePage extends HTMLElement {
                 const foundClub = data.club;
                 if (foundClub) {
                     club = {
-                        name: foundClub.name || foundClub.shortName || 'Клуб',
+                        name: foundClub.name || foundClub.shortName || '\u041A\u043B\u0443\u0431',
                         logo: foundClub.logo || 'images/club_logo.svg',
                         tags: (foundClub.directions || []).map(dir => this.translateDirection(dir)),
                         email: foundClub.email || 'club@num.edu.mn',
                         phone: foundClub.phone || '66191111',
-                        goal: foundClub.goal || foundClub.description || 'Клубын зорилго',
-                        vision: foundClub.vision || 'Клубын алсын хараа',
-                        category: this.translateSchool(foundClub.school) || 'Клуб',
+                        goal: foundClub.goal || foundClub.description || '\u041A\u043B\u0443\u0431\u044B\u043D \u0437\u043E\u0440\u0438\u043B\u0433\u043E',
+                        vision: foundClub.vision || '\u041A\u043B\u0443\u0431\u044B\u043D \u0430\u043B\u0441\u044B\u043D \u0445\u0430\u0440\u0430\u0430',
+                        category: this.translateSchool(foundClub.school) || '\u0421\u0443\u0440\u0433\u0443\u0443\u043B\u044C',
                         memberCount: foundClub.members ? `${foundClub.members}+` : '50+'
                     };
                     events = Array.isArray(data.events) ? data.events : [];
@@ -89,14 +89,14 @@ class NcClubProfilePage extends HTMLElement {
                     
                     if (foundClub) {
                         club = {
-                            name: foundClub.name || foundClub.shortName || 'Клуб',
+                            name: foundClub.name || foundClub.shortName || '\u041A\u043B\u0443\u0431',
                             logo: foundClub.logo || 'images/club_logo.svg',
                             tags: (foundClub.directions || []).map(dir => this.translateDirection(dir)),
                             email: foundClub.email || 'club@num.edu.mn',
                             phone: foundClub.phone || '66191111',
-                            goal: foundClub.goal || foundClub.description || 'Клубын зорилго',
-                            vision: foundClub.vision || 'Клубын алсын хараа',
-                            category: this.translateSchool(foundClub.school) || 'Клуб',
+                            goal: foundClub.goal || foundClub.description || '\u041A\u043B\u0443\u0431\u044B\u043D \u0437\u043E\u0440\u0438\u043B\u0433\u043E',
+                            vision: foundClub.vision || '\u041A\u043B\u0443\u0431\u044B\u043D \u0430\u043B\u0441\u044B\u043D \u0445\u0430\u0440\u0430\u0430',
+                            category: this.translateSchool(foundClub.school) || '\u0421\u0443\u0440\u0433\u0443\u0443\u043B\u044C',
                             memberCount: foundClub.members ? `${foundClub.members}+` : '50+'
                         };
                     }
@@ -109,14 +109,14 @@ class NcClubProfilePage extends HTMLElement {
         // Ultimate fallback
         if (!club) {
             club = {
-                name: 'Клуб',
+                name: '\u041A\u043B\u0443\u0431',
                 logo: 'images/club_logo.svg',
                 tags: ['NUM'],
                 email: 'club@num.edu.mn',
                 phone: '66191111',
-                goal: 'Клубын зорилго',
-                vision: 'Клубын алсын хараа',
-                category: 'Клуб',
+                goal: '\u041A\u043B\u0443\u0431\u044B\u043D \u0437\u043E\u0440\u0438\u043B\u0433\u043E',
+                vision: '\u041A\u043B\u0443\u0431\u044B\u043D \u0430\u043B\u0441\u044B\u043D \u0445\u0430\u0440\u0430\u0430',
+                category: '\u0421\u0443\u0440\u0433\u0443\u0443\u043B\u044C',
                 memberCount: '50+'
             };
         }
@@ -137,7 +137,7 @@ class NcClubProfilePage extends HTMLElement {
             "card-4"
         ];
         const activityItems = (events || []).slice(0, activityClasses.length).map((event, idx) => {
-            const title = event.title || "Үйл ажиллагаа";
+            const title = event.title || "\u042D\u0432\u0435\u043D\u0442\u0438\u0439\u043D \u043D\u044D\u0440";
             const className = activityClasses[idx] || "card";
             return `
                     <div class="${className}">
@@ -149,10 +149,53 @@ class NcClubProfilePage extends HTMLElement {
             ? activityItems.join("")
             : `
                     <div class="card">
-                        <div class="frame-5"><div class="text-wrapper-3">Одоогоор үйл ажиллагаа байхгүй</div></div>
+                        <div class="frame-5"><div class="text-wrapper-3">\u041E\u0434\u043E\u043E\u0433\u043E\u043E\u0440 \u044D\u0432\u0435\u043D\u0442 \u0431\u0430\u0439\u0445\u0433\u04AF\u0439 \u0431\u0430\u0439\u043D\u0430.</div></div>
                     </div>
                 `;
+        const formatEventDate = (value) => {
+            if (!value) return "";
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return "";
+            const datePart = date.toLocaleDateString("en-GB");
+            const timePart = date.toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+            return `${datePart} ${timePart}`;
+        };
 
+        const clubName = club?.shortName || club?.name || "";
+        const clubLogo = club?.logo || "images/club_logo.svg";
+        const clubEventsHtml = (events || []).map((event) => {
+            const eventId = event.id ?? "";
+            const title = escapeHtml(event.title || "\u042D\u0432\u0435\u043D\u0442\u0438\u0439\u043D \u043D\u044D\u0440");
+            const description = escapeHtml(event.description || "");
+            const dateLabel = formatEventDate(event.startsAt) || "";
+            const location = event.location || "";
+            const metaLine = [dateLabel, location].filter(Boolean).join(" | ");
+            const imageSrc = escapeHtml(event.imageUrl || "images/event.png");
+            const registerText = "\u0411\u04AF\u0440\u0442\u0433\u04AF\u04AF\u043B\u044D\u0445";
+            const detailsText = "\u0414\u044D\u043B\u0433\u044D\u0440\u044D\u043D\u0433\u04AF\u0439";
+
+            return `
+                <nc-eventcard
+                    data-event-id="${escapeHtml(eventId)}"
+                    ename="${title}"
+                    date="${escapeHtml(metaLine)}"
+                    desc="${description}"
+                    price=""
+                    club-name="${escapeHtml(clubName)}"
+                    club-logo="${escapeHtml(clubLogo)}"
+                    event-image="${imageSrc}"
+                    btn1="${registerText}"
+                    btn2="${detailsText}">
+                </nc-eventcard>
+            `;
+        }).join("");
+
+        const clubEventsEmpty = clubEventsHtml
+            ? ""
+            : `<div class="club-events-empty">\u041E\u0434\u043E\u043E\u0433\u043E\u043E\u0440 \u044D\u0432\u0435\u043D\u0442 \u0431\u0430\u0439\u0445\u0433\u04AF\u0439 \u0431\u0430\u0439\u043D\u0430.</div>`;
 
         const reviewCardsHtml = this.buildReviewCards(reviews, club);
         const reviewEmptyStyle = reviewCardsHtml ? "display:none;" : "";
@@ -160,8 +203,8 @@ class NcClubProfilePage extends HTMLElement {
         const reviewEmailValue = escapeHtml(currentEmail);
         const reviewEmailDisabled = currentEmail ? "disabled" : "";
         const reviewEmailHint = currentEmail
-            ? "Нэвтэрсэн хэрэглэгчээр хадгална."
-            : "Нэвтрээгүй бол и-мэйлээ оруулж болно.";
+            ? "\u0418-\u043C\u044D\u0439\u043B \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0430\u0430\u0440 \u0431\u04AF\u0433\u043B\u04E9\u0433\u0434\u0441\u04E9\u043D."
+            : "\u0418-\u043C\u044D\u0439\u043B \u0445\u0430\u044F\u0433\u0430\u0430 \u043E\u0440\u0443\u0443\u043B\u043D\u0430 \u0443\u0443.";
 
         this.innerHTML = `
             <style>
@@ -512,7 +555,11 @@ class NcClubProfilePage extends HTMLElement {
                     margin-top: 24px;
                 }
                 
-                /* Review Section */
+                
+                .club-events-empty {
+                    color: var(--text-secondary, #6b7280);
+                    font-size: 14px;
+                }/* Review Section */
                 .card-grid-2 {
                     display: grid;
                     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -793,7 +840,7 @@ class NcClubProfilePage extends HTMLElement {
                     </div>
                     <div class="column">
                         <div>
-                            <div class="full-name">${club.name} оюутны клуб</div>
+                            <div class="full-name">${club.name} \u043E\u044E\u0443\u0442\u043D\u044B \u043A\u043B\u0443\u0431</div>
                             <div class="frame">
                                 ${club.tags.map(tag => `
                                     <div class="tag-toggle">
@@ -814,7 +861,7 @@ class NcClubProfilePage extends HTMLElement {
                         <div class="accordion">
                             <details class="accordion-item" open>
                                 <summary class="accordion-title">
-                                    <div class="title-4">Зорилго</div>
+                                    <div class="title-4">\u0417\u043E\u0440\u0438\u043B\u0433\u043E</div>
                                     <img src="images/Chevron up.svg" alt="">
                                 </summary>
                                 <div class="accordion-content">
@@ -822,8 +869,8 @@ class NcClubProfilePage extends HTMLElement {
                                 </div>
                             </details>
                             <div class="accordion-title-wrapper">
-                                <div class="accordion-title-2" onclick="this.parentElement.querySelector('details') ? null : (this.parentElement.innerHTML = '<details class=\\'accordion-item\\'><summary class=\\'accordion-title\\'><div>Алсын хараа</div><img src=\\'images/Chevron up.svg\\'></summary><div class=\\'accordion-content\\'><p>${club.vision}</p></div></details>')">
-                                    <div class="title-5">Алсын хараа</div>
+                                <div class="accordion-title-2" onclick="this.parentElement.querySelector('details') ? null : (this.parentElement.innerHTML = '<details class=\\'accordion-item\\'><summary class=\\'accordion-title\\'><div>\u0410\u043B\u0441\u044B\u043D \u0445\u0430\u0440\u0430\u0430</div><img src=\\'images/Chevron up.svg\\'></summary><div class=\\'accordion-content\\'><p>${club.vision}</p></div></details>')">
+                                    <div class="title-5">\u0410\u043B\u0441\u044B\u043D \u0445\u0430\u0440\u0430\u0430</div>
                                     <img src="images/Chevron up.svg" alt="">
                                 </div>
                             </div>
@@ -838,7 +885,7 @@ class NcClubProfilePage extends HTMLElement {
                         </div> 
                         <div class="join-button-section">
                             <button class="button" onclick="window.location.hash='#/register'; localStorage.setItem('register_club_id', '${clubId}');">
-                                <div class="button-2">Гишүүнээр элсэх</div>
+                                <div class="button-2">\u0413\u0438\u0448\u04AF\u04AF\u043D\u044D\u044D\u0440 \u044D\u043B\u0441\u044D\u0445</div>
                             </button>
                         </div>
                     </div>  
@@ -846,7 +893,7 @@ class NcClubProfilePage extends HTMLElement {
             </div>
 
                         <div class="card-grid-content">
-                <div class="text-content-heading"><div class="heading-2">Үйл ажиллагаа</div></div>
+                <div class="text-content-heading"><div class="heading-2">\u04AE\u0439\u043B \u0430\u0436\u0438\u043B\u043B\u0430\u0433\u0430\u0430</div></div>
                 <div class="frame-6">
                     ${activitiesHtml}
                 </div>
@@ -854,53 +901,51 @@ class NcClubProfilePage extends HTMLElement {
 
             <div class="card-grid-content-2">
                 <div class="text-content-heading">
-                    <div class="heading-3">Эвентүүд</div>
-                    <div class="subheading-2">Танд санал болгох</div>
+                    <div class="heading-3">\u042D\u0432\u0435\u043D\u0442\u04AF\u04AF\u0434</div>
+                    <div class="subheading-2">\u041A\u043B\u0443\u0431\u044B\u043D \u044D\u0432\u0435\u043D\u0442\u04AF\u04AF\u0434</div>
                 </div>
                 <div class="frame-7">
-                    <nc-eventcard></nc-eventcard>
-                    <nc-eventcard></nc-eventcard>
-                    <nc-eventcard></nc-eventcard>
+                    ${clubEventsHtml || clubEventsEmpty}
                 </div>
             </div>
 
             <div class="card-grid">
                 <div class="review-header">
                     <div class="text-content-heading">
-                        <div class="heading-3">Сэтгэгдэл</div>
-                        <div class="subheading-2">Төгсөгчид болон элсэгчдийн үлдээсэн сэтгэгдэл</div>
+                        <div class="heading-3">\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B</div>
+                        <div class="subheading-2">\u041A\u043B\u0443\u0431\u044B\u043D \u0442\u0430\u043B\u0430\u0430\u0440\u0445\u0438 \u0441\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B\u04AF\u04AF\u0434</div>
                     </div>
-                    <button class="review-edit-toggle" id="reviewOpenBtn" type="button" title="Сэтгэгдэл өгөх" aria-label="Сэтгэгдэл өгөх">Сэтгэгдэл өгөх</button>
+                    <button class="review-edit-toggle" id="reviewOpenBtn" type="button" title="\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u04E9\u0433\u04E9\u0445" aria-label="\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u04E9\u0433\u04E9\u0445">\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u04E9\u0433\u04E9\u0445</button>
                 </div>
                 <div class="review-form is-hidden" id="reviewFormSection">
                     <form id="reviewForm">
                         <div class="review-form-grid">
                             <div class="form-field">
-                                <label for="reviewRating">Үнэлгээ</label>
+                                <label for="reviewRating">\u04AE\u043D\u044D\u043B\u0433\u044D\u044D</label>
                                 <select id="reviewRating" name="reviewRating" required>
-                                    <option value="5">5 - Маш сайн</option>
-                                    <option value="4">4 - Сайн</option>
-                                    <option value="3">3 - Дунд</option>
-                                    <option value="2">2 - Сайжруулах</option>
-                                    <option value="1">1 - Муу</option>
+                                    <option value="5">5 - \u041C\u0430\u0448 \u0441\u0430\u0439\u043D</option>
+                                    <option value="4">4 - \u0421\u0430\u0439\u043D</option>
+                                    <option value="3">3 - \u0414\u0443\u043D\u0434\u0430\u0436</option>
+                                    <option value="2">2 - \u0421\u0443\u043B</option>
+                                    <option value="1">1 - \u041C\u0443\u0443</option>
                                 </select>
                             </div>
                             <div class="form-field">
-                                <label for="reviewTitle">Гарчиг</label>
-                                <input id="reviewTitle" name="reviewTitle" type="text" placeholder="Сэтгэгдлийн гарчиг" />
+                                <label for="reviewTitle">\u0413\u0430\u0440\u0447\u0438\u0433</label>
+                                <input id="reviewTitle" name="reviewTitle" type="text" placeholder="\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B\u0438\u0439\u043D \u0433\u0430\u0440\u0447\u0438\u0433" />
                             </div>
                             <div class="form-field">
-                                <label for="reviewEmail">И-мэйл</label>
+                                <label for="reviewEmail">\u0418-\u043C\u044D\u0439\u043B</label>
                                 <input id="reviewEmail" name="reviewEmail" type="email" value="${reviewEmailValue}" ${reviewEmailDisabled} />
                                 <div class="review-form-hint">${reviewEmailHint}</div>
                             </div>
                         </div>
                         <div class="form-field">
-                            <label for="reviewBody">Сэтгэгдэл</label>
-                            <textarea id="reviewBody" name="reviewBody" placeholder="Сэтгэгдлээ энд бичнэ үү." required></textarea>
+                            <label for="reviewBody">\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B</label>
+                            <textarea id="reviewBody" name="reviewBody" placeholder="\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B\u043B\u044D\u044D \u044D\u043D\u0434 \u0431\u0438\u0447\u043D\u044D \u04AF\u04AF." required></textarea>
                         </div>
                         <div class="review-form-actions">
-                            <button type="submit">Сэтгэгдэл илгээх</button>
+                            <button type="submit">\u0418\u043B\u0433\u044D\u044D\u0445</button>
                             <span id="reviewFormMessage" class="review-form-message"></span>
                         </div>
                     </form>
@@ -908,7 +953,7 @@ class NcClubProfilePage extends HTMLElement {
                 <div class="card-grid-2" id="reviewList">
                     ${reviewCardsHtml}
                 </div>
-                <p class="review-empty" id="reviewEmpty" style="${reviewEmptyStyle}">Одоогоор сэтгэгдэл алга.</p>
+                <p class="review-empty" id="reviewEmpty" style="${reviewEmptyStyle}">\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u0445\u0430\u0440\u0430\u0430\u0445\u0430\u043D \u0430\u043B\u0433\u0430.</p>
                 
             </div>
         `;
@@ -921,9 +966,9 @@ class NcClubProfilePage extends HTMLElement {
         const clubLogo = club?.logo || "images/club_logo.svg";
         return reviews.map((review) => {
             const rating = Number(review.rating) || 0;
-            const title = review.title || "Сэтгэгдэл";
+            const title = review.title || "\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B";
             const body = review.body || "";
-            const userName = review.userName || review.userEmail || "Зочин";
+            const userName = review.userName || review.userEmail || "\u0417\u043E\u0447\u0438\u043D";
             const dateText = this.formatReviewDate(review.createdAt);
             const starsHtml = this.renderStars(rating);
             return `
@@ -998,16 +1043,16 @@ class NcClubProfilePage extends HTMLElement {
             const submitButton = form.querySelector("button[type='submit']");
 
             if (!this.canSubmitReview) {
-                this.setReviewFormMessage("Сэтгэгдэл үлдээхийн тулд гишүүнээр элссэн байх шаардлагатай.", "error");
+                this.setReviewFormMessage("\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u04AF\u043B\u0434\u044D\u044D\u0445\u0438\u0439\u043D \u0442\u0443\u043B\u0434 \u043A\u043B\u0443\u0431\u0442 \u0433\u0438\u0448\u04AF\u04AF\u043D\u044D\u044D\u0440 \u044D\u043B\u0441\u0441\u044D\u043D \u0431\u0430\u0439\u0445 \u0448\u0430\u0430\u0440\u0434\u043B\u0430\u0433\u0430\u0442\u0430\u0439.", "error");
                 return;
             }
 
             if (!rating || rating < 1 || rating > 5) {
-                this.setReviewFormMessage("Үнэлгээ сонгоно уу.", "error");
+                this.setReviewFormMessage("\u04AE\u043D\u044D\u043B\u0433\u044D\u044D \u0441\u043E\u043D\u0433\u043E\u043D\u043E \u0443\u0443.", "error");
                 return;
             }
             if (!body) {
-                this.setReviewFormMessage("Сэтгэгдлээ бичнэ үү.", "error");
+                this.setReviewFormMessage("\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B\u043B\u044D\u044D \u0431\u0438\u0447\u043D\u044D \u04AF\u04AF.", "error");
                 return;
             }
 
@@ -1023,11 +1068,11 @@ class NcClubProfilePage extends HTMLElement {
             const result = await submitReview(payload);
             if (submitButton) submitButton.disabled = false;
             if (result.code !== 200) {
-                this.setReviewFormMessage("Сэтгэгдэл илгээхэд алдаа гарлаа.", "error");
+                this.setReviewFormMessage("\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u0445\u0430\u0434\u0433\u0430\u043B\u0430\u0445 \u04AF\u0435\u0434 \u0430\u043B\u0434\u0430\u0430 \u0433\u0430\u0440\u043B\u0430\u0430.", "error");
                 return;
             }
 
-            this.setReviewFormMessage("Сэтгэгдэл амжилттай нэмэгдлээ.", "success");
+            this.setReviewFormMessage("\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u0430\u043C\u0436\u0438\u043B\u0442\u0442\u0430\u0439 \u0445\u0430\u0434\u0433\u0430\u043B\u0430\u0433\u0434\u043B\u0430\u0430.", "success");
             form.reset();
             if (emailInput && window.AuthState?.currentUser) {
                 emailInput.value = window.AuthState.currentUser;
@@ -1044,7 +1089,7 @@ class NcClubProfilePage extends HTMLElement {
 
         if (!email) {
             submitButton.disabled = true;
-            this.setReviewFormMessage("Сэтгэгдэл үлдээхийн тулд нэвтэрч, гишүүнээр элссэн байх шаардлагатай.", "error");
+            this.setReviewFormMessage("\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u04AF\u043B\u0434\u044D\u044D\u0445\u0438\u0439\u043D \u0442\u0443\u043B\u0434 \u043D\u044D\u0432\u0442\u044D\u0440\u043D\u044D \u04AF\u04AF.", "error");
             return;
         }
 
@@ -1056,7 +1101,7 @@ class NcClubProfilePage extends HTMLElement {
         const approved = result.code === 200 && (result.data?.requests || []).length > 0;
         if (!approved) {
             submitButton.disabled = true;
-            this.setReviewFormMessage("Гишүүнээр элссэний дараа сэтгэгдэл үлдээх боломжтой.", "error");
+            this.setReviewFormMessage("\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u04AF\u043B\u0434\u044D\u044D\u0445\u0438\u0439\u043D \u0442\u0443\u043B\u0434 \u043A\u043B\u0443\u0431\u044B\u043D \u044D\u043B\u0441\u044D\u043B\u0442 \u0431\u0430\u0442\u0430\u043B\u0433\u0430\u0430\u0436\u0441\u0430\u043D \u0431\u0430\u0439\u0445 \u0448\u0430\u0430\u0440\u0434\u043B\u0430\u0433\u0430\u0442\u0430\u0439.", "error");
             return;
         }
 
@@ -1072,8 +1117,8 @@ class NcClubProfilePage extends HTMLElement {
         section.classList.toggle("is-hidden", !isOpen);
         toggle.classList.toggle("is-active", isOpen);
         toggle.setAttribute("aria-pressed", isOpen ? "true" : "false");
-        toggle.title = isOpen ? "Сэтгэгдэл хаах" : "Сэтгэгдэл өгөх";
-        toggle.textContent = isOpen ? "Сэтгэгдэл хаах" : "Сэтгэгдэл өгөх";
+        toggle.title = isOpen ? "\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u0445\u0430\u0430\u0445" : "\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u04E9\u0433\u04E9\u0445";
+        toggle.textContent = isOpen ? "\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u0445\u0430\u0430\u0445" : "\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u04E9\u0433\u04E9\u0445";
         if (isOpen) {
             section.scrollIntoView({ behavior: "smooth", block: "start" });
             this.updateReviewEligibility();
@@ -1095,7 +1140,7 @@ toggleReviewForm() {
         const result = await getReviews(clubId);
         if (result.code !== 200 || !result.data) {
             list.innerHTML = "";
-            empty.textContent = "Сэтгэгдэл ачаалж чадсангүй.";
+            empty.textContent = "\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u0430\u0447\u0430\u0430\u043B\u043B\u0430\u0445\u0430\u0434 \u0430\u043B\u0434\u0430\u0430 \u0433\u0430\u0440\u043B\u0430\u0430.";
             empty.style.display = "block";
             return;
         }
@@ -1111,7 +1156,7 @@ toggleReviewForm() {
 
         if (!reviews || reviews.length === 0) {
             list.innerHTML = "";
-            empty.textContent = "Одоогоор сэтгэгдэл алга.";
+            empty.textContent = "\u0421\u044D\u0442\u0433\u044D\u0433\u0434\u044D\u043B \u0445\u0430\u0440\u0430\u0430\u0445\u0430\u043D \u0430\u043B\u0433\u0430.";
             empty.style.display = "block";
             return;
         }
@@ -1122,6 +1167,15 @@ toggleReviewForm() {
 }
 
 window.customElements.define('nc-club-profile-page', NcClubProfilePage);
+
+
+
+
+
+
+
+
+
 
 
 

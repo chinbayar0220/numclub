@@ -64,6 +64,13 @@ create table if not exists event_registrations (
   primary key (event_id, user_id)
 );
 
+create table if not exists event_saves (
+  event_id bigint references events(id) on delete cascade,
+  user_id bigint references users(id) on delete cascade,
+  created_at timestamp default now(),
+  primary key (event_id, user_id)
+);
+
 create table if not exists club_requests (
   id bigserial primary key,
   club_id bigint references clubs(id) on delete cascade,

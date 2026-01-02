@@ -1,4 +1,25 @@
-import { getClubRequests, getUserProfile, saveUserProfile } from "./apiclient.js";
+import { getClubRequests, getSavedEvents, getUserProfile, saveUserProfile } from "./apiclient.js";
+
+const escapeHtml = (value) =>
+    String(value ?? "").replace(/[&<>"']/g, (ch) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+    })[ch]);
+
+const formatDateTime = (value) => {
+    if (!value) return "";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    const datePart = date.toLocaleDateString("en-GB");
+    const timePart = date.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+    return `${datePart} ${timePart}`;
+};
 
 class NcUserProfilePage extends HTMLElement {
     constructor() {
@@ -12,6 +33,7 @@ class NcUserProfilePage extends HTMLElement {
         this.bindEvents();
         this.loadProfile();
         this.loadRequests();
+        this.loadSavedEvents();
     }
 
     render() {
@@ -234,23 +256,10 @@ class NcUserProfilePage extends HTMLElement {
                     <div class="requests" id="userRequests"></div>
                     <p id="userRequestsEmpty" style="display:none; color: var(--text-secondary, #6b7280); margin-top: 12px;"></p>
                 </div>
-
-                <section class="events_section" id="events">
-                    <h2>Эвентүүд</h2>
-                    <section class="events">
-                        <nc-eventcard button1=""></nc-eventcard>
-                        <nc-eventcard></nc-eventcard>
-                        <nc-eventcard></nc-eventcard>
-                    </section>
-                </section>
-
-                <section class="events_section">
-                    <h2>Хадгалсан эвентүүд</h2>
-                    <section class="events">
-                        <nc-eventcard></nc-eventcard>
-                        <nc-eventcard></nc-eventcard>
-                        <nc-eventcard></nc-eventcard>
-                    </section>
+                <section class="events_section" id="savedEventsSection">
+                    <h2>&#1061;&#1072;&#1076;&#1075;&#1072;&#1083;&#1089;&#1072;&#1085; &#1101;&#1074;&#1077;&#1085;&#1090;&#1199;&#1199;&#1076;</h2>
+                    <section class="events" id="savedEventsList"></section>
+                    <p id="savedEventsEmpty" style="display:none; color: var(--text-secondary, #6b7280); margin-top: 12px;"></p>
                 </section>
             </div>
         `;
@@ -452,6 +461,68 @@ class NcUserProfilePage extends HTMLElement {
         this.fillProfileForm(result.data.profile, email);
         this.setProfileCard(result.data.profile, email);
     }
+    buildEventCard(event, { showRegister = false } = {}) {
+        const eventId = event.id ?? "";
+        const title = escapeHtml(event.title || "\u042D\u0432\u0435\u043D\u0442\u0438\u0439\u043D \u043D\u044D\u0440");
+        const description = escapeHtml(event.description || "");
+        const dateLabel = formatDateTime(event.startsAt) || "";
+        const location = event.location || "";
+        const metaLine = [dateLabel, location].filter(Boolean).join(" | ");
+        const clubName = event.clubShortName || event.clubName || "";
+        const clubLogo = event.clubLogo || "images/club_logo.svg";
+        const eventImage = event.imageUrl || "images/event.png";
+        const priceValue = event.price != null ? String(event.price) : "";
+        const registerText = "\u0411\u04AF\u0440\u0442\u0433\u04AF\u04AF\u043B\u044D\u0445";
+        const detailsText = "\u0414\u044D\u043B\u0433\u044D\u0440\u044D\u043D\u0433\u04AF\u0439";
+
+        return `
+            <nc-eventcard
+                data-event-id="${escapeHtml(eventId)}"
+                ename="${title}"
+                date="${escapeHtml(metaLine)}"
+                desc="${description}"
+                price="${escapeHtml(priceValue)}"
+                club-name="${escapeHtml(clubName)}"
+                club-logo="${escapeHtml(clubLogo)}"
+                event-image="${escapeHtml(eventImage)}"
+                ${showRegister ? `btn1=\"${registerText}\"` : ""}
+                btn2="${detailsText}">
+            </nc-eventcard>
+        `;
+    }
+
+    async loadSavedEvents() {
+        const list = this.querySelector("#savedEventsList");
+        const empty = this.querySelector("#savedEventsEmpty");
+        if (!list || !empty) return;
+
+        const email = window.AuthState?.currentUser;
+        if (!email) {
+            list.innerHTML = "";
+            empty.textContent = "\u041D\u044D\u0432\u0442\u044D\u0440\u0447 \u0431\u0430\u0439\u0436 \u0445\u0430\u0434\u0433\u0430\u043B\u0441\u0430\u043D \u044D\u0432\u0435\u043D\u0442\u04AF\u04AF\u0434\u044D\u044D \u0445\u0430\u0440\u043D\u0430.";
+            empty.style.display = "block";
+            return;
+        }
+
+        const result = await getSavedEvents(email);
+        if (result.code !== 200 || !result.data) {
+            list.innerHTML = "";
+            empty.textContent = "\u0425\u0430\u0434\u0433\u0430\u043B\u0441\u0430\u043D \u044D\u0432\u0435\u043D\u0442\u04AF\u04AF\u0434\u0438\u0439\u0433 \u0430\u0447\u0430\u0430\u043B\u043B\u0430\u0445\u0430\u0434 \u0430\u043B\u0434\u0430\u0430 \u0433\u0430\u0440\u043B\u0430\u0430.";
+            empty.style.display = "block";
+            return;
+        }
+
+        const events = result.data.events || [];
+        if (events.length === 0) {
+            list.innerHTML = "";
+            empty.textContent = "\u0425\u0430\u0434\u0433\u0430\u043B\u0441\u0430\u043D \u044D\u0432\u0435\u043D\u0442 \u0431\u0430\u0439\u0445\u0433\u04AF\u0439 \u0431\u0430\u0439\u043D\u0430.";
+            empty.style.display = "block";
+            return;
+        }
+
+        empty.style.display = "none";
+        list.innerHTML = events.map((event) => this.buildEventCard(event)).join("");
+    }
 
     async loadRequests() {
         const list = this.querySelector("#userRequests");
@@ -496,3 +567,6 @@ class NcUserProfilePage extends HTMLElement {
 }
 
 window.customElements.define('nc-user-profile-page', NcUserProfilePage);
+
+
+

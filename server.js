@@ -438,6 +438,57 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === "GET" && pathname === "/api/event-saves") {
+      const email = searchParams.get("email");
+      if (!email) {
+        sendJson(res, 400, { message: "Email is required" });
+        return;
+      }
+
+      const { rows } = await pool.query(
+        `select e.id, e.club_id, e.title, e.description, e.location,
+                e.starts_at as "startsAt", e.ends_at as "endsAt", e.capacity,
+                e.created_at as "createdAt",
+                c.name as "clubName", c.short_name as "clubShortName", c.logo as "clubLogo"
+         from event_saves s
+         join users u on u.id = s.user_id
+         join events e on e.id = s.event_id
+         left join clubs c on c.id = e.club_id
+         where u.email = $1
+         order by s.created_at desc`,
+        [email]
+      );
+
+      sendJson(res, 200, { events: rows });
+      return;
+    }
+
+    if (req.method === "POST" && pathname === "/api/event-saves") {
+      const body = (await readJson(req)) || {};
+      const eventId = parseId(body.eventId);
+      const { email } = body;
+      if (!eventId || !email) {
+        sendJson(res, 400, { message: "eventId and email are required" });
+        return;
+      }
+
+      const user = await upsertUser(email, null, null, false);
+      if (!user) {
+        sendJson(res, 400, { message: "User create failed" });
+        return;
+      }
+
+      await pool.query(
+        `insert into event_saves (event_id, user_id)
+         values ($1, $2)
+         on conflict (event_id, user_id) do nothing`,
+        [eventId, user.id]
+      );
+
+      sendJson(res, 201, { ok: true });
+      return;
+    }
+
     if (req.method === "GET" && pathname === "/api/reviews") {
       const clubId = parseId(searchParams.get("clubId"));
       const { rows } = await pool.query(

@@ -123,3 +123,67 @@ export const getReviews = async (clubId) => {
 export const submitReview = async (payload) => {
     return postJson("http://127.0.0.1:3000/api/reviews", payload);
 };
+
+export const getEvents = async ({ clubId } = {}) => {
+    try {
+        const params = new URLSearchParams();
+        if (clubId) params.set("clubId", clubId);
+        const query = params.toString();
+        const url = `http://127.0.0.1:3000/api/events${query ? `?${query}` : ""}`;
+        const result = await fetch(url);
+        if (!result.ok) {
+            return { code: result.status, data: { events: [] } };
+        }
+        const data = await result.json();
+        return { code: 200, data };
+    } catch (error) {
+        return { code: 500, data: { events: [] } };
+    }
+};
+
+export const getEventById = async (eventId) => {
+    if (!eventId) {
+        return { code: 400, data: null };
+    }
+    const result = await getEvents();
+    if (result.code !== 200) {
+        return { code: result.code, data: null };
+    }
+    const events = result.data?.events || [];
+    const event = events.find((item) => String(item.id) === String(eventId));
+    if (!event) {
+        return { code: 404, data: null };
+    }
+    return { code: 200, data: { event } };
+};
+
+export const registerEvent = async ({ eventId, email } = {}) => {
+    return postJson("http://127.0.0.1:3000/api/event-registrations", {
+        eventId,
+        email
+    });
+};
+
+export const saveEvent = async ({ eventId, email } = {}) => {
+    return postJson("http://127.0.0.1:3000/api/event-saves", {
+        eventId,
+        email
+    });
+};
+
+export const getSavedEvents = async (email) => {
+    if (!email) {
+        return { code: 400, data: { events: [] } };
+    }
+    try {
+        const url = `http://127.0.0.1:3000/api/event-saves?email=${encodeURIComponent(email)}`;
+        const result = await fetch(url);
+        if (!result.ok) {
+            return { code: result.status, data: { events: [] } };
+        }
+        const data = await result.json();
+        return { code: 200, data };
+    } catch (error) {
+        return { code: 500, data: { events: [] } };
+    }
+};

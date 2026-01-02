@@ -21,5 +21,8 @@ import "./js/nc-club-filter.js";
 import "./js/apiclient.js";
 import "./js/nc-header.js";
 import "./js/nc-footer.js";
+import "./js/nc-events-page.js";
+import "./js/nc-event-page.js";
+import "./js/nc-event-registration-page.js";
 
 

@@ -5,7 +5,7 @@ class Router {
         this.routes = [
             { pattern: '/', component: 'nc-main-page' },
             { pattern: '/clubs', component: 'nc-clubs-page' },
-            { pattern: '/events', component: 'nc-main-page' },
+            { pattern: '/events', component: 'nc-events-page' },
             { pattern: '/user-profile', component: 'nc-user-profile-page' },
             { pattern: '/admin/requests', component: 'nc-admin-requests-page' },
             { pattern: '/register', component: 'nc-reg-page' },
